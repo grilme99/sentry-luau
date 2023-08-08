@@ -3,6 +3,8 @@
   "luau-lsp.types.roblox": false,
   "luau-lsp.sourcemap.enabled": false,
   "luau-lsp.require.directoryAliases": {
-    "@lune/": "~/.lune/.typedefs/0.7.2/"
+    "@packages/core": "./packages/core/src/init.lua",
+    "@packages/types": "./packages/types/src/init.lua",
+    "@packages/utils": "./packages/utils/src/init.lua",
   }
 }

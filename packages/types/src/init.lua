@@ -127,10 +127,10 @@ export type Options = Options.Options
 -- local Runtime = require("./runtime")
 -- export type Runtime = Runtime.Runtime
 
--- local Scope = require("./scope")
--- export type CaptureContext = Scope.CaptureContext
--- export type Scope = Scope.Scope
--- export type ScopeContext = Scope.ScopeContext
+local Scope = require("./scope")
+export type CaptureContext = Scope.CaptureContext
+export type Scope = Scope.Scope
+export type ScopeContext = Scope.ScopeContext
 
 -- local SdkInfo = require("./sdkinfo")
 -- export type SdkInfo = SdkInfo.SdkInfo
@@ -138,24 +138,23 @@ export type Options = Options.Options
 -- local SdkMetadata = require("./sdkmetadata")
 -- export type SdkMetadata = SdkMetadata.SdkMetadata
 
--- local Session = require("./session")
--- export type SessionAggregates = Session.SessionAggregates
--- export type AggregationCounts = Session.AggregationCounts
--- export type Session = Session.Session
--- export type SessionContext = Session.SessionContext
--- export type SessionStatus = Session.SessionStatus
--- export type RequestSession = Session.RequestSession
--- export type RequestSessionStatus = Session.RequestSessionStatus
--- export type SessionFlusherLike = Session.SessionFlusherLike
--- export type SerializedSession = Session.SerializedSession
+local Session = require("./session")
+export type SessionAggregates = Session.SessionAggregates
+export type AggregationCounts = Session.AggregationCounts
+export type Session = Session.Session
+export type SessionContext = Session.SessionContext
+export type SessionStatus = Session.SessionStatus
+export type RequestSession = Session.RequestSession
+export type RequestSessionStatus = Session.RequestSessionStatus
+export type SessionFlusherLike = Session.SessionFlusherLike
+export type SerializedSession = Session.SerializedSession
 
--- local Severity = require("./severity")
--- export type Severity = Severity.Severity
--- export type SeverityLevel = Severity.SeverityLevel
+local Severity = require("./severity")
+export type SeverityLevel = Severity.SeverityLevel
 
--- local Span = require("./span")
--- export type Span = Span.Span
--- export type SpanContext = Span.SpanContext
+local Span = require("./span")
+export type Span = Span.Span
+export type SpanContext = Span.SpanContext
 
 -- local StackFrame = require("./stackframe")
 -- export type StackFrame = StackFrame.StackFrame
@@ -166,21 +165,21 @@ export type Options = Options.Options
 -- export type StackLineParser = Stacktrace.StackLineParser
 -- export type StackLineParserFn = Stacktrace.StackLineParserFn
 
--- local TextEncoder = require("./textencoder")
--- export type TextEncoderInternal = TextEncoder.TextEncoderInternal
+local TextEncoder = require("./textencoder")
+export type TextEncoderInternal = TextEncoder.TextEncoderInternal
 
--- local Tracing = require("./tracing")
--- export type PropagationContext = Tracing.PropagationContext
--- export type TracePropagationTargets = Tracing.TracePropagationTargets
+local Tracing = require("./tracing")
+export type PropagationContext = Tracing.PropagationContext
+export type TracePropagationTargets = Tracing.TracePropagationTargets
 
--- local Transaction = require("./transaction")
--- export type CustomSamplingContext = Transaction.CustomSamplingContext
--- export type SamplingContext = Transaction.SamplingContext
--- export type TraceparentData = Transaction.TraceparentData
--- export type Transaction = Transaction.Transaction
--- export type TransactionContext = Transaction.TransactionContext
--- export type TransactionMetadata = Transaction.TransactionMetadata
--- export type TransactionSource = Transaction.TransactionSource
+local Transaction = require("./transaction")
+export type CustomSamplingContext = Transaction.CustomSamplingContext
+export type SamplingContext = Transaction.SamplingContext
+export type TraceparentData = Transaction.TraceparentData
+export type Transaction = Transaction.Transaction
+export type TransactionContext = Transaction.TransactionContext
+export type TransactionMetadata = Transaction.TransactionMetadata
+export type TransactionSource = Transaction.TransactionSource
 
 local Measurement = require("./measurement")
 export type DurationUnit = Measurement.DurationUnit
@@ -193,17 +192,17 @@ export type Measurements = Measurement.Measurements
 -- local Thread = require("./thread")
 -- export type Thread = Thread.Thread
 
--- local Transport = require("./transport")
+local Transport = require("./transport")
 -- export type Transport = Transport.Transport
 -- export type TransportRequest = Transport.TransportRequest
 -- export type TransportMakeRequestResponse = Transport.TransportMakeRequestResponse
--- export type InternalBaseTransportOptions = Transport.InternalBaseTransportOptions
--- export type BaseTransportOptions = Transport.BaseTransportOptions
+export type InternalBaseTransportOptions = Transport.InternalBaseTransportOptions
+export type BaseTransportOptions = Transport.BaseTransportOptions
 -- export type TransportRequestExecutor = Transport.TransportRequestExecutor
 
--- local User = require("./user")
--- export type User = User.User
--- export type UserFeedback = User.UserFeedback
+local User = require("./user")
+export type User = User.User
+export type UserFeedback = User.UserFeedback
 
 -- local WrappedFunction = require("./wrappedfunction")
 -- export type WrappedFunction = WrappedFunction.WrappedFunction
@@ -226,5 +225,8 @@ export type CheckIn = CheckIn.CheckIn
 export type MonitorConfig = CheckIn.MonitorConfig
 export type SerializedCheckIn = CheckIn.SerializedCheckIn
 
+local Promise = require("./promise")
+export type Promise<T> = Promise.Promise<T>
+export type PromiseLike<T> = Promise.PromiseLike<T>
 
 return {}

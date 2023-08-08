@@ -1,7 +1,6 @@
 -- upstream: https://github.com/getsentry/sentry-javascript/blob/540adac9ec81803f86a3a7f5b34ebbc1ad2a8d23/packages/types/src/breadcrumb.ts
 
 local Severity = require("./severity")
-type Severity = Severity.Severity
 type SeverityLevel = Severity.SeverityLevel
 
 type Array<T> = {T}
@@ -9,7 +8,7 @@ type Map<K, V> = {[K]: V}
 
 export type Breadcrumb = {
   type: string?;
-  level: Severity | SeverityLevel | nil;
+  level: SeverityLevel | nil;
   event_id: string?;
   category: string?;
   message: string?;

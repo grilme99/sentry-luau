@@ -43,7 +43,6 @@ type Session = Session.Session
 type SessionAggregates = Session.SessionAggregates
 
 local Severity = require("./severity")
-type Severity = Severity.Severity
 type SeverityLevel = Severity.SeverityLevel
 
 local Transaction = require("./transaction")
@@ -149,7 +148,7 @@ export type Client<O = ClientOptions> = {
     --- @param exception -- An exception-like object.
     --- @param hint -- May contain additional information about the original exception.
     --- @param scope -- An optional scope containing event metadata.
-    --- @returns The event id
+    --- @return The event id
     captureException: (self: Client<O>, exception: any, hint: EventHint?, scope: Scope?) -> string | nil,
     --- Captures a message event and sends it to Sentry.
     ---
@@ -157,11 +156,11 @@ export type Client<O = ClientOptions> = {
     --- @param level -- Define the level of the message.
     --- @param hint -- May contain additional information about the original exception.
     --- @param scope -- An optional scope containing event metadata.
-    --- @returns The event id
+    --- @return The event id
     captureMessage: (
         self: Client<O>,
         message: string,
-        level: (Severity | SeverityLevel)?,
+        level: SeverityLevel?,
         hint: EventHint?,
         scope: Scope?
     ) -> string | nil,
@@ -171,7 +170,7 @@ export type Client<O = ClientOptions> = {
     --- @param event -- The event to send to Sentry.
     --- @param hint -- May contain additional information about the original exception.
     --- @param scope -- An optional scope containing event metadata.
-    --- @returns The event id
+    --- @return The event id
     captureEvent: (self: Client<O>, event: Event, hint: EventHint?, scope: Scope?) -> string | nil,
 
     --- Captures a session
@@ -185,7 +184,7 @@ export type Client<O = ClientOptions> = {
     --- @param upsertMonitorConfig -- An optional object that describes a monitor config. Use this if you want
     --- to create a monitor automatically when sending a check in.
     --- @param scope -- An optional scope containing event metadata.
-    --- @returns A string representing the id of the check in.
+    --- @return A string representing the id of the check in.
     captureCheckIn: ((self: Client<O>, checkIn: CheckIn, monitorConfig: MonitorConfig?, scope: Scope?) -> string) | nil,
 
     --- Returns the current Dsn.
@@ -199,14 +198,14 @@ export type Client<O = ClientOptions> = {
     --- Returns the transport that is used by the client.
     --- Please note that the transport gets lazy initialized so it will only be there once the first event has been sent.
     ---
-    --- @returns The transport.
+    --- @return The transport.
     getTransport: (self: Client<O>) -> Transport | nil,
 
     --- Flush the event queue and set the client to `enabled = false`. See {@link Client.flush}.
     ---
     --- @param timeout -- Maximum time in ms the client should wait before shutting down. Omitting this parameter will cause
     ---   the client to wait until all events are sent before disabling itself.
-    --- @returns A promise which resolves to `true` if the flush completes successfully before the timeout, or `false` if
+    --- @return A promise which resolves to `true` if the flush completes successfully before the timeout, or `false` if
     --- it doesn't.
     close: (self: Client<O>, timeout: number?) -> PromiseLike<boolean>,
 
@@ -214,7 +213,7 @@ export type Client<O = ClientOptions> = {
     ---
     --- @param timeout -- Maximum time in ms the client should wait for events to be flushed. Omitting this parameter will
     ---   cause the client to wait until all events are sent before resolving the promise.
-    --- @returns A promise that will resolve with `true` if all events are sent before the timeout, or `false` if there are
+    --- @return A promise that will resolve with `true` if all events are sent before the timeout, or `false` if there are
     --- still events in the queue when the timeout is reached.
     flush: (self: Client<O>, timeout: number?) -> PromiseLike<boolean>,
 
@@ -236,7 +235,7 @@ export type Client<O = ClientOptions> = {
     eventFromMessage: (
         self: Client<O>,
         message: string,
-        level: (Severity | SeverityLevel)?,
+        level: SeverityLevel?,
         hint: EventHint?
     ) -> PromiseLike<Event>,
 

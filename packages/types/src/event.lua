@@ -27,14 +27,13 @@ type Primitive = Primitive.Primitive
 local Request = require("./request")
 type Request = Request.Request
 
-local CaptureContext = require("./scope")
-type CaptureContext = CaptureContext.CaptureContext
+local Scope = require("./scope")
+type CaptureContext = Scope.CaptureContext
 
 local SdkInfo = require("./sdkinfo")
 type SdkInfo = SdkInfo.SdkInfo
 
 local Severity = require("./severity")
-type Severity = Severity.Severity
 type SeverityLevel = Severity.SeverityLevel
 
 local Span = require("./span")
@@ -60,7 +59,7 @@ export type Event = {
     message: string?,
     timestamp: number?,
     start_timestamp: number?,
-    level: (Severity | SeverityLevel)?,
+    level: SeverityLevel?,
     platform: string?,
     logger: string?,
     server_name: string?,

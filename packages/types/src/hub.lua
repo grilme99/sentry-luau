@@ -29,7 +29,6 @@ local Session = require("./session")
 type Session = Session.Session
 
 local Severity = require("./severity")
-type Severity = Severity.Severity
 type SeverityLevel = Severity.SeverityLevel
 
 local Transaction = require("./transaction")
@@ -66,7 +65,7 @@ export type Hub = {
     --- the scope ends. Be sure to always remove this scope with {@link this.popScope}
     --- when the operation finishes or throws.
     ---
-    --- @returns Scope, the new cloned scope
+    --- @return Scope, the new cloned scope
     pushScope: () -> Scope,
 
     --- Removes a previously pushed scope from the stack.
@@ -99,7 +98,7 @@ export type Hub = {
     ---
     --- @param exception -- An exception-like object.
     --- @param hint -- May contain additional information about the original exception.
-    --- @returns The generated eventId.
+    --- @return The generated eventId.
     captureException: (exception: any, hint: EventHint?) -> string,
 
     --- Captures a message event and sends it to Sentry.
@@ -107,8 +106,8 @@ export type Hub = {
     --- @param message -- The message to send to Sentry.
     --- @param level -- Define the level of the message.
     --- @param hint -- May contain additional information about the original exception.
-    --- @returns The generated eventId.
-    captureMessage: (message: string, level: (Severity | SeverityLevel)?, hint: EventHint?) -> string,
+    --- @return The generated eventId.
+    captureMessage: (message: string, level: SeverityLevel?, hint: EventHint?) -> string,
 
     --- Captures a manually created event and sends it to Sentry.
     ---
@@ -118,7 +117,7 @@ export type Hub = {
 
     --- This is the getter for lastEventId.
     ---
-    --- @returns The last event id of a captured event.
+    --- @return The last event id of a captured event.
     lastEventId: () -> string | nil,
 
     --- Records a new breadcrumb which will be attached to future events.
@@ -193,7 +192,7 @@ export type Hub = {
     --- @param customSamplingContext -- Information given to the transaction sampling function (along with context-dependent
     --- default values). See {@link Options.tracesSampler}.
     ---
-    --- @returns The transaction which was just started
+    --- @return The transaction which was just started
     startTransaction: (context: TransactionContext, customSamplingContext: CustomSamplingContext?) -> Transaction,
     
     --- Starts a new `Session`, sets on the current scope and returns it.
@@ -205,7 +204,7 @@ export type Hub = {
     ---
     --- @param context -- Optional properties of the new `Session`.
     ---
-    --- @returns The session which was just started
+    --- @return The session which was just started
     startSession: (context: Session?) -> Session,
 
     --- Ends the session that lives on the current scope and sends it to Sentry
