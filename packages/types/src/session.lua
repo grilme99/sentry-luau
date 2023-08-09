@@ -74,16 +74,15 @@ export type SessionAggregates = {
 }
 
 export type SessionFlusherLike = {
-
     --- Increments the Session Status bucket in SessionAggregates Object corresponding to the status of the session
     --- captured
-    incrementSessionStatusCount: () -> (),
+    incrementSessionStatusCount: (self: SessionFlusherLike) -> (),
 
     --- Empties Aggregate Buckets and Sends them to Transport Buffer
-    flush: () -> (),
+    flush: (self: SessionFlusherLike) -> (),
 
     --- Clears setInterval and calls flush
-    close: () -> (),
+    close: (self: SessionFlusherLike) -> (),
 }
 
 export type AggregationCounts = {
