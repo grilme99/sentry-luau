@@ -21,22 +21,9 @@
 local Array = require("./array")
 local isArray = Array.isArray
 
+local JSON = require("./json")
+
 type Array<T> = {T}
-
--- Polyfill for encoding an object as json in different lua environments
-local function jsonEncode(value: any): string
-    local isRoblox = game ~= nil
-    if isRoblox then
-        return game:GetService("HttpService"):JSONEncode(value)
-    end
-
-    local success, luneSerde = pcall(require, "@lune/serde")
-    if success then
-        luneSerde.encode("json", value)
-    end
-
-    error("This environment doesn't support encoding JSON")
-end
 
 -- Support for options partial implementation
 -- see: https://nodejs.org/dist/latest-v16.x/docs/api/util.html#utilinspectobject-options
@@ -119,7 +106,7 @@ end
 function formatValue(value, seenValues, options: FormatOptions)
 	local valueType = typeof(value)
 	if valueType == "string" then
-		return jsonEncode(value)
+		return JSON.stringify(value)
 		-- deviation: format numbers like in JS
 	elseif valueType == "number" then
 		if value ~= value then

@@ -57,6 +57,8 @@ export type SessionItem = Envelope.SessionItem
 export type UserFeedbackItem = Envelope.UserFeedbackItem
 export type CheckInItem = Envelope.CheckInItem
 export type CheckInEnvelope = Envelope.CheckInEnvelope
+export type EnvelopeHeaders = Envelope.EnvelopeHeaders
+export type EnvelopeItems = Envelope.EnvelopeItems
 
 local Error = require("./error")
 export type Error = Error.Error
@@ -97,8 +99,8 @@ local Options = require("./options")
 export type ClientOptions = Options.ClientOptions
 export type Options = Options.Options
 
--- local Package = require("./package")
--- export type Package = Package.Package
+local Package = require("./package")
+export type Package = Package.Package
 
 -- local Polymorphic = require("./polymorphics")
 -- export type PolymorphicEvent = Polymorphic.PolymorphicEvent
@@ -132,11 +134,11 @@ export type CaptureContext = Scope.CaptureContext
 export type Scope = Scope.Scope
 export type ScopeContext = Scope.ScopeContext
 
--- local SdkInfo = require("./sdkinfo")
--- export type SdkInfo = SdkInfo.SdkInfo
+local SdkInfo = require("./sdkinfo")
+export type SdkInfo = SdkInfo.SdkInfo
 
--- local SdkMetadata = require("./sdkmetadata")
--- export type SdkMetadata = SdkMetadata.SdkMetadata
+local SdkMetadata = require("./sdkmetadata")
+export type SdkMetadata = SdkMetadata.SdkMetadata
 
 local Session = require("./session")
 export type SessionAggregates = Session.SessionAggregates

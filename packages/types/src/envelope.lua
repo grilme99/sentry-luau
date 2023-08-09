@@ -35,9 +35,6 @@ type UserFeedback = User.UserFeedback
 type Map<K, V> = { [K]: V }
 type Array<T> = { T }
 
--- note: Luau has no equivalent of Uint8Array
-type Uint8Array = Array<number>
-
 --- Based on https://github.com/getsentry/relay/blob/b23b8d3b2360a54aaa4d19ecae0231201f31df5e/relay-sampling/src/lib.rs#L685-L707
 export type DynamicSamplingContext = {
     trace_id: string,
@@ -76,16 +73,16 @@ export type BaseEnvelopeItemHeaders = Map<string, unknown> & {
 
 -- deviation: This is a tuple in Typescript, but there is no equivalent in Luau. Tables are the most obvious
 --  alternative.
-type BaseEnvelopeItem<ItemHeader, Payload> = {
-    header: ItemHeader & BaseEnvelopeItemHeaders,
+type BaseEnvelopeItem<ItemHeaders, Payload> = {
+    headers: ItemHeaders & BaseEnvelopeItemHeaders,
     payload: Payload,
 }
 
 -- deviation: This is a tuple in Typescript, but there is no equivalent in Luau. Tables are the most obvious
 --  alternative.
-type BaseEnvelope<EnvelopeHeader, Item> = {
-    header: EnvelopeHeader & BaseEnvelopeHeaders,
-    item: Array<Item & BaseEnvelopeItem<BaseEnvelopeItemHeaders, unknown>>,
+type BaseEnvelope<EnvelopeHeaders, Item> = {
+    headers: EnvelopeHeaders & BaseEnvelopeHeaders,
+    items: Array<Item & BaseEnvelopeItem<BaseEnvelopeItemHeaders, unknown>>,
 }
 
 type EventItemHeaders = {
@@ -107,7 +104,7 @@ type ReplayRecordingItemHeaders = { type: "replay_recording", length: number }
 type CheckInItemHeaders = { type: "check_in" }
 
 export type EventItem = BaseEnvelopeItem<EventItemHeaders, Event>
-export type AttachmentItem = BaseEnvelopeItem<AttachmentItemHeaders, string | Uint8Array>
+export type AttachmentItem = BaseEnvelopeItem<AttachmentItemHeaders, string>
 export type UserFeedbackItem = BaseEnvelopeItem<UserFeedbackItemHeaders, UserFeedback>
 export type SessionItem =
     -- TODO(v8): Only allow serialized session here (as opposed to Session or SerializedSesison)
@@ -138,9 +135,27 @@ export type ReplayEnvelope = {
         recordingItem: ReplayRecordingItem,
     },
 }
+
 export type CheckInEnvelope = BaseEnvelope<CheckInEnvelopeHeaders, CheckInItem>
 
 export type Envelope = EventEnvelope | SessionEnvelope | ClientReportEnvelope | ReplayEnvelope | CheckInEnvelope
 -- export type EnvelopeItem = Envelope[1][number];
+
+export type EnvelopeHeaders =
+    EventEnvelopeHeaders
+    | SessionEnvelopeHeaders
+    | ClientReportEnvelopeHeaders
+    | ReplayEnvelopeHeaders
+    | CheckInEnvelopeHeaders
+
+export type EnvelopeItems =
+    EventItem
+    | AttachmentItem
+    | UserFeedbackItem
+    | SessionItem
+    | ClientReportItem
+    | ReplayEventItem
+    | ReplayRecordingItem
+    | CheckInItem
 
 return {}

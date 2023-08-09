@@ -32,6 +32,7 @@ local logger = Utils.logger
 local uuid4 = Utils.uuid4
 local instanceof = Utils.Polyfill.instanceof
 local Promise = Utils.Promise
+local mergeObjects = Utils.Polyfill.Object.mergeObjects
 
 local Session = require("./session")
 local updateSession = Session.updateSession
@@ -54,19 +55,6 @@ local function getGlobalEventProcessors(): Array<EventProcessor>
     return getGlobalSingleton("globalEventProcessors", function()
         return {}
     end)
-end
-
-local function mergeObjects(...: Map<string, any>): Map<string, any>
-    local result = {}
-
-    local args = { ... }
-    for _, dictionary in ipairs(args) do
-        for k, v in pairs(dictionary) do
-            result[k] = v
-        end
-    end
-
-    return result
 end
 
 local function ObjectKeys<T>(obj: Map<T, any>): Array<T>
@@ -125,7 +113,7 @@ local Scope = {}
 Scope.__index = Scope
 
 function Scope.new()
-    local self = setmetatable({}, Scope)
+    local self = (setmetatable({}, Scope):: any) :: Scope
     self._notifyingListeners = false
     self._scopeListeners = {} :: Array<(scope: ScopeInterface) -> ()>
     self._eventProcessors = {} :: Array<EventProcessor>
@@ -144,7 +132,7 @@ function Scope.new()
     self._session = nil :: Session?
     self._requestSession = nil :: RequestSession?
 
-    return (self :: any) :: Scope
+    return self
 end
 
 -- export type Scope = typeof(Scope.new(...))
@@ -507,7 +495,7 @@ function Scope._notifyEventProcessors(
 
             -- selene: allow(global_usage)
             if _G.__SENTRY_DEV__ and processor.id and result == nil then
-                logger.log(`Event processor "${processor.id}" dropped event`)
+                logger.log(`Event processor "{processor.id}" dropped event`)
             end
 
             if isThenable(result) then

@@ -52,11 +52,11 @@ export type Hub = {
     --- @return True if the given version is newer; otherwise false.
     ---
     --- @hidden
-    isOlderThan: (version: number) -> boolean,
+    isOlderThan: (self: Hub, version: number) -> boolean,
 
     --- This binds the given client to the current scope.
     --- @param client -- An SDK client (client) instance.
-    bindClient: (client: Client?) -> (),
+    bindClient: (self: Hub, client: Client?) -> (),
 
     --- Create a new scope to store context information.
     ---
@@ -66,14 +66,14 @@ export type Hub = {
     --- when the operation finishes or throws.
     ---
     --- @return Scope, the new cloned scope
-    pushScope: () -> Scope,
+    pushScope: (self: Hub) -> Scope,
 
     --- Removes a previously pushed scope from the stack.
     ---
     --- This restores the state before the scope was pushed. All breadcrumbs and
     --- context information added since the last call to {@link this.pushScope} are
     --- discarded.
-    popScope: () -> boolean,
+    popScope: (self: Hub) -> boolean,
 
     --- Creates a new scope with and executes the given operation within.
     --- The scope is automatically removed once the operation
@@ -86,20 +86,20 @@ export type Hub = {
     ---     popScope();
     ---
     --- @param callback -- that will be enclosed into push/popScope.
-    withScope: (callback: (scope: Scope) -> ()) -> (),
+    withScope: (self: Hub, callback: (scope: Scope) -> ()) -> (),
 
     --- Returns the client of the top stack.
-    getClient: () -> Client | nil,
+    getClient: (self: Hub) -> Client | nil,
 
     --- Returns the scope of the top stack
-    getScope: () -> Scope,
+    getScope: (self: Hub) -> Scope,
 
     --- Captures an exception event and sends it to Sentry.
     ---
     --- @param exception -- An exception-like object.
     --- @param hint -- May contain additional information about the original exception.
     --- @return The generated eventId.
-    captureException: (exception: any, hint: EventHint?) -> string,
+    captureException: (self: Hub, exception: any, hint: EventHint?) -> string,
 
     --- Captures a message event and sends it to Sentry.
     ---
@@ -107,18 +107,18 @@ export type Hub = {
     --- @param level -- Define the level of the message.
     --- @param hint -- May contain additional information about the original exception.
     --- @return The generated eventId.
-    captureMessage: (message: string, level: SeverityLevel?, hint: EventHint?) -> string,
+    captureMessage: (self: Hub, message: string, level: SeverityLevel?, hint: EventHint?) -> string,
 
     --- Captures a manually created event and sends it to Sentry.
     ---
     --- @param event -- The event to send to Sentry.
     --- @param hint May contain additional information about the original exception.
-    captureEvent: (event: Event, hint: EventHint?) -> string,
+    captureEvent: (self: Hub, event: Event, hint: EventHint?) -> string,
 
     --- This is the getter for lastEventId.
     ---
     --- @return The last event id of a captured event.
-    lastEventId: () -> string | nil,
+    lastEventId: (self: Hub) -> string | nil,
 
     --- Records a new breadcrumb which will be attached to future events.
     ---
@@ -127,17 +127,17 @@ export type Hub = {
     ---
     --- @param breadcrumb -- The breadcrumb to record.
     --- @param hint May contain additional information about the original breadcrumb.
-    addBreadcrumb: (breadcrumb: Breadcrumb, hint: BreadcrumbHint?) -> (),
+    addBreadcrumb: (self: Hub, breadcrumb: Breadcrumb, hint: BreadcrumbHint?) -> (),
 
     --- Updates user context information for future events.
     ---
     --- @param user -- User context object to be set in the current context. Pass `null` to unset the user.
-    setUser: (user: User | nil) -> (),
+    setUser: (self: Hub, user: User | nil) -> (),
 
     --- Set an object that will be merged sent as tags data with the event.
     ---
     --- @param tags -- Tags context object to merge into current context.
-    setTags: (tags: Map<string, Primitive>) -> (),
+    setTags: (self: Hub, tags: Map<string, Primitive>) -> (),
 
     --- Set key:value that will be sent as tags data with the event.
     ---
@@ -145,38 +145,38 @@ export type Hub = {
     ---
     --- @param key -- String key of tag
     --- @param value -- Value of tag
-    setTag: (key: string, value: Primitive) -> (),
+    setTag: (self: Hub, key: string, value: Primitive) -> (),
 
     --- Set key:value that will be sent as extra data with the event.
     --- @param key -- String of extra
     --- @param extra -- Any kind of data. This data will be normalized.
-    setExtra: (key: string, extra: Extra) -> (),
+    setExtra: (self: Hub, key: string, extra: Extra) -> (),
 
     --- Set an object that will be merged sent as extra data with the event.
     --- @param extras -- Extras object to merge into current context.
-    setExtras: (extras: Extras) -> (),
+    setExtras: (self: Hub, extras: Extras) -> (),
 
     --- Sets context data with the given name.
     --- @param name -- of the context
     --- @param context -- Any kind of data. This data will be normalized.
 
-    setContext: (name: string, context: Map<string, any> | nil) -> (),
+    setContext: (self: Hub, name: string, context: Map<string, any> | nil) -> (),
 
     --- Callback to set context information onto the scope.
     ---
     --- @param callback -- Callback function that receives Scope.
-    configureScope: (callback: (scope: Scope) -> ()) -> (),
+    configureScope: (self: Hub, callback: (scope: Scope) -> ()) -> (),
 
     --- For the duration of the callback, this hub will be set as the global current Hub.
     --- This function is useful if you want to run your own client and hook into an already initialized one
     --- e.g.: Reporting issues to your own sentry when running in your component while still using the users configuration.
-    run: (callback: (hub: Hub) -> ()) -> (),
+    run: (self: Hub, callback: (hub: Hub) -> ()) -> (),
 
     --- Returns the integration if installed on the current client.
     getIntegration: <T>(integration: IntegrationClass<T>) -> T | nil,
 
     --- Returns all trace headers that are currently on the top scope.
-    traceHeaders: () -> Map<string, string>,
+    traceHeaders: (self: Hub) -> Map<string, string>,
 
     --- Starts a new `Transaction` and returns it. This is the entry point to manual tracing instrumentation.
     ---
@@ -193,8 +193,12 @@ export type Hub = {
     --- default values). See {@link Options.tracesSampler}.
     ---
     --- @return The transaction which was just started
-    startTransaction: (context: TransactionContext, customSamplingContext: CustomSamplingContext?) -> Transaction,
-    
+    startTransaction: (
+        self: Hub,
+        context: TransactionContext,
+        customSamplingContext: CustomSamplingContext?
+    ) -> Transaction,
+
     --- Starts a new `Session`, sets on the current scope and returns it.
     ---
     --- To finish a `session`, it has to be passed directly to `client.captureSession`, which is done automatically
@@ -205,18 +209,18 @@ export type Hub = {
     --- @param context -- Optional properties of the new `Session`.
     ---
     --- @return The session which was just started
-    startSession: (context: Session?) -> Session,
+    startSession: (self: Hub, context: Session?) -> Session,
 
     --- Ends the session that lives on the current scope and sends it to Sentry
-    endSession: () -> (),
+    endSession: (self: Hub) -> (),
 
     --- Sends the current session on the scope to Sentry
     --- @param endSession -- If set the session will be marked as exited and removed from the scope
-    captureSession: (endSession: boolean?) -> (),
+    captureSession: (self: Hub, endSession: boolean?) -> (),
 
     --- Returns if default PII should be sent to Sentry and propagated in outgoing requests
     --- when Tracing is used.
-    shouldSendDefaultPii: () -> boolean,
+    shouldSendDefaultPii: (self: Hub) -> boolean,
 }
 
 return {}

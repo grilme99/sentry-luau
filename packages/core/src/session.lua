@@ -20,7 +20,7 @@ local function sessionToJSON(_session: Session): SerializedSession
     error("sessionToJSON unimplemented")
 
     -- return {
-    --     sid = `${session.sid}`,
+    --     sid = `{session.sid}`,
     --     init = session.init,
     --     -- Make sure that sec is converted to ms for date constructor
     --     -- TODO: Implement ISO string conversion
@@ -28,7 +28,7 @@ local function sessionToJSON(_session: Session): SerializedSession
     --     -- timestamp = Date.new(session.timestamp * 1000).toISOString(),
     --     status = session.status,
     --     errors = session.errors,
-    --     did = if type(session.did) == "number" or type(session.did) == "string" then `${session.did}` else nil,
+    --     did = if type(session.did) == "number" or type(session.did) == "string" then `{session.did}` else nil,
     --     duration = session.duration,
     --     attrs = {
     --         release = session.release,
