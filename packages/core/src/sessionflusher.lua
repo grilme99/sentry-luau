@@ -28,8 +28,16 @@ function SessionFlusher.new(client: Client, attrs: ReleaseHealthAttributes)
     self._pendingAggregates = {} :: Record<number, AggregationCounts>
     self._sessionAttrs = attrs
     -- self._intervalId: ReturnType<typeof setInterval>;
+    self._runningLoop = true
     self._isEnabled = true
     self._client = client
+
+    task.spawn(function()
+        while self._runningLoop do
+            (self :: any):flush()
+            task.wait(self.flushTimeout)
+        end
+    end)
 
     return self
 end
@@ -56,6 +64,7 @@ function SessionFlusher.getSessionAggregates(self: SessionFlusher): SessionAggre
 end
 
 function SessionFlusher.close(self: SessionFlusher)
+    self._runningLoop = false
     self._isEnabled = false
     self:flush()
 end
