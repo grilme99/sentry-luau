@@ -584,7 +584,7 @@ function Hub._callExtensionMethod<T>(self: Hub, method: string, ...: any): T
     end
 
     if _G.__SENTRY_DEV__ then
-        logger.warn(`Extension method ${method} couldn't be found, doing nothing.`)
+        logger.warn(`Extension method {method} couldn't be found, doing nothing.`)
     end
     return nil :: any
 end

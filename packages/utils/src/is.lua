@@ -4,6 +4,14 @@ local Array = require("./polyfill/array")
 
 local IsUtils = {}
 
+--- Checks whether given value is a primitive (undefined, null, number, boolean, string, bigint, symbol)
+---
+--- @param wat A value to be checked.
+---@returns A boolean representing the result.
+function IsUtils.isPrimitive(wat: unknown): boolean
+    return wat == nil or (type(wat) ~= "table" and type(wat) ~= "function")
+end
+
 --- Checks whether given value's type is an object literal
 ---
 --- @param wat A value to be checked.

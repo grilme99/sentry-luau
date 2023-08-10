@@ -1,6 +1,6 @@
 -- upstream: https://github.com/getsentry/sentry-javascript/blob/d3abf450b844c595dfa576f2afcfe223fb038c51/packages/utils/src/misc.ts
 
-local ArrayUtils = require("./array")
+local ArrayUtils = require("./polyfill/array")
 
 type Array<T> = { T }
 
@@ -32,6 +32,47 @@ end
 --- @return The input, if already an array, or an array with the input as the only element, if not
 function MiscUtils.arrayify<T>(maybeArray: T | Array<T>): Array<T>
     return if ArrayUtils.isArray(maybeArray) then maybeArray :: Array<T> else { maybeArray :: T }
+end
+
+--- Checks whether or not we've already captured the given exception (note: not an identical exception - the very object
+--- in question), and marks it captured if not.
+---
+--- This is useful because it's possible for an error to get captured by more than one mechanism. After we intercept and
+--- record an error, we rethrow it (assuming we've intercepted it before it's reached the top-level global handlers), so
+--- that we don't interfere with whatever effects the error might have had were the SDK not there. At that point, because
+--- the error has been rethrown, it's possible for it to bubble up to some other code we've instrumented. If it's not
+--- caught after that, it will bubble all the way up to the global handlers (which of course we also instrument). This
+--- function helps us ensure that even if we encounter the same error more than once, we only record it the first time we
+--- see it.
+---
+--- Note: It will ignore primitives (always return `false` and not mark them as seen), as properties can't be set on
+--- them. {@link: Object.objectify} can be used on exceptions to convert any that are primitives into their equivalent
+--- object wrapper forms so that this check will always work. However, because we need to flag the exact object which
+--- will get rethrown, and because that rethrowing happens outside of the event processing pipeline, the objectification
+--- must be done before the exception captured.
+---
+--- @param A thrown exception to check or flag as having been seen
+--- @return `true` if the exception has already been captured, `false` if not (with the side effect of marking it seen)
+function MiscUtils.checkOrSetAlreadyCaught(exception: unknown): boolean
+    local success, result = pcall(function()
+        if exception and (exception :: any).__sentry_captured__ then
+            return true
+        end
+        return false
+    end)
+
+    if success and result == true then
+        return true
+    end
+
+    pcall(function()
+        local e = exception :: { [string]: unknown }
+        e.__sentry_captured__ = true
+    end)
+
+    -- If the pcalls failed then `exception` is a primitive, so we can't mark it seen
+
+    return false
 end
 
 return MiscUtils

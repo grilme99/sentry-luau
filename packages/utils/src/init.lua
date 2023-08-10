@@ -24,6 +24,7 @@ Utils.GLOBAL_OBJ = Global.GLOBAL_OBJ
 Utils.getGlobalSingleton = Global.getGlobalSingleton
 
 local Is = require("./is")
+Utils.isPrimitive = Is.isPrimitive
 Utils.isSyntheticEvent = Is.isSyntheticEvent
 Utils.isNaN = Is.isNaN
 Utils.isPlainObject = Is.isPlainObject
@@ -40,10 +41,14 @@ Utils.memoBuilder = Memo.memoBuilder
 local MiscUtils = require("./misc")
 Utils.uuid4 = MiscUtils.uuid4
 Utils.arrayify = MiscUtils.arrayify
+Utils.checkOrSetAlreadyCaught = MiscUtils.checkOrSetAlreadyCaught
 
 local Normalize = require("./normalize")
 Utils.normalize = Normalize.normalize
 Utils.normalizeToSize = Normalize.normalizeToSize
+
+local Object = require("./object")
+Utils.urlEncode = Object.urlEncode
 
 local PromiseBuffer = require("./promisebuffer")
 export type PromiseBuffer<T> = PromiseBuffer.PromiseBuffer<T>

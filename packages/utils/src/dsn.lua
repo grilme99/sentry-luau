@@ -55,7 +55,7 @@ local function dsnFromString(str: string): DsnComponents | nil
 
     if not match then
         -- This should be logged to the console
-        console.error(`Invalid Sentry Dsn: ${str}`)
+        console.error(`Invalid Sentry Dsn: {str}`)
         return nil
     end
 

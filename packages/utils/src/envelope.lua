@@ -98,7 +98,7 @@ function EnvelopeUtils.serializeEnvelope(envelope: Envelope): string
     for _, item: EnvelopeItems in items :: any do
         local itemHeaders, payload = item.headers, item.payload
 
-        append(`\n${JSON.stringify(itemHeaders)}\n`)
+        append(`\n{JSON.stringify(itemHeaders)}\n`)
 
         if type(payload) == "string" then
             append(payload)
