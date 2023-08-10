@@ -33,4 +33,16 @@ function StringUtils.startsWith(value: string, substring: string, position: numb
     return value:find(substring, position_, true) == position_
 end
 
+function StringUtils.trimEnd(source: string): string
+    return (source:gsub("[%s]+$", ""))
+end
+
+function StringUtils.trimStart(source: string): string
+    return (source:gsub("^[%s]+", ""))
+end
+
+function StringUtils.trim(source: string): string
+    return StringUtils.trimStart(StringUtils.trimEnd(source))
+end
+
 return StringUtils

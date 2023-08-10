@@ -12,6 +12,7 @@ local Logger = {}
 --- Prefix for logging strings
 local PREFIX = "Sentry Logger "
 local CONSOLE_LEVELS = { "debug", "info", "warn", "error", "log", "assert", "trace" }
+export type ConsoleLevel = "debug" | "info" | "warn" | "error" | "log" | "assert" | "trace"
 
 type LoggerMethod = (...unknown) -> ()
 type LoggerConsoleMethods = {

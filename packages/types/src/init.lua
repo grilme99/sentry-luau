@@ -47,7 +47,7 @@ export type ClientReportItem = Envelope.ClientReportItem
 export type DynamicSamplingContext = Envelope.DynamicSamplingContext
 export type Envelope = Envelope.Envelope
 export type EnvelopeItemType = Envelope.EnvelopeItemType
--- export type EnvelopeItem = Envelope.EnvelopeItem
+export type EnvelopeItem = Envelope.EnvelopeItem
 export type EventEnvelope = Envelope.EventEnvelope
 export type EventEnvelopeHeaders = Envelope.EventEnvelopeHeaders
 export type EventItem = Envelope.EventItem
@@ -195,12 +195,12 @@ export type Measurements = Measurement.Measurements
 -- export type Thread = Thread.Thread
 
 local Transport = require("./transport")
--- export type Transport = Transport.Transport
--- export type TransportRequest = Transport.TransportRequest
--- export type TransportMakeRequestResponse = Transport.TransportMakeRequestResponse
+export type Transport = Transport.Transport
+export type TransportRequest = Transport.TransportRequest
+export type TransportMakeRequestResponse = Transport.TransportMakeRequestResponse
 export type InternalBaseTransportOptions = Transport.InternalBaseTransportOptions
 export type BaseTransportOptions = Transport.BaseTransportOptions
--- export type TransportRequestExecutor = Transport.TransportRequestExecutor
+export type TransportRequestExecutor = Transport.TransportRequestExecutor
 
 local User = require("./user")
 export type User = User.User

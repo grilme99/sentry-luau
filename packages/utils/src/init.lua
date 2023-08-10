@@ -16,6 +16,9 @@ Utils.forEachEnvelopeItem = Envelope.forEachEnvelopeItem
 Utils.getSdkMetadataForEnvelopeHeader = Envelope.getSdkMetadataForEnvelopeHeader
 Utils.serializeEnvelope = Envelope.serializeEnvelope
 
+local SentryError = require("./error")
+Utils.SentryError = SentryError
+
 local Global = require("./global")
 Utils.GLOBAL_OBJ = Global.GLOBAL_OBJ
 Utils.getGlobalSingleton = Global.getGlobalSingleton
@@ -41,6 +44,18 @@ Utils.arrayify = MiscUtils.arrayify
 local Normalize = require("./normalize")
 Utils.normalize = Normalize.normalize
 Utils.normalizeToSize = Normalize.normalizeToSize
+
+local PromiseBuffer = require("./promisebuffer")
+export type PromiseBuffer<T> = PromiseBuffer.PromiseBuffer<T>
+Utils.makePromiseBuffer = PromiseBuffer.makePromiseBuffer
+
+local RateLimit = require("./ratelimit")
+export type RateLimits = RateLimit.RateLimits
+Utils.DEFAULT_RETRY_AFTER = RateLimit.DEFAULT_RETRY_AFTER
+Utils.disabledUntil = RateLimit.disabledUntil
+Utils.isRateLimited = RateLimit.isRateLimited
+Utils.parseRetryAfterHeader = RateLimit.parseRetryAfterHeader
+Utils.updateRateLimits = RateLimit.updateRateLimits
 
 local Stacktrace = require("./stacktrace")
 Utils.createStackParser = Stacktrace.createStackParser

@@ -139,7 +139,15 @@ export type ReplayEnvelope = {
 export type CheckInEnvelope = BaseEnvelope<CheckInEnvelopeHeaders, CheckInItem>
 
 export type Envelope = EventEnvelope | SessionEnvelope | ClientReportEnvelope | ReplayEnvelope | CheckInEnvelope
--- export type EnvelopeItem = Envelope[1][number];
+export type EnvelopeItem =
+    EventItem
+    | AttachmentItem
+    | UserFeedbackItem
+    | SessionItem
+    | ClientReportItem
+    | ReplayEventItem
+    | ReplayRecordingItem
+    | CheckInItem
 
 export type EnvelopeHeaders =
     EventEnvelopeHeaders
