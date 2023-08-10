@@ -113,7 +113,7 @@ local Scope = {}
 Scope.__index = Scope
 
 function Scope.new()
-    local self = (setmetatable({}, Scope):: any) :: Scope
+    local self = (setmetatable({}, Scope) :: any) :: Scope
     self._notifyingListeners = false
     self._scopeListeners = {} :: Array<(scope: ScopeInterface) -> ()>
     self._eventProcessors = {} :: Array<EventProcessor>
@@ -493,7 +493,7 @@ function Scope._notifyEventProcessors(
         else
             local result = processor.fn(table.clone(event), hint)
 
-            -- selene: allow(global_usage)
+            
             if _G.__SENTRY_DEV__ and processor.id and result == nil then
                 logger.log(`Event processor "{processor.id}" dropped event`)
             end
@@ -544,6 +544,12 @@ function Scope._applyFingerprint(self: Scope, event: Event)
     if event.fingerprint and #event.fingerprint == 0 then
         event.fingerprint = nil
     end
+end
+
+--- Add a EventProcessor to be kept globally.
+--- @param callback EventProcessor to add
+function Scope.addGlobalEventProcessor(callback: EventProcessor)
+    table.insert(getGlobalEventProcessors(), callback)
 end
 
 return Scope

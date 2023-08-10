@@ -21,12 +21,11 @@ export type ClientClass<F = Client, O = ClientOptions> = (options: O) -> F
 --- @param options Options to pass to the client.
 function Sdk.initAndBind<F, O>(newClientClass: ClientClass<F & Client, O>, options: ClientOptions & O)
     if options.debug == true then
-        -- selene: allow(global_usage)
+        
         if _G.__SENTRY_DEV__ then
             logger.enable()
         else
             -- use `warn` rather than `logger.warn` since by non-debug bundles have all `logger.x` statements stripped
-            local warn = warn or print
             warn("[Sentry] Cannot initialize SDK with `debug` option using a non-debug bundle.")
         end
     end

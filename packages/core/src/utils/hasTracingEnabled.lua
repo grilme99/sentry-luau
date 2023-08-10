@@ -1,7 +1,7 @@
 --- Determines if tracing is currently enabled.
 --- Tracing is enabled when at least one of `tracesSampleRate` and `tracesSampler` is defined in the SDK config.
 local function hasTracingEnabled(maybeOptions: Options?): boolean
-    -- selene: allow(global_usage)
+    
     if _G.__SENTRY_TRACING__ == false then
         return false
     end

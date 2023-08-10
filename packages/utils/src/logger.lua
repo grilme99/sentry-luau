@@ -45,7 +45,7 @@ local function makeLogger(): Logger
         end,
     }
 
-    -- selene: allow(global_usage)
+    
     if _G.__SENTRY_DEV__ then
         for _, name in CONSOLE_LEVELS do
             logger[name] = function(...)
@@ -73,7 +73,7 @@ local function makeLogger(): Logger
 end
 
 -- Ensure we only have a single logger instance, even if multiple versions of @sentry/utils are being used
--- selene: allow(global_usage)
+
 if _G.__SENTRY_DEV__ then
     Logger.logger = getGlobalSingleton("logger", makeLogger)
 else

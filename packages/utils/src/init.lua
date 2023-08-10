@@ -40,6 +40,7 @@ Utils.Polyfill = {}
 Utils.Polyfill.instanceof = require("./polyfill/instanceof")
 Utils.Polyfill.Error = require("./polyfill/error")
 Utils.Polyfill.Object = require("./polyfill/object")
+Utils.Polyfill.Array = require("./polyfill/array")
 
 Utils.Promise = require("./vendor/promise")
 

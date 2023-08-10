@@ -3,3 +3,5 @@ std = "luau"
 [rules]
 # This is covered by the LSP and gets in the way
 undefined_variable = "allow"
+# We use `_G.__SENTRY_DEV__` as a compile-time flag to remove debug code with Darklua.
+global_usage = "allow"

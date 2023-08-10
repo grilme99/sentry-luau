@@ -67,7 +67,7 @@ type keyof__SENTRY__ = "globalEventProcessors" | "hub" | "logger" | "extensions"
 
 -- deviation: Lua only has one global object we care about, so we don't need to check different sources like with
 -- upstream.
--- selene: allow(global_usage)
+
 local GLOBAL_OBJ: InternalGlobal = _G
 GlobalUtils.GLOBAL_OBJ = GLOBAL_OBJ
 

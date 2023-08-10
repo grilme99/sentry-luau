@@ -13,7 +13,7 @@
 	* limitations under the License.
 ]]
 -- polyfill for https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/instanceof
--- selene: allow(global_usage)
+
 local __DEV__ = _G.__SENTRY_DEV__
 
 -- FIXME Luau: typing class as Object gives: Type '{ @metatable {| __call: <a>(a, ...any) -> Error, __tostring: <b, c>({+ message: b, name: c +}) -> string |}, Error }' could not be converted into 'table'

@@ -90,7 +90,7 @@ local function dsnFromString(str: string): DsnComponents | nil
 end
 
 local function validateDsn(dsn: DsnComponents): boolean
-    -- selene: allow(global_usage)
+    
     if not _G.__SENTRY_DEV__ then
         return true
     end

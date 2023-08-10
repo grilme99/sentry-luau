@@ -459,7 +459,6 @@ function Hub.getIntegration<T>(self: Hub, integration: IntegrationClass<T>): T |
     if success then
         return result
     else
-        -- selene: allow(global_usage)
         if _G.__SENTRY_DEV__ then
             logger.warn(`Cannot retrieve integration {integration.id} from the current Hub`)
         end
@@ -474,7 +473,6 @@ function Hub.startTransaction(
 ): Transaction
     local result: Transaction = self:_callExtensionMethod("startTransaction", context, customSamplingContext)
 
-    -- selene: allow(global_usage)
     if _G.__SENTRY_DEV__ and not result then
         logger.warn(
             `Tracing extension 'startTransaction' has not been added. Call 'addTracingExtensions' before calling 'init':\nSentry.addTracingExtensions();\nSentry.init(\{...});\n`
@@ -585,7 +583,6 @@ function Hub._callExtensionMethod<T>(self: Hub, method: string, ...: any): T
         return sentry.extensions[method](self, args)
     end
 
-    -- selene: allow(global_usage)
     if _G.__SENTRY_DEV__ then
         logger.warn(`Extension method ${method} couldn't be found, doing nothing.`)
     end
