@@ -158,14 +158,14 @@ local Span = require("./span")
 export type Span = Span.Span
 export type SpanContext = Span.SpanContext
 
--- local StackFrame = require("./stackframe")
--- export type StackFrame = StackFrame.StackFrame
+local StackFrame = require("./stackframe")
+export type StackFrame = StackFrame.StackFrame
 
--- local Stacktrace = require("./stacktrace")
--- export type Stacktrace = Stacktrace.Stacktrace
--- export type StackParser = Stacktrace.StackParser
--- export type StackLineParser = Stacktrace.StackLineParser
--- export type StackLineParserFn = Stacktrace.StackLineParserFn
+local Stacktrace = require("./stacktrace")
+export type Stacktrace = Stacktrace.Stacktrace
+export type StackParser = Stacktrace.StackParser
+export type StackLineParser = Stacktrace.StackLineParser
+export type StackLineParserFn = Stacktrace.StackLineParserFn
 
 local TextEncoder = require("./textencoder")
 export type TextEncoderInternal = TextEncoder.TextEncoderInternal

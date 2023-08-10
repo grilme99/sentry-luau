@@ -21,6 +21,8 @@ Utils.GLOBAL_OBJ = Global.GLOBAL_OBJ
 Utils.getGlobalSingleton = Global.getGlobalSingleton
 
 local Is = require("./is")
+Utils.isSyntheticEvent = Is.isSyntheticEvent
+Utils.isNaN = Is.isNaN
 Utils.isPlainObject = Is.isPlainObject
 Utils.isThenable = Is.isThenable
 
@@ -28,9 +30,26 @@ local Logger = require("./logger")
 Utils.logger = Logger.logger
 Utils.consoleSandbox = Logger.consoleSandbox
 
+local Memo = require("./memo")
+export type MemoFunc = Memo.MemoFunc
+Utils.memoBuilder = Memo.memoBuilder
+
 local MiscUtils = require("./misc")
 Utils.uuid4 = MiscUtils.uuid4
 Utils.arrayify = MiscUtils.arrayify
+
+local Normalize = require("./normalize")
+Utils.normalize = Normalize.normalize
+Utils.normalizeToSize = Normalize.normalizeToSize
+
+local Stacktrace = require("./stacktrace")
+Utils.createStackParser = Stacktrace.createStackParser
+Utils.getFunctionName = Stacktrace.getFunctionName
+Utils.stackParserFromStackParserOptions = Stacktrace.stackParserFromStackParserOptions
+Utils.stripSentryFramesAndReverse = Stacktrace.stripSentryFramesAndReverse
+
+local StringUtils = require("./string")
+Utils.truncate = StringUtils.truncate
 
 local TimeUtils = require("./time")
 Utils.dateTimestampInSeconds = TimeUtils.dateTimestampInSeconds

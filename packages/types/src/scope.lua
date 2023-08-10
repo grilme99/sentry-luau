@@ -15,6 +15,10 @@ local Extra = require("./extra")
 type Extra = Extra.Extra
 type Extras = Extra.Extras
 
+local Event = require("./event")
+type Event = Event.Event
+type EventHint = Event.EventHint
+
 local Misc = require("./misc")
 type Primitive = Misc.Primitive
 
@@ -37,6 +41,9 @@ type Transaction = Transaction.Transaction
 local User = require("./user")
 type User = User.User
 
+local Promise = require("./promise")
+type PromiseLike<T> = Promise.PromiseLike<T>
+
 type Map<K, V> = { [K]: V }
 type Array<T> = { T }
 
@@ -57,6 +64,13 @@ export type ScopeContext = {
 export type Scope = {
     --- Add new event processor that will be called after {@link applyToEvent}.
     addEventProcessor: (self: Scope, callback: EventProcessor) -> Scope,
+
+    --- Applies data from the scope to the event and runs all event processors on it.
+    ---
+    --- @param event Event
+    --- @param hint Object containing additional information about the original exception, for use by the event processors.
+    --- @hidden
+    applyToEvent: (self: Scope, event: Event, hint_: EventHint?) -> PromiseLike<Event | nil>,
 
     --- Updates user context information for future events.
     ---

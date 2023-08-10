@@ -20,4 +20,21 @@ function IsUtils.isThenable(wat: any): boolean
     return wat and wat.andThen and type(wat.andThen) == "function"
 end
 
+--- Checks whether given value's type is a SyntheticEvent
+---
+--- @param wat A value to be checked.
+function IsUtils.isSyntheticEvent(wat: any): boolean
+    return IsUtils.isPlainObject(wat)
+        and type(wat) == "table"
+        and wat.nativeEvent
+        and wat.preventDefault
+        and wat.stopPropagation
+end
+
+--- Checks whether given value is NaN
+--- @param wat A value to be checked.
+function IsUtils.isNaN(wat: unknown): boolean
+    return type(wat) == "number" and wat ~= wat
+end
+
 return IsUtils
