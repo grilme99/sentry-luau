@@ -90,7 +90,6 @@ local function dsnFromString(str: string): DsnComponents | nil
 end
 
 local function validateDsn(dsn: DsnComponents): boolean
-    
     if not _G.__SENTRY_DEV__ then
         return true
     end

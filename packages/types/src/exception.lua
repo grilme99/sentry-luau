@@ -7,12 +7,12 @@ local Stacktrace = require("./stacktrace")
 type Stacktrace = Stacktrace.Stacktrace
 
 export type Exception = {
-  type: string?;
-  value: string?;
-  mechanism: Mechanism?;
-  module: string?;
-  thread_id: number?;
-  stacktrace: Stacktrace?;
+    type: string?,
+    value: string?,
+    mechanism: Mechanism?,
+    module: string?,
+    thread_id: number?,
+    stacktrace: Stacktrace?,
 }
 
 return {}

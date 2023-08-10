@@ -493,7 +493,6 @@ function Scope._notifyEventProcessors(
         else
             local result = processor.fn(table.clone(event), hint)
 
-            
             if _G.__SENTRY_DEV__ and processor.id and result == nil then
                 logger.log(`Event processor "{processor.id}" dropped event`)
             end

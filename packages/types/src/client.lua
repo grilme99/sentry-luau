@@ -87,8 +87,7 @@ type HookOnBeforeAddBreadcrumb<O> = (
 ) -> ()
 
 --- Register a callback when a DSC (Dynamic Sampling Context) is created.
-type HookOnCreateDsc<O> = (
-    self: Client<O>,hook: "createDsc", callback: (dsc: DynamicSamplingContext) -> ()) -> ()
+type HookOnCreateDsc<O> = (self: Client<O>, hook: "createDsc", callback: (dsc: DynamicSamplingContext) -> ()) -> ()
 
 type OnHook<O> =
     HookOnFinallyTransaction<O>

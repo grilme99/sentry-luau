@@ -3,7 +3,7 @@
 local Package = require("./package")
 type Package = Package.Package
 
-type Array<T> = {T}
+type Array<T> = { T }
 
 export type SdkInfo = {
     name: string?,

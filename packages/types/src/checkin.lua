@@ -57,28 +57,28 @@ export type InProgressCheckIn = {
 
 export type FinishedCheckIn = {
     --- The distinct slug of the monitor.
-  monitorSlug: string;
-  --- The status of the check-in.
-  status: 'ok' | 'error';
-  --- Check-In ID (unique and client generated).
-  checkInId: string;
-  --- The duration of the check-in in seconds. Will only take effect if the status is ok or error.
-  duration: number?;
+    monitorSlug: string,
+    --- The status of the check-in.
+    status: "ok" | "error",
+    --- Check-In ID (unique and client generated).
+    checkInId: string,
+    --- The duration of the check-in in seconds. Will only take effect if the status is ok or error.
+    duration: number?,
 }
 
-export type CheckIn = InProgressCheckIn | FinishedCheckIn;
+export type CheckIn = InProgressCheckIn | FinishedCheckIn
 
 export type MonitorConfig = {
-  schedule: MonitorSchedule;
-  --- The allowed allowed margin of minutes after the expected check-in time that
-  --- the monitor will not be considered missed for.
-  checkinMargin: number?;
-  --- The allowed allowed duration in minutes that the monitor may be `in_progress`
-  --- for before being considered failed due to timeout.
-  maxRuntime: number?;
-  --- A tz database string representing the timezone which the monitor's execution schedule is in.
-  --- See: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-  timezone: string?;
+    schedule: MonitorSchedule,
+    --- The allowed allowed margin of minutes after the expected check-in time that
+    --- the monitor will not be considered missed for.
+    checkinMargin: number?,
+    --- The allowed allowed duration in minutes that the monitor may be `in_progress`
+    --- for before being considered failed due to timeout.
+    maxRuntime: number?,
+    --- A tz database string representing the timezone which the monitor's execution schedule is in.
+    --- See: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+    timezone: string?,
 }
 
 return {}

@@ -45,7 +45,6 @@ local function makeLogger(): Logger
         end,
     }
 
-    
     if _G.__SENTRY_DEV__ then
         for _, name in CONSOLE_LEVELS do
             logger[name] = function(...)

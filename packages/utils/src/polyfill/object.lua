@@ -1,6 +1,6 @@
 -- note: no upstream
 
-type Map<K, V> = {[K]: V}
+type Map<K, V> = { [K]: V }
 
 local ObjectUtils = {}
 

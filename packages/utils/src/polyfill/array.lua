@@ -80,7 +80,7 @@ function ArrayUtils.concat<T, S>(source: Array<T> | T, ...: Array<S> | S): Array
             -- deviation: assume that table is an array, to avoid the expensive
             -- `isArray` check. In DEV mode, we throw if it is given an object-like
             -- table.
-            
+
             if _G.__SENTRY_DEV__ then
                 if not ArrayUtils.isArray(value) then
                     error(RECEIVED_OBJECT_ERROR)

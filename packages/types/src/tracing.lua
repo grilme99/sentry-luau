@@ -3,16 +3,16 @@
 local Envelope = require("./envelope")
 type DynamicSamplingContext = Envelope.DynamicSamplingContext
 
-type Array<T> = {T}
+type Array<T> = { T }
 
 -- deviation: No support for RegExp currently
 -- export type TracePropagationTargets = Array<string | RegExp>;
-export type TracePropagationTargets = Array<string>;
+export type TracePropagationTargets = Array<string>
 
 export type PropagationContext = {
-  traceId: string;
-  spanId: string;
-  sampled: boolean;
-  parentSpanId: string?;
-  dsc: DynamicSamplingContext?;
+    traceId: string,
+    spanId: string,
+    sampled: boolean,
+    parentSpanId: string?,
+    dsc: DynamicSamplingContext?,
 }

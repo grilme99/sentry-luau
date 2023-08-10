@@ -35,7 +35,7 @@ local function sessionToJSON(_session: Session): SerializedSession
     --         environment = session.environment,
     --         ip_address = session.ipAddress,
     --         user_agent = session.userAgent,
-        -- },
+    -- },
     -- }
 end
 

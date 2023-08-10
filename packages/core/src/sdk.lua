@@ -21,7 +21,6 @@ export type ClientClass<F = Client, O = ClientOptions> = (options: O) -> F
 --- @param options Options to pass to the client.
 function Sdk.initAndBind<F, O>(newClientClass: ClientClass<F & Client, O>, options: ClientOptions & O)
     if options.debug == true then
-        
         if _G.__SENTRY_DEV__ then
             logger.enable()
         else

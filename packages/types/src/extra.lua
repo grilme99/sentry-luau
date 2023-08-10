@@ -2,7 +2,7 @@
 
 type Record<K, V> = { [K]: V }
 
-export type Extra = unknown;
-export type Extras = Record<string, Extra>;
+export type Extra = unknown
+export type Extras = Record<string, Extra>
 
 return {}

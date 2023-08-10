@@ -92,7 +92,7 @@ function GlobalUtils.getGlobalSingleton<T>(name: keyof__SENTRY__, creator: () ->
         __SENTRY__[name] = creator()
     end
     local singleton = __SENTRY__[name]
-    
+
     return singleton
 end
 
