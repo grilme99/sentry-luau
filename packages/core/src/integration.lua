@@ -70,7 +70,6 @@ function Integration.getIntegrationsToSetup(options: Options): Array<Integration
     local integrations: Array<Integration>
 
     if Array.isArray(userIntegrations) then
-        -- integrations = [...defaultIntegrations, ...userIntegrations];
         integrations = Array.concat(defaultIntegrations, userIntegrations)
     elseif type(userIntegrations) == "function" then
         integrations = arrayify(userIntegrations(defaultIntegrations))
