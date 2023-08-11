@@ -33,6 +33,7 @@ local uuid4 = Utils.uuid4
 local instanceof = Utils.Polyfill.instanceof
 local Promise = Utils.Promise
 local mergeObjects = Utils.Polyfill.Object.mergeObjects
+local Array = Utils.Polyfill.Array
 
 local Session = require("./session")
 local updateSession = Session.updateSession
@@ -446,8 +447,7 @@ function Scope.applyToEvent(self: Scope, event: Event, hint_: EventHint?): Promi
 
     self:_applyFingerprint(event)
 
-    local eventBreadcrumbs = event.breadcrumbs or {}
-    event.breadcrumbs = table.move(self._breadcrumbs, 1, #self._breadcrumbs, #eventBreadcrumbs + 1, eventBreadcrumbs)
+    event.breadcrumbs = Array.concat(event.breadcrumbs or {}, self._breadcrumbs)
     event.breadcrumbs = if #(event.breadcrumbs :: any) > 0 then event.breadcrumbs else nil
 
     event.sdkProcessingMetadata = mergeObjects(
@@ -456,10 +456,7 @@ function Scope.applyToEvent(self: Scope, event: Event, hint_: EventHint?): Promi
         { propagationContext = self._propagationContext }
     )
 
-    local globalProcessors = table.clone(getGlobalEventProcessors())
-    local mergedProcessors =
-        table.move(self._eventProcessors, 1, #self._eventProcessors, #globalProcessors + 1, globalProcessors)
-
+    local mergedProcessors = Array.concat(getGlobalEventProcessors(), self._eventProcessors)
     return self:_notifyEventProcessors(mergedProcessors, event, hint)
 end
 
@@ -534,9 +531,7 @@ function Scope._applyFingerprint(self: Scope, event: Event)
 
     -- If we have something on the scope, then merge it with event
     if self._fingerprint then
-        local eventFingerprint = event.fingerprint or {}
-        event.fingerprint =
-            table.move(self._fingerprint, 1, #self._fingerprint, #eventFingerprint + 1, eventFingerprint)
+        event.fingerprint = Array.concat(event.fingerprint, self._fingerprint)
     end
 
     -- If we have no data at all, remove empty array default
