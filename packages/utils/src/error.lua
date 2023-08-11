@@ -21,6 +21,13 @@ function SentryError.new(message: string, logLevel_: ConsoleLevel?)
     return self :: any
 end
 
-export type SentryError = typeof(SentryError.new(...))
+export type SentryError = typeof(setmetatable(
+    {} :: {
+        name: string,
+        message: string,
+        logLevel: ConsoleLevel,
+    },
+    SentryError
+))
 
 return SentryError

@@ -17,6 +17,7 @@ Utils.getSdkMetadataForEnvelopeHeader = Envelope.getSdkMetadataForEnvelopeHeader
 Utils.serializeEnvelope = Envelope.serializeEnvelope
 
 local SentryError = require("./error")
+export type SentryError = SentryError.SentryError
 Utils.SentryError = SentryError
 
 local Global = require("./global")

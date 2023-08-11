@@ -10,7 +10,7 @@ export type RequestBreadcrumbData = Breadcrumb.RequestBreadcrumbData
 export type RequestBreadcrumbHint = Breadcrumb.RequestBreadcrumbHint
 
 local Client = require("./client")
-export type Client = Client.Client
+export type Client<T = ClientOptions> = Client.Client<T>
 
 local ClientReport = require("./clientreport")
 export type ClientReport = ClientReport.ClientReport
