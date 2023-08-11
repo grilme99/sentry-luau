@@ -15,7 +15,7 @@
 ]]
 
 type Map<K, V> = { [K]: V }
-type Array<T> = {T}
+type Array<T> = { T }
 type Table = { [any]: any }
 
 local ObjectUtils = {}
@@ -34,28 +34,28 @@ function ObjectUtils.mergeObjects(...: Map<string, any>): Map<string, any>
 end
 
 function ObjectUtils.keys(value: Table | string): Array<string>
-	if value == nil then
-		error("cannot extract keys from a nil value")
-	end
+    if value == nil then
+        error("cannot extract keys from a nil value")
+    end
 
-	local valueType = typeof(value)
+    local valueType = typeof(value)
 
-	local keys
-	if valueType == "table" then
-		keys = {}
+    local keys
+    if valueType == "table" then
+        keys = {}
 
-		for key in pairs(value :: Table) do
-			table.insert(keys, key)
-		end
-	elseif valueType == "string" then
-		local length = (value :: string):len()
-		keys = table.create(length)
-		for i = 1, length do
-			keys[i] = tostring(i)
-		end
-	end
+        for key in pairs(value :: Table) do
+            table.insert(keys, key)
+        end
+    elseif valueType == "string" then
+        local length = (value :: string):len()
+        keys = table.create(length)
+        for i = 1, length do
+            keys[i] = tostring(i)
+        end
+    end
 
-	return keys
+    return keys
 end
 
 return ObjectUtils

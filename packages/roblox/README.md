@@ -46,7 +46,7 @@ Sentry.captureMessage("Hello, world!")
 Sentry.captureException(Error.new("Good bye"))
 Sentry.captureEvent({
   message = "Manual",
-  stacktrace: {
+  stacktrace = {
     -- ...
   },
 })

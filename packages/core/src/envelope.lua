@@ -18,6 +18,7 @@ local createEventEnvelopeHeaders = Utils.createEventEnvelopeHeaders
 local dsnToString = Utils.dsnToString
 local getSdkMetadataForEnvelopeHeader = Utils.getSdkMetadataForEnvelopeHeader
 local Object = Utils.Polyfill.Object
+local Array = Utils.Polyfill.Array
 
 local Envelope = {}
 
@@ -31,8 +32,8 @@ function enhanceEventWithSdkInfo(event: Event, sdkInfo: SdkInfo?): Event
     local sdk = event.sdk :: SdkInfo
     sdk.name = sdk.name or sdkInfo.name
     sdk.version = sdk.version or sdkInfo.version
-    --   event.sdk.integrations = [...(event.sdk.integrations || []), ...(sdkInfo.integrations || [])];
-    --   event.sdk.packages = [...(event.sdk.packages || []), ...(sdkInfo.packages || [])];
+    sdk.integrations = Array.concat(sdk.integrations or {}, sdkInfo.integrations or {})
+    sdk.packages = Array.concat(sdk.packages or {}, sdkInfo.packages or {})
     return event
 end
 
@@ -49,9 +50,6 @@ function Envelope.createSessionEnvelope(
         if sdkInfo then { sdk = sdkInfo } else {},
         if not not tunnel then { dsn = dsnToString(dsn) } else {}
     )
-
-    -- local envelopeItem: SessionItem =
-    -- 'aggregates' in session ? [{ type: 'sessions' }, session] : [{ type: 'session' }, session.toJSON()];
 
     local envelopeItem: SessionItem
     if (session_ :: any).aggregates then

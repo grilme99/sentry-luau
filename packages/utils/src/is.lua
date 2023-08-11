@@ -10,7 +10,7 @@ local IsUtils = {}
 --- @param wat A value to be checked.
 --- @returns A boolean representing the result.
 function IsUtils.isError(wat: unknown): boolean
-      return instanceof(wat, Error);
+    return instanceof(wat, Error)
 end
 
 --- Checks whether given value is a primitive (undefined, null, number, boolean, string, bigint, symbol)

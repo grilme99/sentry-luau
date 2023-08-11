@@ -112,7 +112,7 @@ function EnvelopeUtils.serializeEnvelope(envelope: Envelope): string
                 -- In case, despite all our efforts to keep `payload` circular-dependency-free, `JSON.strinify()` still
                 -- fails, we try again after normalizing it again with infinite normalization depth. This of course has a
                 -- performance impact but in this case a performance hit is better than throwing.
-                stringifiedPayload = JSON.stringify(normalize(payload));
+                stringifiedPayload = JSON.stringify(normalize(payload))
             end
 
             append(stringifiedPayload)
