@@ -1,8 +1,19 @@
 -- upstream: https://github.com/getsentry/sentry-javascript/blob/d3abf450b844c595dfa576f2afcfe223fb038c51/packages/utils/src/misc.ts
 
-local ArrayUtils = require("./polyfill/array")
+local Types = require("@packages/types")
+type Event = Types.Event
+type Exception = Types.Exception
+type Mechanism = Types.Mechanism
+type PartialMechanism = Types.PartialMechanism
+type StackFrame = Types.StackFrame
+
+local Array = require("./polyfill/array")
+local Object = require("./polyfill/object")
 
 type Array<T> = { T }
+
+-- TODO Luau: Luau has no helper types, shim this type to silence errors
+type Partial<T> = T
 
 local MiscUtils = {}
 
@@ -31,7 +42,7 @@ end
 --- @param maybeArray Input to turn into an array, if necessary
 --- @return The input, if already an array, or an array with the input as the only element, if not
 function MiscUtils.arrayify<T>(maybeArray: T | Array<T>): Array<T>
-    return if ArrayUtils.isArray(maybeArray) then maybeArray :: Array<T> else { maybeArray :: T }
+    return if Array.isArray(maybeArray) then maybeArray :: Array<T> else { maybeArray :: T }
 end
 
 --- Checks whether or not we've already captured the given exception (note: not an identical exception - the very object
@@ -73,6 +84,59 @@ function MiscUtils.checkOrSetAlreadyCaught(exception: unknown): boolean
     -- If the pcalls failed then `exception` is a primitive, so we can't mark it seen
 
     return false
+end
+
+local function getFirstException(event: Event): Exception | nil
+    return if event.exception and event.exception.values then event.exception.values[1] else nil
+end
+
+--- Adds exception values, type and value to an synthetic Exception.
+--- @param event The event to modify.
+--- @param value Value of the exception.
+--- @param type Type of the exception.
+--- @hidden
+function MiscUtils.addExceptionTypeValue(event: Event, value: string?, type: string?)
+    local exception: { values: { Exception }? } = event.exception or {}
+    if event.exception == nil then
+        event.exception = exception
+    end
+    local values: { Exception } = exception.values or {}
+    if values == nil then
+        exception.values = values
+    end
+    local firstException: Exception = values[1] or {}
+    if firstException == nil then
+        values[1] = firstException
+    end
+
+    if not firstException.value then
+        firstException.value = value or ""
+    end
+    if not firstException.type then
+        firstException.type = type or "Error"
+    end
+end
+
+--- Adds exception mechanism data to a given event. Uses defaults if the second parameter is not passed.
+---
+--- @param event The event to modify.
+--- @param newMechanism Mechanism data to add to the event.
+--- @hidden
+function MiscUtils.addExceptionMechanism(event: Event, newMechanism: PartialMechanism?)
+    local firstException = getFirstException(event)
+    if not firstException then
+        return
+    end
+
+    local defaultMechanism = { type = "generic", handled = true }
+    local currentMechanism = firstException.mechanism
+    firstException.mechanism = Object.mergeObjects(defaultMechanism, currentMechanism or {}, newMechanism or {})
+
+    if newMechanism and newMechanism.data ~= nil then
+        local mergedData =
+            Object.mergeObjects(if currentMechanism then currentMechanism.data else {}, newMechanism.data);
+        (firstException.mechanism :: Mechanism).data = mergedData
+    end
 end
 
 return MiscUtils

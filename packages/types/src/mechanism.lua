@@ -40,4 +40,15 @@ export type Mechanism = {
     parent_id: number?,
 }
 
+export type PartialMechanism = {
+    type: string?,
+    handled: boolean?,
+    data: Map<string, string | boolean>?,
+    synthetic: boolean?,
+    source: string?,
+    is_exception_group: boolean?,
+    exception_id: number?,
+    parent_id: number?,
+}
+
 return {}

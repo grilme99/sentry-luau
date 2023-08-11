@@ -27,6 +27,7 @@ Utils.GLOBAL_OBJ = Global.GLOBAL_OBJ
 Utils.getGlobalSingleton = Global.getGlobalSingleton
 
 local Is = require("./is")
+Utils.isError = Is.isError
 Utils.isPrimitive = Is.isPrimitive
 Utils.isSyntheticEvent = Is.isSyntheticEvent
 Utils.isNaN = Is.isNaN
@@ -45,6 +46,8 @@ local MiscUtils = require("./misc")
 Utils.uuid4 = MiscUtils.uuid4
 Utils.arrayify = MiscUtils.arrayify
 Utils.checkOrSetAlreadyCaught = MiscUtils.checkOrSetAlreadyCaught
+Utils.addExceptionMechanism = MiscUtils.addExceptionMechanism
+Utils.addExceptionTypeValue = MiscUtils.addExceptionTypeValue
 
 local Normalize = require("./normalize")
 Utils.normalize = Normalize.normalize
@@ -52,6 +55,7 @@ Utils.normalizeToSize = Normalize.normalizeToSize
 
 local Object = require("./object")
 Utils.urlEncode = Object.urlEncode
+Utils.extractExceptionKeysForMessage = Object.extractExceptionKeysForMessage
 
 local PromiseBuffer = require("./promisebuffer")
 export type PromiseBuffer<T> = PromiseBuffer.PromiseBuffer<T>
@@ -80,7 +84,9 @@ Utils.timestampInSeconds = TimeUtils.timestampInSeconds
 
 Utils.Polyfill = {}
 Utils.Polyfill.instanceof = require("./polyfill/instanceof")
-Utils.Polyfill.Error = require("./polyfill/error")
+local Error = require("./polyfill/error")
+Utils.Polyfill.Error = Error
+export type Error = Error.Error
 Utils.Polyfill.Object = require("./polyfill/object")
 Utils.Polyfill.Array = require("./polyfill/array")
 

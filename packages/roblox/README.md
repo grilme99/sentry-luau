@@ -25,6 +25,7 @@ functions will not perform any action before you have called `Sentry.init()`:
 
 ```lua
 local Sentry = require("@packages/sentry-roblox")
+local Error = require("@packages/luau-polyfill").Error
 
 -- Set user information, as well as tags and further extras
 Sentry.configureScope(function(scope)
@@ -42,7 +43,7 @@ Sentry.addBreadcrumb({
 
 -- Capture exceptions, messages or manual events
 Sentry.captureMessage("Hello, world!")
-Sentry.captureException(Error.new("Good bye")) -- `Error` from LuauPolyfill
+Sentry.captureException(Error.new("Good bye"))
 Sentry.captureEvent({
   message = "Manual",
   stacktrace: {

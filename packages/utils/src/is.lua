@@ -1,8 +1,17 @@
 -- upstream: https://github.com/getsentry/sentry-javascript/blob/540adac9ec81803f86a3a7f5b34ebbc1ad2a8d23/packages/utils/src/is.ts
 
 local Array = require("./polyfill/array")
+local Error = require("./polyfill/error")
+local instanceof = require("./polyfill/instanceof")
 
 local IsUtils = {}
+
+--- Checks whether given value's type is one of a few Error or Error-like
+--- @param wat A value to be checked.
+--- @returns A boolean representing the result.
+function IsUtils.isError(wat: unknown): boolean
+      return instanceof(wat, Error);
+end
 
 --- Checks whether given value is a primitive (undefined, null, number, boolean, string, bigint, symbol)
 ---

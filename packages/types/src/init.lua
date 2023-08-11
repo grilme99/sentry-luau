@@ -90,6 +90,7 @@ export type IntegrationClass<T> = Integration.IntegrationClass<T>
 
 local Mechanism = require("./mechanism")
 export type Mechanism = Mechanism.Mechanism
+export type PartialMechanism = Mechanism.PartialMechanism
 
 local Misc = require("./misc")
 export type HttpHeaderValue = Misc.HttpHeaderValue
