@@ -197,11 +197,11 @@ local function processBeforeSend(
     local beforeSend, beforeSendTransaction = options.beforeSend, options.beforeSendTransaction
 
     if isErrorEvent(event) and beforeSend then
-        return beforeSend(event, hint)
+        return beforeSend(event :: any, hint)
     end
 
     if isTransactionEvent(event) and beforeSendTransaction then
-        return beforeSendTransaction(event, hint)
+        return beforeSendTransaction(event :: any, hint)
     end
 
     return event
@@ -254,7 +254,7 @@ function BaseClient.new<O>(options: ClientOptions & O)
             recordDroppedEvent = function(...)
                 self:recordDroppedEvent(...)
             end,
-        }, options.transportOptions))
+        }, options.transportOptions :: any))
     end
 
     return self

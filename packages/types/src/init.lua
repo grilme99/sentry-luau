@@ -97,8 +97,8 @@ export type HttpHeaderValue = Misc.HttpHeaderValue
 export type Primitive = Misc.Primitive
 
 local Options = require("./options")
-export type ClientOptions = Options.ClientOptions
-export type Options = Options.Options
+export type ClientOptions<T = BaseTransportOptions> = Options.ClientOptions<T>
+export type Options<T = BaseTransportOptions> = Options.Options<T>
 
 local Package = require("./package")
 export type Package = Package.Package
