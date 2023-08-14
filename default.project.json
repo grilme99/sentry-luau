@@ -1,0 +1,18 @@
+{
+    "name": "sentry-lua",
+    "tree": {
+        "$className": "Folder",
+        "core": {
+            "$path": "packages/core/default.project.json"
+        },
+        "roblox": {
+            "$path": "packages/roblox/default.project.json"
+        },
+        "types": {
+            "$path": "packages/types/default.project.json"
+        },
+        "utils": {
+            "$path": "packages/utils/default.project.json"
+        }
+    }
+}
