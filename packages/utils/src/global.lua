@@ -6,10 +6,13 @@
 -- note: This module is called `worldwide` in upstream to avoid bundler issues. That isn't a concern with Lua, so we've
 -- gone back to the original name (`global`) for explicitness.
 
-local Types = require("@packages/types")
+local PackageRoot = script.Parent
+local Packages = PackageRoot.Parent
+
+local Types = require(Packages.SentryTypes)
 type Integration = Types.Integration
 
-local Console = require("./polyfill/console")
+local Console = require(PackageRoot.polyfill.console)
 type Console = Console.Console
 
 type Array<T> = { T }

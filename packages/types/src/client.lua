@@ -1,58 +1,60 @@
 -- upstream: https://github.com/getsentry/sentry-javascript/blob/540adac9ec81803f86a3a7f5b34ebbc1ad2a8d23/packages/types/src/client.ts
 
-local Breadcrumb = require("./breadcrumb")
+local PackageRoot = script.Parent
+
+local Breadcrumb = require(PackageRoot.breadcrumb)
 type Breadcrumb = Breadcrumb.Breadcrumb
 type BreadcrumbHint = Breadcrumb.BreadcrumbHint
 
-local CheckIn = require("./checkin")
+local CheckIn = require(PackageRoot.checkin)
 type CheckIn = CheckIn.CheckIn
 type MonitorConfig = CheckIn.MonitorConfig
 
-local ClientReport = require("./clientreport")
+local ClientReport = require(PackageRoot.clientreport)
 type EventDropReason = ClientReport.EventDropReason
 
-local DataCategory = require("./datacategory")
+local DataCategory = require(PackageRoot.datacategory)
 type DataCategory = DataCategory.DataCategory
 
-local Dsn = require("./dsn")
+local Dsn = require(PackageRoot.dsn)
 type DsnComponents = Dsn.DsnComponents
 
-local Envelope = require("./envelope")
+local Envelope = require(PackageRoot.envelope)
 type DynamicSamplingContext = Envelope.DynamicSamplingContext
 type Envelope = Envelope.Envelope
 
-local Event = require("./event")
+local Event = require(PackageRoot.event)
 type Event = Event.Event
 type EventHint = Event.EventHint
 
-local Integration = require("./integration")
+local Integration = require(PackageRoot.integration)
 type Integration = Integration.Integration
 type IntegrationClass<T> = Integration.IntegrationClass<T>
 
-local Options = require("./options")
+local Options = require(PackageRoot.options)
 type ClientOptions = Options.ClientOptions
 
-local Scope = require("./scope")
+local Scope = require(PackageRoot.scope)
 type Scope = Scope.Scope
 
-local SdkMetadata = require("./sdkmetadata")
+local SdkMetadata = require(PackageRoot.sdkmetadata)
 type SdkMetadata = SdkMetadata.SdkMetadata
 
-local Session = require("./session")
+local Session = require(PackageRoot.session)
 type Session = Session.Session
 type SessionAggregates = Session.SessionAggregates
 
-local Severity = require("./severity")
+local Severity = require(PackageRoot.severity)
 type SeverityLevel = Severity.SeverityLevel
 
-local Transaction = require("./transaction")
+local Transaction = require(PackageRoot.transaction)
 type Transaction = Transaction.Transaction
 
-local Transport = require("./transport")
+local Transport = require(PackageRoot.transport)
 type Transport = Transport.Transport
 type TransportMakeRequestResponse = Transport.TransportMakeRequestResponse
 
-local Promise = require("./promise")
+local Promise = require(PackageRoot.promise)
 type PromiseLike<T> = Promise.PromiseLike<T>
 
 export type RecordDroppedEvent<O> = (

@@ -1,14 +1,17 @@
 -- upstream: https://github.com/getsentry/sentry-javascript/blob/d3abf450b844c595dfa576f2afcfe223fb038c51/packages/utils/src/misc.ts
 
-local Types = require("@packages/types")
+local PackageRoot = script.Parent
+local Packages = PackageRoot.Parent
+
+local Types = require(Packages.SentryTypes)
 type Event = Types.Event
 type Exception = Types.Exception
 type Mechanism = Types.Mechanism
 type PartialMechanism = Types.PartialMechanism
 type StackFrame = Types.StackFrame
 
-local Array = require("./polyfill/array")
-local Object = require("./polyfill/object")
+local Array = require(PackageRoot.polyfill.array)
+local Object = require(PackageRoot.polyfill.object)
 
 type Array<T> = { T }
 

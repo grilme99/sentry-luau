@@ -1,23 +1,25 @@
 -- upstream: https://github.com/getsentry/sentry-javascript/blob/540adac9ec81803f86a3a7f5b34ebbc1ad2a8d23/packages/types/src/transaction.ts
 
-local Context = require("./context")
+local PackageRoot = script.Parent
+
+local Context = require(PackageRoot.context)
 type Context = Context.Context
 
-local Envelope = require("./envelope")
+local Envelope = require(PackageRoot.envelope)
 type DynamicSamplingContext = Envelope.DynamicSamplingContext
 
-local Instrumenter = require("./instrumenter")
+local Instrumenter = require(PackageRoot.instrumenter)
 type Instrumenter = Instrumenter.Instrumenter
 
-local Measurement = require("./measurement")
+local Measurement = require(PackageRoot.measurement)
 type MeasurementUnit = Measurement.MeasurementUnit
 
-local Misc = require("./misc")
+local Misc = require(PackageRoot.misc)
 -- type ExtractedNodeRequestData = Misc.ExtractedNodeRequestData
 type Primitive = Misc.Primitive
 -- type WorkerLocation = Misc.WorkerLocation
 
-local Span = require("./span")
+local Span = require(PackageRoot.span)
 type Span = Span.Span
 type SpanContext = Span.SpanContext
 

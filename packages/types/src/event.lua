@@ -1,54 +1,53 @@
 -- upstream: https://github.com/getsentry/sentry-javascript/blob/540adac9ec81803f86a3a7f5b34ebbc1ad2a8d23/packages/types/src/event.ts
 
-local Attachment = require("./attachment")
+local PackageRoot = script.Parent
+
+local Attachment = require(PackageRoot.attachment)
 type Attachment = Attachment.Attachment
 
-local Breadcrumb = require("./breadcrumb")
+local Breadcrumb = require(PackageRoot.breadcrumb)
 type Breadcrumb = Breadcrumb.Breadcrumb
 
-local Contexts = require("./context")
+local Contexts = require(PackageRoot.context)
 type Contexts = Contexts.Contexts
 
-local DebugMeta = require("./debugMeta")
+local DebugMeta = require(PackageRoot.debugMeta)
 type DebugMeta = DebugMeta.DebugMeta
 
-local Exception = require("./exception")
+local Exception = require(PackageRoot.exception)
 type Exception = Exception.Exception
 
-local Extras = require("./extra")
+local Extras = require(PackageRoot.extra)
 type Extras = Extras.Extras
 
-local Measurements = require("./measurement")
+local Measurements = require(PackageRoot.measurement)
 type Measurements = Measurements.Measurements
 
-local Primitive = require("./misc")
+local Primitive = require(PackageRoot.misc)
 type Primitive = Primitive.Primitive
 
-local Request = require("./request")
-type Request = Request.Request
-
-local Scope = require("./scope")
+local Scope = require(PackageRoot.scope)
 type CaptureContext = Scope.CaptureContext
 
-local SdkInfo = require("./sdkinfo")
+local SdkInfo = require(PackageRoot.sdkinfo)
 type SdkInfo = SdkInfo.SdkInfo
 
-local Severity = require("./severity")
+local Severity = require(PackageRoot.severity)
 type SeverityLevel = Severity.SeverityLevel
 
-local Span = require("./span")
+local Span = require(PackageRoot.span)
 type Span = Span.Span
 
-local Thread = require("./thread")
+local Thread = require(PackageRoot.thread)
 type Thread = Thread.Thread
 
-local TransactionSource = require("./transaction")
+local TransactionSource = require(PackageRoot.transaction)
 type TransactionSource = TransactionSource.TransactionSource
 
-local User = require("./user")
+local User = require(PackageRoot.user)
 type User = User.User
 
-local Error = require("./error")
+local Error = require(PackageRoot.error)
 type Error = Error.Error
 
 type Array<T> = { T }
@@ -67,7 +66,7 @@ export type Event = {
     dist: string?,
     environment: string?,
     sdk: SdkInfo?,
-    request: Request?,
+    -- request: Request?,
     transaction: string?,
     modules: Map<string, string>?,
     fingerprint: Array<string>?,

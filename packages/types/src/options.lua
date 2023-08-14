@@ -1,42 +1,44 @@
 -- upstream: https://github.com/getsentry/sentry-javascript/blob/540adac9ec81803f86a3a7f5b34ebbc1ad2a8d23/packages/types/src/options.ts
 
-local Breadcrumb = require("./breadcrumb")
+local PackageRoot = script.Parent
+
+local Breadcrumb = require(PackageRoot.breadcrumb)
 type Breadcrumb = Breadcrumb.Breadcrumb
 type BreadcrumbHint = Breadcrumb.BreadcrumbHint
 
-local Event = require("./event")
+local Event = require(PackageRoot.event)
 type ErrorEvent = Event.ErrorEvent
 type Event = Event.Event
 type EventHint = Event.EventHint
 type TransactionEvent = Event.TransactionEvent
 
-local Instrumenter = require("./instrumenter")
+local Instrumenter = require(PackageRoot.instrumenter)
 type Instrumenter = Instrumenter.Instrumenter
 
-local Integration = require("./integration")
+local Integration = require(PackageRoot.integration)
 type Integration = Integration.Integration
 
-local Scope = require("./scope")
+local Scope = require(PackageRoot.scope)
 type CaptureContext = Scope.CaptureContext
 
-local SdkMetadata = require("./sdkmetadata")
+local SdkMetadata = require(PackageRoot.sdkmetadata)
 type SdkMetadata = SdkMetadata.SdkMetadata
 
-local Stacktrace = require("./stacktrace")
+local Stacktrace = require(PackageRoot.stacktrace)
 type StackLineParser = Stacktrace.StackLineParser
 type StackParser = Stacktrace.StackParser
 
-local Tracing = require("./tracing")
+local Tracing = require(PackageRoot.tracing)
 type TracePropagationTargets = Tracing.TracePropagationTargets
 
-local Transaction = require("./transaction")
+local Transaction = require(PackageRoot.transaction)
 type SamplingContext = Transaction.SamplingContext
 
-local Transport = require("./transport")
+local Transport = require(PackageRoot.transport)
 type BaseTransportOptions = Transport.BaseTransportOptions
 type Transport = Transport.Transport
 
-local Promise = require("./promise")
+local Promise = require(PackageRoot.promise)
 type PromiseLike<T> = Promise.PromiseLike<T>
 
 type Array<T> = { T }

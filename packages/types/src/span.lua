@@ -1,12 +1,14 @@
 -- upstream: https://github.com/getsentry/sentry-javascript/blob/540adac9ec81803f86a3a7f5b34ebbc1ad2a8d23/packages/types/src/span.ts
 
-local Instrumenter = require("./instrumenter")
+local PackageRoot = script.Parent
+
+local Instrumenter = require(PackageRoot.instrumenter)
 type Instrumenter = Instrumenter.Instrumenter
 
-local Misc = require("./misc")
+local Misc = require(PackageRoot.misc)
 type Primitive = Misc.Primitive
 
-local Transaction = require("./transaction")
+local Transaction = require(PackageRoot.transaction)
 type Transaction = Transaction.Transaction
 
 type Map<K, V> = { [K]: V }

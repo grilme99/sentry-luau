@@ -1,10 +1,12 @@
 -- upstream: https://github.com/getsentry/sentry-javascript/blob/540adac9ec81803f86a3a7f5b34ebbc1ad2a8d23/packages/utils/src/logger.ts
 
-local Global = require("./global")
+local PackageRoot = script.Parent
+
+local Global = require(PackageRoot.global)
 local getGlobalSingleton = Global.getGlobalSingleton
 local GLOBAL_OBJ = Global.GLOBAL_OBJ
 
-local Console = require("./polyfill/console")
+local Console = require(PackageRoot.polyfill.console)
 type Console = Console.Console
 
 local Logger = {}

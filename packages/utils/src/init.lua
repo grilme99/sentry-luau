@@ -2,12 +2,14 @@
 
 local Utils = {}
 
-local Dsn = require("./dsn")
+local PackageRoot = script
+
+local Dsn = require(PackageRoot.dsn)
 Utils.dsnFromComponents = Dsn.dsnFromComponents
 Utils.dsnToString = Dsn.dsnToString
 Utils.makeDsn = Dsn.makeDsn
 
-local Envelope = require("./envelope")
+local Envelope = require(PackageRoot.envelope)
 Utils.addItemToEnvelope = Envelope.addItemToEnvelope
 Utils.createAttachmentEnvelopeItem = Envelope.createAttachmentEnvelopeItem
 Utils.createEnvelope = Envelope.createEnvelope
@@ -18,15 +20,15 @@ Utils.forEachEnvelopeItem = Envelope.forEachEnvelopeItem
 Utils.getSdkMetadataForEnvelopeHeader = Envelope.getSdkMetadataForEnvelopeHeader
 Utils.serializeEnvelope = Envelope.serializeEnvelope
 
-local SentryError = require("./error")
+local SentryError = require(PackageRoot.error)
 export type SentryError = SentryError.SentryError
 Utils.SentryError = SentryError
 
-local Global = require("./global")
+local Global = require(PackageRoot.global)
 Utils.GLOBAL_OBJ = Global.GLOBAL_OBJ
 Utils.getGlobalSingleton = Global.getGlobalSingleton
 
-local Is = require("./is")
+local Is = require(PackageRoot.is)
 Utils.isError = Is.isError
 Utils.isPrimitive = Is.isPrimitive
 Utils.isSyntheticEvent = Is.isSyntheticEvent
@@ -34,34 +36,34 @@ Utils.isNaN = Is.isNaN
 Utils.isPlainObject = Is.isPlainObject
 Utils.isThenable = Is.isThenable
 
-local Logger = require("./logger")
+local Logger = require(PackageRoot.logger)
 Utils.logger = Logger.logger
 Utils.consoleSandbox = Logger.consoleSandbox
 
-local Memo = require("./memo")
+local Memo = require(PackageRoot.memo)
 export type MemoFunc = Memo.MemoFunc
 Utils.memoBuilder = Memo.memoBuilder
 
-local MiscUtils = require("./misc")
+local MiscUtils = require(PackageRoot.misc)
 Utils.uuid4 = MiscUtils.uuid4
 Utils.arrayify = MiscUtils.arrayify
 Utils.checkOrSetAlreadyCaught = MiscUtils.checkOrSetAlreadyCaught
 Utils.addExceptionMechanism = MiscUtils.addExceptionMechanism
 Utils.addExceptionTypeValue = MiscUtils.addExceptionTypeValue
 
-local Normalize = require("./normalize")
+local Normalize = require(PackageRoot.normalize)
 Utils.normalize = Normalize.normalize
 Utils.normalizeToSize = Normalize.normalizeToSize
 
-local Object = require("./object")
+local Object = require(PackageRoot.object)
 Utils.urlEncode = Object.urlEncode
 Utils.extractExceptionKeysForMessage = Object.extractExceptionKeysForMessage
 
-local PromiseBuffer = require("./promisebuffer")
+local PromiseBuffer = require(PackageRoot.promisebuffer)
 export type PromiseBuffer<T> = PromiseBuffer.PromiseBuffer<T>
 Utils.makePromiseBuffer = PromiseBuffer.makePromiseBuffer
 
-local RateLimit = require("./ratelimit")
+local RateLimit = require(PackageRoot.ratelimit)
 export type RateLimits = RateLimit.RateLimits
 Utils.DEFAULT_RETRY_AFTER = RateLimit.DEFAULT_RETRY_AFTER
 Utils.disabledUntil = RateLimit.disabledUntil
@@ -69,27 +71,27 @@ Utils.isRateLimited = RateLimit.isRateLimited
 Utils.parseRetryAfterHeader = RateLimit.parseRetryAfterHeader
 Utils.updateRateLimits = RateLimit.updateRateLimits
 
-local Stacktrace = require("./stacktrace")
+local Stacktrace = require(PackageRoot.stacktrace)
 Utils.createStackParser = Stacktrace.createStackParser
 Utils.getFunctionName = Stacktrace.getFunctionName
 Utils.stackParserFromStackParserOptions = Stacktrace.stackParserFromStackParserOptions
 Utils.stripSentryFramesAndReverse = Stacktrace.stripSentryFramesAndReverse
 
-local StringUtils = require("./string")
+local StringUtils = require(PackageRoot.string)
 Utils.truncate = StringUtils.truncate
 
-local TimeUtils = require("./time")
+local TimeUtils = require(PackageRoot.time)
 Utils.dateTimestampInSeconds = TimeUtils.dateTimestampInSeconds
 Utils.timestampInSeconds = TimeUtils.timestampInSeconds
 
 Utils.Polyfill = {}
-Utils.Polyfill.instanceof = require("./polyfill/instanceof")
-local Error = require("./polyfill/error")
+Utils.Polyfill.instanceof = require(PackageRoot.polyfill.instanceof)
+local Error = require(PackageRoot.polyfill.error)
 Utils.Polyfill.Error = Error
 export type Error = Error.Error
-Utils.Polyfill.Object = require("./polyfill/object")
-Utils.Polyfill.Array = require("./polyfill/array")
+Utils.Polyfill.Object = require(PackageRoot.polyfill.object)
+Utils.Polyfill.Array = require(PackageRoot.polyfill.array)
 
-Utils.Promise = require("./vendor/promise")
+Utils.Promise = require(PackageRoot.vendor.promise)
 
 return Utils

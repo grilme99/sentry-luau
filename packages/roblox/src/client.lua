@@ -1,6 +1,9 @@
 -- upstream: https://github.com/getsentry/sentry-javascript/blob/540adac9ec81803f86a3a7f5b34ebbc1ad2a8d23/packages/browser/src/client.ts
 
-local Types = require("@packages/types")
+local PackageRoot = script.Parent
+local Packages = PackageRoot.Parent
+
+local Types = require(Packages.SentryTypes)
 type ClientOptions<T> = Types.ClientOptions<T>
 type Event = Types.Event
 type EventHint = Types.EventHint
@@ -11,22 +14,22 @@ type SdkMetadata = Types.SdkMetadata
 type Scope = Types.Scope
 type PromiseLike<T> = Types.PromiseLike<T>
 
-local Core = require("@packages/core")
+local Core = require(Packages.SentryCore)
 local BaseClient = Core.BaseClient
 type BaseClient<T> = Core.BaseClient<T>
 local SDK_VERSION = Core.SDK_VERSION
 
-local Utils = require("@packages/utils")
+local Utils = require(Packages.SentryUtils)
 local logger = Utils.logger
 
-local EventBuilder = require("./eventbuilder")
+local EventBuilder = require(PackageRoot.eventbuilder)
 local eventFromException = EventBuilder.eventFromException
 local eventFromMessage = EventBuilder.eventFromMessage
 
-local TransportTypes = require("./transports/types")
+local TransportTypes = require(PackageRoot.transports.types)
 type RobloxTransportOptions = TransportTypes.RobloxTransportOptions
 
-local UserFeedback = require("./userfeedback")
+local UserFeedback = require(PackageRoot.userfeedback)
 local createUserFeedbackEnvelope = UserFeedback.createUserFeedbackEnvelope
 
 --- Configuration options for the Sentry Roblox SDK Client class

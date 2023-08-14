@@ -2,11 +2,11 @@
 
 local SentryLua = {}
 
-local Sdk = require("./sdk")
+local Sdk = require(script.sdk)
 export type ClientClass = Sdk.ClientClass
 SentryLua.initAndBind = Sdk.initAndBind
 
-local Hub = require("./Hub")
+local Hub = require(script.hub)
 export type Hub = Hub.Hub
 export type AsyncContextStrategy = Hub.AsyncContextStrategy
 export type Carrier = Hub.Carrier
@@ -22,7 +22,7 @@ SentryLua.setHubOnCarrier = Hub.setHubOnCarrier
 SentryLua.ensureHubOnCarrier = Hub.ensureHubOnCarrier
 SentryLua.setAsyncContextStrategy = Hub.setAsyncContextStrategy
 
-local Exports = require("./exports")
+local Exports = require(script.exports)
 SentryLua.addBreadcrumb = Exports.addBreadcrumb
 SentryLua.captureException = Exports.captureException
 SentryLua.captureEvent = Exports.captureEvent
@@ -38,47 +38,47 @@ SentryLua.setUser = Exports.setUser
 SentryLua.withScope = Exports.withScope
 SentryLua.captureCheckIn = Exports.captureCheckIn
 
-local Session = require("./session")
+local Session = require(script.session)
 SentryLua.makeSession = Session.makeSession
 SentryLua.closeSession = Session.closeSession
 SentryLua.updateSession = Session.updateSession
 
-local SessionFlusher = require("./sessionflusher")
+local SessionFlusher = require(script.sessionflusher)
 export type SessionFlusher = SessionFlusher.SessionFlusher
 SentryLua.SessionFlusher = SessionFlusher
 
-local Scope = require("./scope")
+local Scope = require(script.scope)
 export type Scope = Scope.Scope
 SentryLua.addGlobalEventProcessor = Scope.addGlobalEventProcessor
 SentryLua.Scope = Scope
 
-local Api = require("./api")
+local Api = require(script.api)
 SentryLua.getEnvelopeEndpointWithUrlEncodedAuth = Api.getEnvelopeEndpointWithUrlEncodedAuth
 SentryLua.getReportDialogEndpoint = Api.getReportDialogEndpoint
 
-local BaseClient = require("./baseclient")
+local BaseClient = require(script.baseclient)
 export type BaseClient<O> = BaseClient.BaseClient<O>
 SentryLua.BaseClient = BaseClient
 
-local BaseTransport = require("./transports/base")
+local BaseTransport = require(script.transports.base)
 SentryLua.createTransport = BaseTransport.createTransport
 
-local Version = require("./version")
+local Version = require(script.version)
 SentryLua.SDK_VERSION = Version.SDK_VERSION
 
-local Integration = require("./integration")
+local Integration = require(script.integration)
 SentryLua.getIntegrationsToSetup = Integration.getIntegrationsToSetup
 
-local PrepareEvent = require("./utils/prepareEvent")
+local PrepareEvent = require(script.utils.prepareEvent)
 SentryLua.prepareEvent = PrepareEvent.prepareEvent
 
-local CheckIn = require("./checkin")
+local CheckIn = require(script.checkin)
 SentryLua.createCheckInEnvelope = CheckIn.createCheckInEnvelope
 
-local hasTracingEnabled = require("./utils/hasTracingEnabled")
+local hasTracingEnabled = require(script.utils.hasTracingEnabled)
 SentryLua.hasTracingEnabled = hasTracingEnabled
 
-local Constants = require("./constants")
+local Constants = require(script.constants)
 SentryLua.DEFAULT_ENVIRONMENT = Constants.DEFAULT_ENVIRONMENT
 
 return SentryLua

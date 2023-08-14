@@ -1,13 +1,16 @@
 -- upstream: https://github.com/getsentry/sentry-javascript/blob/540adac9ec81803f86a3a7f5b34ebbc1ad2a8d23/packages/core/src/sdk.ts
 
-local Types = require("@packages/types")
+local PackageRoot = script.Parent
+local Packages = PackageRoot.Parent
+
+local Types = require(Packages.SentryTypes)
 type Client = Types.Client
 type ClientOptions = Types.ClientOptions
 
-local Utils = require("@packages/utils")
+local Utils = require(Packages.SentryUtils)
 local logger = Utils.logger
 
-local Hub = require("./hub")
+local Hub = require(PackageRoot.hub)
 local getCurrentHub = Hub.getCurrentHub
 
 local Sdk = {}

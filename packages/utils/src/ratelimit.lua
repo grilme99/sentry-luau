@@ -1,12 +1,15 @@
 -- upstream: https://github.com/getsentry/sentry-javascript/blob/540adac9ec81803f86a3a7f5b34ebbc1ad2a8d23/packages/utils/src/ratelimit.ts
 
-local Types = require("@packages/types")
+local PackageRoot = script.Parent
+local Packages = PackageRoot.Parent
+
+local Types = require(Packages.SentryTypes)
 type TransportMakeRequestResponse = Types.TransportMakeRequestResponse
 
-local Is = require("./is")
+local Is = require(PackageRoot.is)
 local isNaN = Is.isNaN
 
-local String = require("./polyfill/string")
+local String = require(PackageRoot.polyfill.string)
 
 type Record<K, V> = { [K]: V }
 

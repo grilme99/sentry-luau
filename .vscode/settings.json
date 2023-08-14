@@ -1,11 +1,4 @@
 {
-  "luau-lsp.require.mode": "relativeToFile",
   "luau-lsp.types.roblox": true,
-  "luau-lsp.sourcemap.enabled": false,
-  "luau-lsp.require.directoryAliases": {
-    "@packages/roblox": "./packages/roblox/src/init.lua",
-    "@packages/core": "./packages/core/src/init.lua",
-    "@packages/types": "./packages/types/src/init.lua",
-    "@packages/utils": "./packages/utils/src/init.lua",
-  }
+  "luau-lsp.sourcemap.enabled": true
 }

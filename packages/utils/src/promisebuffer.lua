@@ -1,12 +1,15 @@
 -- upstream: https://github.com/getsentry/sentry-javascript/blob/540adac9ec81803f86a3a7f5b34ebbc1ad2a8d23/packages/utils/src/promisebuffer.ts
 
-local Types = require("@packages/types")
+local PackageRoot = script.Parent
+local Packages = PackageRoot.Parent
+
+local Types = require(Packages.SentryTypes)
 type PromiseLike<T> = Types.PromiseLike<T>
 
-local Promise = require("./vendor/promise")
-local SentryError = require("./error")
+local Promise = require(PackageRoot.vendor.promise)
+local SentryError = require(PackageRoot.error)
 
-local Array = require("./polyfill/array")
+local Array = require(PackageRoot.polyfill.array)
 type Array<T> = { T }
 
 local PromiseBuffer = {}

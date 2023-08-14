@@ -1,6 +1,9 @@
 -- upstream: https://github.com/getsentry/sentry-javascript/blob/540adac9ec81803f86a3a7f5b34ebbc1ad2a8d23/packages/utils/src/envelope.ts
 
-local Types = require("@packages/types")
+local PackageRoot = script.Parent
+local Packages = PackageRoot.Parent
+
+local Types = require(Packages.SentryTypes)
 type Attachment = Types.Attachment
 type AttachmentItem = Types.AttachmentItem
 type BaseEnvelopeHeaders = Types.BaseEnvelopeHeaders
@@ -17,14 +20,14 @@ type TextEncoderInternal = Types.TextEncoderInternal
 type EnvelopeHeaders = Types.EnvelopeHeaders
 type EnvelopeItems = Types.EnvelopeItems
 
-local Dsn = require("./dsn")
+local Dsn = require(PackageRoot.dsn)
 local dsnToString = Dsn.dsnToString
 
-local Normalize = require("./normalize")
+local Normalize = require(PackageRoot.normalize)
 local normalize = Normalize.normalize
 
-local JSON = require("./polyfill/json")
-local Object = require("./polyfill/object")
+local JSON = require(PackageRoot.polyfill.json)
+local Object = require(PackageRoot.polyfill.object)
 
 type Array<T> = { T }
 type Record<K, V> = { [K]: V }

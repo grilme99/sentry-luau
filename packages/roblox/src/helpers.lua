@@ -1,16 +1,19 @@
 -- upstream: https://github.com/getsentry/sentry-javascript/blob/540adac9ec81803f86a3a7f5b34ebbc1ad2a8d23/packages/browser/src/helpers.ts
 
-local Types = require("@packages/types")
+local PackageRoot = script.Parent
+local Packages = PackageRoot.Parent
+
+local Types = require(Packages.SentryTypes)
 type DsnLike = Types.DsnLike
 type SentryEvent = Types.Event
 type Mechanism = Types.Mechanism
 type Scope = Types.Scope
 
-local Core = require("@packages/core")
+local Core = require(Packages.SentryCore)
 local captureException = Core.captureException
 local withScope = Core.withScope
 
-local Utils = require("@packages/utils")
+local Utils = require(Packages.SentryUtils)
 local addExceptionMechanism = Utils.addExceptionMechanism
 local addExceptionTypeValue = Utils.addExceptionTypeValue
 local Array = Utils.Polyfill.Array

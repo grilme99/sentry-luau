@@ -1,21 +1,24 @@
 -- upstream: https://github.com/getsentry/sentry-javascript/blob/540adac9ec81803f86a3a7f5b34ebbc1ad2a8d23/packages/utils/src/normalize.ts
 
-local Types = require("@packages/types")
+local PackageRoot = script.Parent
+local Packages = PackageRoot.Parent
+
+local Types = require(Packages.SentryTypes)
 type Primitive = Types.Primitive
 
-local Is = require("./is")
+local Is = require(PackageRoot.is)
 local isSyntheticEvent = Is.isSyntheticEvent
 local isNaN = Is.isNaN
 
-local Memo = require("./memo")
+local Memo = require(PackageRoot.memo)
 type MemoFunc = Memo.MemoFunc
 local memoBuilder = Memo.memoBuilder
 
-local Stacktrace = require("./stacktrace")
+local Stacktrace = require(PackageRoot.stacktrace)
 local getFunctionName = Stacktrace.getFunctionName
 
-local JSON = require("./polyfill/json")
-local String = require("./polyfill/string")
+local JSON = require(PackageRoot.polyfill.json)
+local String = require(PackageRoot.polyfill.string)
 
 type ObjOrArray<T> = { [string | number]: T }
 

@@ -1,6 +1,8 @@
 -- upstream: https://github.com/getsentry/sentry-javascript/blob/540adac9ec81803f86a3a7f5b34ebbc1ad2a8d23/packages/types/src/context.ts
 
-local Misc = require("./misc")
+local PackageRoot = script.Parent
+
+local Misc = require(PackageRoot.misc)
 type Primitive = Misc.Primitive
 
 type Array<T> = { T }

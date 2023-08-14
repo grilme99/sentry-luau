@@ -1,18 +1,21 @@
 -- upstream: https://github.com/getsentry/sentry-javascript/blob/540adac9ec81803f86a3a7f5b34ebbc1ad2a8d23/packages/core/src/integration.ts
 
-local Types = require("@packages/types")
+local PackageRoot = script.Parent
+local Packages = PackageRoot.Parent
+
+local Types = require(Packages.SentryTypes)
 type Integration_ = Types.Integration
 type Options = Types.Options
 
-local Utils = require("@packages/utils")
+local Utils = require(Packages.SentryUtils)
 local Array = Utils.Polyfill.Array
 local arrayify = Utils.arrayify
 local logger = Utils.logger
 
-local Hub = require("./hub")
+local Hub = require(PackageRoot.hub)
 local getCurrentHub = Hub.getCurrentHub
 
-local Scope = require("./scope")
+local Scope = require(PackageRoot.scope)
 local addGlobalEventProcessor = Scope.addGlobalEventProcessor
 
 type Array<T> = { T }

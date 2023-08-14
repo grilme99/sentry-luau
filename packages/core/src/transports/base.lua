@@ -1,6 +1,9 @@
 -- upstream: https://github.com/getsentry/sentry-javascript/blob/540adac9ec81803f86a3a7f5b34ebbc1ad2a8d23/packages/core/src/transports/base.ts
 
-local Types = require("@packages/types")
+local PackageRoot = script.Parent.Parent
+local Packages = PackageRoot.Parent
+
+local Types = require(Packages.SentryTypes)
 type Envelope = Types.Envelope
 type EnvelopeItem = Types.EnvelopeItem
 type EnvelopeHeaders = Types.EnvelopeHeaders
@@ -14,7 +17,7 @@ type TransportMakeRequestResponse = Types.TransportMakeRequestResponse
 type TransportRequestExecutor = Types.TransportRequestExecutor
 type PromiseLike<T> = Types.PromiseLike<T>
 
-local Utils = require("@packages/utils")
+local Utils = require(Packages.SentryUtils)
 local createEnvelope = Utils.createEnvelope
 local envelopeItemTypeToDataCategory = Utils.envelopeItemTypeToDataCategory
 local forEachEnvelopeItem = Utils.forEachEnvelopeItem

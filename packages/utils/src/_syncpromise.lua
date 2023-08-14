@@ -2,10 +2,13 @@
 
 --!nonstrict
 
-local Types = require("@packages/types")
+local PackageRoot = script.Parent
+local Packages = PackageRoot.Parent
+
+local Types = require(Packages.SentryTypes)
 type PromiseLike<T> = Types.PromiseLike<T>
 
-local Is = require("./is")
+local Is = require(PackageRoot.is)
 local isThenable = Is.isThenable
 
 type Array<T> = { T }

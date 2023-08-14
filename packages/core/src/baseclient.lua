@@ -1,6 +1,9 @@
 -- upstream: https://github.com/getsentry/sentry-javascript/blob/540adac9ec81803f86a3a7f5b34ebbc1ad2a8d23/packages/core/src/baseclient.ts
 
-local Types = require("@packages/types")
+local PackageRoot = script.Parent
+local Packages = PackageRoot.Parent
+
+local Types = require(Packages.SentryTypes)
 type Breadcrumb = Types.Breadcrumb
 type BreadcrumbHint = Types.BreadcrumbHint
 type Client<T> = Types.Client<T>
@@ -27,7 +30,7 @@ type Transport = Types.Transport
 type TransportMakeRequestResponse = Types.TransportMakeRequestResponse
 type PromiseLike<T> = Types.PromiseLike<T>
 
-local Utils = require("@packages/utils")
+local Utils = require(Packages.SentryUtils)
 local addItemToEnvelope = Utils.addItemToEnvelope
 local checkOrSetAlreadyCaught = Utils.checkOrSetAlreadyCaught
 local createAttachmentEnvelopeItem = Utils.createAttachmentEnvelopeItem
@@ -43,28 +46,28 @@ local Array = Utils.Polyfill.Array
 local Object = Utils.Polyfill.Object
 local instanceof = Utils.Polyfill.instanceof
 
-local Api = require("./api")
+local Api = require(PackageRoot.api)
 local getEnvelopeEndpointWithUrlEncodedAuth = Api.getEnvelopeEndpointWithUrlEncodedAuth
 
-local Envelope = require("./envelope")
+local Envelope = require(PackageRoot.envelope)
 local createEventEnvelope = Envelope.createEventEnvelope
 local createSessionEnvelope = Envelope.createSessionEnvelope
 
-local Integration = require("./integration")
+local Integration = require(PackageRoot.integration)
 type IntegrationIndex = Integration.IntegrationIndex
 local setupIntegration = Integration.setupIntegration
 local setupIntegrations = Integration.setupIntegrations
 
-local Scope = require("./scope")
+local Scope = require(PackageRoot.scope)
 type Scope = Scope.Scope
 
-local Session = require("./session")
+local Session = require(PackageRoot.session)
 local updateSession = Session.updateSession
 
-local DynamicSamplingContext = require("./tracing/dynamicSamplingContext")
+local DynamicSamplingContext = require(PackageRoot.tracing.dynamicSamplingContext)
 local getDynamicSamplingContextFromClient = DynamicSamplingContext.getDynamicSamplingContextFromClient
 
-local PrepareEventUtils = require("./utils/prepareEvent")
+local PrepareEventUtils = require(PackageRoot.utils.prepareEvent)
 local prepareEvent = PrepareEventUtils.prepareEvent
 
 local ALREADY_SEEN_ERROR = "Not capturing exception because it's already been captured."

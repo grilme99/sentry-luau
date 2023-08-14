@@ -1,6 +1,9 @@
 -- upstream: https://github.com/getsentry/sentry-javascript/blob/540adac9ec81803f86a3a7f5b34ebbc1ad2a8d23/packages/core/src/scope.ts
 
-local Types = require("@packages/types")
+local PackageRoot = script.Parent
+local Packages = PackageRoot.Parent
+
+local Types = require(Packages.SentryTypes)
 
 type Attachment = Types.Attachment
 type Breadcrumb = Types.Breadcrumb
@@ -24,7 +27,7 @@ type Transaction = Types.Transaction
 type User = Types.User
 type PromiseLike<T> = Types.PromiseLike<T>
 
-local Utils = require("@packages/utils")
+local Utils = require(Packages.SentryUtils)
 local arrayify = Utils.arrayify
 local dateTimestampInSeconds = Utils.dateTimestampInSeconds
 local getGlobalSingleton = Utils.getGlobalSingleton
@@ -37,7 +40,7 @@ local Promise = Utils.Promise
 local mergeObjects = Utils.Polyfill.Object.mergeObjects
 local Array = Utils.Polyfill.Array
 
-local Session = require("./session")
+local Session = require(PackageRoot.session)
 local updateSession = Session.updateSession
 
 type Array<T> = { T }

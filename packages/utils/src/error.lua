@@ -1,9 +1,11 @@
 -- upstream: https://github.com/getsentry/sentry-javascript/blob/540adac9ec81803f86a3a7f5b34ebbc1ad2a8d23/packages/utils/src/error.ts
 
-local logger = require("./logger")
+local PackageRoot = script.Parent
+
+local logger = require(PackageRoot.logger)
 type ConsoleLevel = logger.ConsoleLevel
 
-local Error = require("./polyfill/error")
+local Error = require(PackageRoot.polyfill.error)
 type Error = Error.Error
 
 local SentryError = {}

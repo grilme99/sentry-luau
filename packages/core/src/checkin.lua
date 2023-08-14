@@ -1,6 +1,9 @@
 -- upstream: https://github.com/getsentry/sentry-javascript/blob/540adac9ec81803f86a3a7f5b34ebbc1ad2a8d23/packages/core/src/checkin.ts
 
-local Types = require("@packages/types")
+local PackageRoot = script.Parent
+local Packages = PackageRoot.Parent
+
+local Types = require(Packages.SentryTypes)
 type CheckInEnvelope = Types.CheckInEnvelope
 type CheckInItem = Types.CheckInItem
 type DsnComponents = Types.DsnComponents
@@ -8,7 +11,7 @@ type DynamicSamplingContext = Types.DynamicSamplingContext
 type SdkMetadata = Types.SdkMetadata
 type SerializedCheckIn = Types.SerializedCheckIn
 
-local Utils = require("@packages/utils")
+local Utils = require(Packages.SentryUtils)
 local createEnvelope = Utils.createEnvelope
 local dsnToString = Utils.dsnToString
 

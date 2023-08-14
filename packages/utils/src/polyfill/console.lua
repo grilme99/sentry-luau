@@ -16,12 +16,9 @@
 	* limitations under the License.
 ]]
 
-local inspect = require("./inspect")
+local inspect = require(script.Parent.inspect)
 
 local INDENT = "  "
-
--- note: Not all Lua environments expose a `warn` function, fallback to `print` if none exist
-local warn = warn or print
 
 local function makeConsoleImpl()
     local console = {}

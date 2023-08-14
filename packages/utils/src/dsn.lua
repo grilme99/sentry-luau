@@ -1,13 +1,16 @@
 -- upstream: https://github.com/getsentry/sentry-javascript/blob/540adac9ec81803f86a3a7f5b34ebbc1ad2a8d23/packages/utils/src/dsn.ts
 
-local Types = require("@packages/types")
+local PackageRoot = script.Parent
+local Packages = PackageRoot.Parent
+
+local Types = require(Packages.SentryTypes)
 type DsnComponents = Types.DsnComponents
 type DsnLike = Types.DsnLike
 type DsnProtocol = Types.DsnProtocol
 
-local RegExp = require("./vendor/regexp")
-local logger = require("./logger").logger
-local console = require("./polyfill/console")
+local RegExp = require(PackageRoot.vendor.regexp)
+local logger = require(PackageRoot.logger).logger
+local console = require(PackageRoot.polyfill.console)
 
 --- Regular expression used to parse a Dsn.
 local DSN_REGEX = RegExp([[^(?:(\w+):)\/\/(?:(\w+)(?::(\w+)?)?@)([\w.-]+)(?::(\d+))?\/(.+)]])
@@ -117,7 +120,7 @@ local function validateDsn(dsn: DsnComponents): boolean
     end
 
     if not isValidProtocol(protocol) then
-        logger.error("Invalid Sentry Dsn: Invalid protocol " .. protocol)
+        logger.error("Invalid Sentry Dsn: Invalid protocol " .. protocol :: any)
         return false
     end
 

@@ -1,6 +1,8 @@
 -- upstream: https://github.com/getsentry/sentry-javascript/blob/540adac9ec81803f86a3a7f5b34ebbc1ad2a8d23/packages/types/src/tracing.ts
 
-local Envelope = require("./envelope")
+local PackageRoot = script.Parent
+
+local Envelope = require(PackageRoot.envelope)
 type DynamicSamplingContext = Envelope.DynamicSamplingContext
 
 type Array<T> = { T }
@@ -16,3 +18,5 @@ export type PropagationContext = {
     parentSpanId: string?,
     dsc: DynamicSamplingContext?,
 }
+
+return {}

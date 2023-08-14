@@ -1,6 +1,9 @@
 -- upstream: https://github.com/getsentry/sentry-javascript/blob/540adac9ec81803f86a3a7f5b34ebbc1ad2a8d23/packages/core/src/hub.ts
 
-local Types = require("@packages/types")
+local PackageRoot = script.Parent
+local Packages = PackageRoot.Parent
+
+local Types = require(Packages.SentryTypes)
 type Breadcrumb = Types.Breadcrumb
 type BreadcrumbHint = Types.BreadcrumbHint
 type Client = Types.Client
@@ -21,7 +24,7 @@ type TransactionContext = Types.TransactionContext
 type User = Types.User
 type Scope = Types.Scope
 
-local Utils = require("@packages/utils")
+local Utils = require(Packages.SentryUtils)
 local consoleSandbox = Utils.consoleSandbox
 local dateTimestampInSeconds = Utils.dateTimestampInSeconds
 local getGlobalSingleton = Utils.getGlobalSingleton
@@ -31,12 +34,12 @@ local uuid4 = Utils.uuid4
 local Error = Utils.Polyfill.Error
 local mergeObjects = Utils.Polyfill.Object.mergeObjects
 
-local Constants = require("./constants")
+local Constants = require(PackageRoot.constants)
 local DEFAULT_ENVIRONMENT = Constants.DEFAULT_ENVIRONMENT
 
-local Scope = require("./scope")
+local Scope = require(PackageRoot.scope)
 
-local Session = require("./session")
+local Session = require(PackageRoot.session)
 local closeSession = Session.closeSession
 local makeSession = Session.makeSession
 local updateSession = Session.updateSession

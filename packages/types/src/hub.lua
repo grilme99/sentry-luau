@@ -1,42 +1,44 @@
 -- upstream: https://github.com/getsentry/sentry-javascript/blob/540adac9ec81803f86a3a7f5b34ebbc1ad2a8d23/packages/types/src/hub.ts
 
-local Breadcrumb = require("./breadcrumb")
+local PackageRoot = script.Parent
+
+local Breadcrumb = require(PackageRoot.breadcrumb)
 type Breadcrumb = Breadcrumb.Breadcrumb
 type BreadcrumbHint = Breadcrumb.BreadcrumbHint
 
-local Client = require("./client")
+local Client = require(PackageRoot.client)
 type Client = Client.Client
 
-local Event = require("./event")
+local Event = require(PackageRoot.event)
 type Event = Event.Event
 type EventHint = Event.EventHint
 
-local Extra = require("./extra")
+local Extra = require(PackageRoot.extra)
 type Extra = Extra.Extra
 type Extras = Extra.Extras
 
-local Integration = require("./integration")
+local Integration = require(PackageRoot.integration)
 type Integration = Integration.Integration
 type IntegrationClass<T> = Integration.IntegrationClass<T>
 
-local Primitive = require("./misc")
+local Primitive = require(PackageRoot.misc)
 type Primitive = Primitive.Primitive
 
-local Scope = require("./scope")
+local Scope = require(PackageRoot.scope)
 type Scope = Scope.Scope
 
-local Session = require("./session")
+local Session = require(PackageRoot.session)
 type Session = Session.Session
 
-local Severity = require("./severity")
+local Severity = require(PackageRoot.severity)
 type SeverityLevel = Severity.SeverityLevel
 
-local Transaction = require("./transaction")
+local Transaction = require(PackageRoot.transaction)
 type CustomSamplingContext = Transaction.CustomSamplingContext
 type Transaction = Transaction.Transaction
 type TransactionContext = Transaction.TransactionContext
 
-local User = require("./user")
+local User = require(PackageRoot.user)
 type User = User.User
 
 type Map<K, V> = { [K]: V }

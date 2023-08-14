@@ -2,34 +2,36 @@
 
 -- Based on: https://develop.sentry.dev/sdk/envelopes/
 
-local CheckIn = require("./checkin")
+local PackageRoot = script.Parent
+
+local CheckIn = require(PackageRoot.checkin)
 type SerializedCheckIn = CheckIn.SerializedCheckIn
 
-local ClientReport = require("./clientreport")
+local ClientReport = require(PackageRoot.clientreport)
 type ClientReport = ClientReport.ClientReport
 
-local Dsn = require("./dsn")
+local Dsn = require(PackageRoot.dsn)
 type DsnComponents = Dsn.DsnComponents
 
-local Event = require("./event")
+local Event = require(PackageRoot.event)
 type Event = Event.Event
 
-local Replay = require("./replay")
+local Replay = require(PackageRoot.replay)
 type ReplayEvent = Replay.ReplayEvent
 type ReplayRecordingData = Replay.ReplayRecordingData
 
-local SdkInfo = require("./sdkinfo")
+local SdkInfo = require(PackageRoot.sdkinfo)
 type SdkInfo = SdkInfo.SdkInfo
 
-local Session = require("./session")
+local Session = require(PackageRoot.session)
 type SerializedSession = Session.SerializedSession
 type Session = Session.Session
 type SessionAggregates = Session.SessionAggregates
 
-local Transaction = require("./transaction")
+local Transaction = require(PackageRoot.transaction)
 type Transaction = Transaction.Transaction
 
-local User = require("./user")
+local User = require(PackageRoot.user)
 type UserFeedback = User.UserFeedback
 
 type Map<K, V> = { [K]: V }

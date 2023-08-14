@@ -1,13 +1,16 @@
 -- upstream: https://github.com/getsentry/sentry-javascript/blob/540adac9ec81803f86a3a7f5b34ebbc1ad2a8d23/packages/core/src/sessionflusher.ts
 
-local Types = require("@packages/types")
+local PackageRoot = script.Parent
+local Packages = PackageRoot.Parent
+
+local Types = require(Packages.SentryTypes)
 type AggregationCounts = Types.AggregationCounts
 type Client = Types.Client
 type RequestSessionStatus = Types.RequestSessionStatus
 type SessionAggregates = Types.SessionAggregates
 type SessionFlusherLike = Types.SessionFlusherLike
 
-local Hub = require("./hub")
+local Hub = require(PackageRoot.hub)
 local getCurrentHub = Hub.getCurrentHub
 
 type Array<T> = { T }

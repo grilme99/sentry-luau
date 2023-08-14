@@ -1,6 +1,8 @@
 -- upstream: https://github.com/getsentry/sentry-javascript/blob/540adac9ec81803f86a3a7f5b34ebbc1ad2a8d23/packages/types/src/stacktrace.ts
 
-local StackFrame = require("./stackframe")
+local PackageRoot = script.Parent
+
+local StackFrame = require(PackageRoot.stackframe)
 type StackFrame = StackFrame.StackFrame
 
 type Array<T> = { T }

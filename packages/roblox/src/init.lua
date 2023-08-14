@@ -1,35 +1,38 @@
 -- upstream: https://github.com/getsentry/sentry-javascript/blob/540adac9ec81803f86a3a7f5b34ebbc1ad2a8d23/packages/browser/src/sdk.ts
 
-local Types = require("@packages/types")
+local PackageRoot = script
+local Packages = PackageRoot.Parent
+
+local Types = require(Packages.SentryTypes)
 type UserFeedback = Types.UserFeedback
 type Hub = Types.Hub
 type PromiseLike<T> = Types.PromiseLike<T>
 
-local Core = require("@packages/core")
+local Core = require(Packages.SentryCore)
 local getCurrentHub = Core.getCurrentHub
 local getIntegrationsToSetup = Core.getIntegrationsToSetup
 local initAndBind = Core.initAndBind
 -- local CoreIntegrations
 
-local Utils = require("@packages/utils")
+local Utils = require(Packages.SentryUtils)
 -- local addInstrumentationHandler = Utils.addInstrumentationHandler
 local logger = Utils.logger
 local Promise = Utils.Promise
 local stackParserFromStackParserOptions = Utils.stackParserFromStackParserOptions
 local Object = Utils.Polyfill.Object
 
-local RobloxClient = require("./client")
+local RobloxClient = require(PackageRoot.client)
 type RobloxClient = RobloxClient.RobloxClient
 type RobloxClientOptions = RobloxClient.RobloxClient
 type RobloxOptions = RobloxClient.RobloxOptions
 
-local Helpers = require("./helpers")
+local Helpers = require(PackageRoot.helpers)
 local internalWrap = Helpers.wrap
 
-local StackParsers = require("./stack-parser")
+local StackParsers = require(PackageRoot.stackparser)
 local defaultStackParser = StackParsers.defaultStackParser
 
-local Transports = require("./transports/init")
+local Transports = require(PackageRoot.transports)
 local makeHttpServiceTransport = Transports.makeHttpServiceTransport
 
 local RobloxSdk = {}

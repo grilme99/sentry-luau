@@ -1,18 +1,21 @@
 -- based on: https://github.com/getsentry/sentry-javascript/blob/540adac9ec81803f86a3a7f5b34ebbc1ad2a8d23/packages/browser/src/transports/fetch.ts
 
-local Types = require("@packages/types")
+local PackageRoot = script.Parent
+local Packages = PackageRoot.Parent.Parent
+
+local Types = require(Packages.SentryTypes)
 type Transport = Types.Transport
 type TransportMakeRequestResponse = Types.TransportMakeRequestResponse
 type TransportRequest = Types.TransportRequest
 type PromiseLike<T> = Types.PromiseLike<T>
 
-local Core = require("@packages/core")
+local Core = require(Packages.SentryCore)
 local createTransport = Core.createTransport
 
-local Utils = require("@packages/utils")
+local Utils = require(Packages.SentryUtils)
 local Promise = Utils.Promise
 
-local TransportTypes = require("./types")
+local TransportTypes = require(script.Parent.types)
 type RobloxTransportOptions = TransportTypes.RobloxTransportOptions
 
 type Map<K, V> = { [K]: V }

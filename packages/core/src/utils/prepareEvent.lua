@@ -1,6 +1,9 @@
 -- upstream: https://github.com/getsentry/sentry-javascript/blob/540adac9ec81803f86a3a7f5b34ebbc1ad2a8d23/packages/core/src/utils/prepareEvent.ts
 
-local Types = require("@packages/types")
+local PackageRoot = script.Parent.Parent
+local Packages = PackageRoot.Parent
+
+local Types = require(Packages.SentryTypes)
 type ClientOptions = Types.ClientOptions
 type Event = Types.Event
 type EventHint = Types.EventHint
@@ -13,7 +16,7 @@ type Scope = Types.Scope
 type Span = Types.Span
 type PromiseLike<T> = Types.PromiseLike<T>
 
-local Utils = require("@packages/utils")
+local Utils = require(Packages.SentryUtils)
 local dateTimestampInSeconds = Utils.dateTimestampInSeconds
 local GLOBAL_OBJ = Utils.GLOBAL_OBJ
 local normalize = Utils.normalize
@@ -23,10 +26,10 @@ local Promise = Utils.Promise
 local Object = Utils.Polyfill.Object
 local Array = Utils.Polyfill.Array
 
-local Constants = require("../constants")
+local Constants = require(PackageRoot.constants)
 local DEFAULT_ENVIRONMENT = Constants.DEFAULT_ENVIRONMENT
 
-local Scope = require("../scope")
+local Scope = require(PackageRoot.scope)
 
 type Array<T> = { T }
 type Map<K, V> = { [K]: V }

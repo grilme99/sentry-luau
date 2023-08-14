@@ -1,13 +1,16 @@
 -- upstream: https://github.com/getsentry/sentry-javascript/blob/540adac9ec81803f86a3a7f5b34ebbc1ad2a8d23/packages/core/src/tracing/dynamicSamplingContext.ts
 
-local Types = require("@packages/types")
+local PackageRoot = script.Parent.Parent
+local Packages = PackageRoot.Parent
+
+local Types = require(Packages.SentryTypes)
 type Client = Types.Client
 type DynamicSamplingContext = Types.DynamicSamplingContext
 type Scope = Types.Scope
 type DsnComponents = Types.DsnComponents
 type User = Types.User
 
-local Constants = require("../constants")
+local Constants = require(PackageRoot.constants)
 local DEFAULT_ENVIRONMENT = Constants.DEFAULT_ENVIRONMENT
 
 local DynamicSamplingContext = {}

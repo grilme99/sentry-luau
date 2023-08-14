@@ -1,10 +1,12 @@
 -- upstream: https://github.com/getsentry/sentry-javascript/blob/540adac9ec81803f86a3a7f5b34ebbc1ad2a8d23/packages/types/src/eventprocessor.ts
 
-local Event = require("./event")
+local PackageRoot = script.Parent
+
+local Event = require(PackageRoot.event)
 type Event = Event.Event
 type EventHint = Event.EventHint
 
-local Promise = require("./promise")
+local Promise = require(PackageRoot.promise)
 type PromiseLike<T> = Promise.PromiseLike<T>
 
 --- Event processors are used to change the event before it will be send.

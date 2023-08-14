@@ -1,12 +1,15 @@
 -- upstream: https://github.com/getsentry/sentry-javascript/blob/540adac9ec81803f86a3a7f5b34ebbc1ad2a8d23/packages/utils/src/stacktrace.ts
 
-local Types = require("@packages/types")
+local PackageRoot = script.Parent
+local Packages = PackageRoot.Parent
+
+local Types = require(Packages.SentryTypes)
 type StackFrame = Types.StackFrame
 type StackLineParser = Types.StackLineParser
 type StackParser = Types.StackParser
 
-local Array = require("./polyfill/array")
-local Object = require("./polyfill/object")
+local Array = require(PackageRoot.polyfill.array)
+local Object = require(PackageRoot.polyfill.object)
 
 local STACKTRACE_FRAME_LIMIT = 50
 

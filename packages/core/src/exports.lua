@@ -1,6 +1,9 @@
 -- upstream: https://github.com/getsentry/sentry-javascript/blob/540adac9ec81803f86a3a7f5b34ebbc1ad2a8d23/packages/core/src/exports.ts
 
-local Types = require("@packages/types")
+local PackageRoot = script.Parent
+local Packages = PackageRoot.Parent
+
+local Types = require(Packages.SentryTypes)
 type Breadcrumb = Types.Breadcrumb
 type CaptureContext = Types.CaptureContext
 type CheckIn = Types.CheckIn
@@ -17,11 +20,11 @@ type Transaction = Types.Transaction
 type User = Types.User
 type Scope = Types.Scope
 
-local Utils = require("@packages/utils")
+local Utils = require(Packages.SentryUtils)
 local logger = Utils.logger
 local uuid4 = Utils.uuid4
 
-local Hub = require("./hub")
+local Hub = require(PackageRoot.hub)
 type Hub = Hub.Hub
 local getCurrentHub = Hub.getCurrentHub
 

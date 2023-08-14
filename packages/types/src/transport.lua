@@ -1,14 +1,16 @@
 -- upstream: https://github.com/getsentry/sentry-javascript/blob/540adac9ec81803f86a3a7f5b34ebbc1ad2a8d23/packages/types/src/transport.ts
 
-local Client = require("./client")
+local PackageRoot = script.Parent
 
-local Envelope = require("./envelope")
+local Client = require(PackageRoot.client)
+
+local Envelope = require(PackageRoot.envelope)
 type Envelope = Envelope.Envelope
 
-local Promise = require("./promise")
+local Promise = require(PackageRoot.promise)
 type PromiseLike<T> = Promise.PromiseLike<T>
 
-local TextEncoder = require("./textencoder")
+local TextEncoder = require(PackageRoot.textencoder)
 type TextEncoderInternal = TextEncoder.TextEncoderInternal
 
 type Map<K, V> = { [K]: V }

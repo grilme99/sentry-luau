@@ -1,6 +1,8 @@
 -- upstream: https://github.com/getsentry/sentry-javascript/blob/540adac9ec81803f86a3a7f5b34ebbc1ad2a8d23/packages/types/src/session.ts
 
-local User = require("./user")
+local PackageRoot = script.Parent
+
+local User = require(PackageRoot.user)
 type User = User.User
 
 type Array<T> = { T }

@@ -1,49 +1,51 @@
 -- upstream: https://github.com/getsentry/sentry-javascript/blob/540adac9ec81803f86a3a7f5b34ebbc1ad2a8d23/packages/types/src/scope.ts
 
-local Attachment = require("./attachment")
+local PackageRoot = script.Parent
+
+local Attachment = require(PackageRoot.attachment)
 type Attachment = Attachment.Attachment
 
-local Breadcrumb = require("./breadcrumb")
+local Breadcrumb = require(PackageRoot.breadcrumb)
 type Breadcrumb = Breadcrumb.Breadcrumb
 
-local Context = require("./context")
+local Context = require(PackageRoot.context)
 type Context = Context.Context
 type Contexts = Context.Contexts
 
-local EventProcessor = require("./eventprocessor")
+local EventProcessor = require(PackageRoot.eventprocessor)
 type EventProcessor = EventProcessor.EventProcessor
 
-local Extra = require("./extra")
+local Extra = require(PackageRoot.extra)
 type Extra = Extra.Extra
 type Extras = Extra.Extras
 
-local Event = require("./event")
+local Event = require(PackageRoot.event)
 type Event = Event.Event
 type EventHint = Event.EventHint
 
-local Misc = require("./misc")
+local Misc = require(PackageRoot.misc)
 type Primitive = Misc.Primitive
 
-local Session = require("./session")
+local Session = require(PackageRoot.session)
 type RequestSession = Session.RequestSession
 type Session = Session.Session
 
-local Severity = require("./severity")
+local Severity = require(PackageRoot.severity)
 type SeverityLevel = Severity.SeverityLevel
 
-local Span = require("./span")
+local Span = require(PackageRoot.span)
 type Span = Span.Span
 
-local Tracing = require("./tracing")
+local Tracing = require(PackageRoot.tracing)
 type PropagationContext = Tracing.PropagationContext
 
-local Transaction = require("./transaction")
+local Transaction = require(PackageRoot.transaction)
 type Transaction = Transaction.Transaction
 
-local User = require("./user")
+local User = require(PackageRoot.user)
 type User = User.User
 
-local Promise = require("./promise")
+local Promise = require(PackageRoot.promise)
 type PromiseLike<T> = Promise.PromiseLike<T>
 
 type Map<K, V> = { [K]: V }
