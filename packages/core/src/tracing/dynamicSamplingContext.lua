@@ -40,7 +40,7 @@ function DynamicSamplingContext.getDynamicSamplingContextFromClient(
     } :: DynamicSamplingContext
 
     if client.emit then
-        (client.emit :: any)("createDsc", dsc)
+        (client.emit :: any)(client, "createDsc", dsc)
     end
 
     return dsc

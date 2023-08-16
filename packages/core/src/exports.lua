@@ -38,7 +38,7 @@ local Exports = {}
 --- @param captureContext Additional scope data to apply to exception event.
 --- @returns The generated eventId.
 function Exports.captureException(exception: any, captureContext: CaptureContext?): string
-    return getCurrentHub().captureException(exception, { captureContext })
+    return getCurrentHub():captureException(exception, { captureContext })
 end
 
 --- Captures a message event and sends it to Sentry.

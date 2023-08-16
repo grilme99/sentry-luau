@@ -13,7 +13,9 @@ local logger = require(PackageRoot.logger).logger
 local console = require(PackageRoot.polyfill.console)
 
 --- Regular expression used to parse a Dsn.
-local DSN_REGEX = RegExp([[^(?:(\w+):)\/\/(?:(\w+)(?::(\w+)?)?@)([\w.-]+)(?::(\d+))?\/(.+)]])
+local DSN_REGEX = RegExp(
+    [[^(?:(?<protocol>\w+):)\/\/(?:(?<publicKey>\w+)(?::(?<pass>\w+)?)?@)(?<host>[\w.-]+)(?::(?<port>\d+))?\/(?<lastPath>.+)]]
+)
 
 local function isValidProtocol(protocol: string?): boolean
     return protocol == "http" or protocol == "https"
@@ -32,7 +34,7 @@ function DsnUtils.dsnToString(dsn: DsnComponents, withPassword_: boolean?): stri
     local withPassword = if withPassword_ == nil then false else withPassword_
 
     return (
-        `{dsn.protocol}://{dsn.publicKey}{if withPassword and dsn.pass then `:{dsn.pass}` else ""}`
+        `{dsn.protocol}://{dsn.publicKey}{if withPassword and dsn.pass ~= "" then `:{dsn.pass}` else ""}`
         .. `@{dsn.host}{if dsn.port then `:{dsn.port}` else ""}/{if dsn.path then `{dsn.path}/` else dsn.path}{dsn.projectId}`
     )
 end
@@ -62,8 +64,21 @@ local function dsnFromString(str: string): DsnComponents | nil
         return nil
     end
 
-    local protocol, publicKey, pass_, host, port_, lastPath = match[2], match[3], match[4], match[5], match[6], match[7]
-    local pass, port = pass_ or "", port_ or ""
+    local protocol, publicKey, pass, host, port, lastPath
+
+    -- Determine if 'pass' and 'port' are present
+    if tonumber(match[4]) then
+        -- pass is missing but port is present
+        protocol, publicKey, host, port, lastPath = match[2], match[3], match[4], match[5], match[7]
+        pass = ""
+    elseif not tonumber(match[5]) then
+        -- both pass and port are missing
+        protocol, publicKey, host, lastPath = match[2], match[3], match[5], match[7]
+        pass, port = "", ""
+    else
+        -- both are present
+        protocol, publicKey, pass, host, port, lastPath = match[2], match[3], match[4], match[5], match[6], match[7]
+    end
 
     local path = ""
     local projectId = lastPath
@@ -124,7 +139,7 @@ local function validateDsn(dsn: DsnComponents): boolean
         return false
     end
 
-    if port and not tonumber(port) then
+    if port and port ~= "" and not tonumber(port) then
         logger.error("Invalid Sentry Dsn: Invalid port " .. port)
         return false
     end

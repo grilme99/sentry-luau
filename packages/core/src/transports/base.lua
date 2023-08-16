@@ -101,7 +101,10 @@ function BaseTransport.createTransport(
                 -- We don't want to throw on NOK responses, but we want to at least log them
                 if response.statusCode ~= nil and (response.statusCode < 200 or response.statusCode >= 300) then
                     if _G.__SENTRY_DEV__ then
-                        logger.warn(`Sentry responded with status code {response.statusCode} to sent event.`)
+                        logger.warn(
+                            `Sentry responded with status code {response.statusCode} to sent event:\n`,
+                            response.body
+                        )
                     end
                 end
 

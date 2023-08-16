@@ -441,7 +441,7 @@ end
 
 function BaseClient.sendSession(self: BaseClient<any>, session: Session | SessionAggregates)
     if self._dsn then
-        local env = createSessionEnvelope(session, self._dsn, self._options._metadata, self._options.tunnel)
+        local env = createSessionEnvelope(session, self._dsn, self._options._metadata) -- , self._options.tunnel)
         self:_sendEnvelope(env)
     end
 end

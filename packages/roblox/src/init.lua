@@ -65,6 +65,8 @@ function RobloxSdk.init(options_: RobloxOptions?)
         local injectedRelease = _G.__SENTRY_RELEASE__
         if injectedRelease then
             options.release = injectedRelease
+        else
+            options.release = "{no_release}"
         end
     end
     if options.autoSessionTracking == nil then
@@ -130,8 +132,8 @@ end
 --- Wrap code within a try/catch block so the SDK is able to capture errors.
 --- @param fn A function to wrap.
 --- @return The result of wrapped function call.
-function RobloxSdk.wrap<A..., R...>(fn: (A...) -> R...): R...
-    return internalWrap(fn)()
+function RobloxSdk.wrap<A..., R...>(fn: (A...) -> R..., ...: A...): R...
+    return internalWrap(fn)(...)
 end
 
 return RobloxSdk

@@ -490,7 +490,7 @@ function Scope._notifyEventProcessors(
     local index = index_ or 1
     return Promise.new(function(resolve, reject)
         local processor = processors[index]
-        if event == nil or type(processor.fn) ~= "function" then
+        if event == nil or (type(processor) ~= "table" or type(processor.fn) ~= "function") then
             resolve(event)
         else
             local result = processor.fn(table.clone(event), hint)

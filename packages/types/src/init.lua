@@ -2,6 +2,8 @@
 
 local PackageRoot = script
 
+local RecursiveModules = require(PackageRoot._recursiveModules)
+
 local Attachment = require(PackageRoot.attachment)
 export type Attachment = Attachment.Attachment
 
@@ -11,8 +13,7 @@ export type BreadcrumbHint = Breadcrumb.BreadcrumbHint
 export type RequestBreadcrumbData = Breadcrumb.RequestBreadcrumbData
 export type RequestBreadcrumbHint = Breadcrumb.RequestBreadcrumbHint
 
-local Client = require(PackageRoot.client)
-export type Client<T = ClientOptions> = Client.Client<T>
+export type Client<T = BaseTransportOptions> = RecursiveModules.Client<T>
 
 local ClientReport = require(PackageRoot.clientreport)
 export type ClientReport = ClientReport.ClientReport
@@ -40,41 +41,38 @@ local DebugMeta = require(PackageRoot.debugMeta)
 export type DebugImage = DebugMeta.DebugImage
 export type DebugMeta = DebugMeta.DebugMeta
 
-local Envelope = require(PackageRoot.envelope)
-export type AttachmentItem = Envelope.AttachmentItem
-export type BaseEnvelopeHeaders = Envelope.BaseEnvelopeHeaders
-export type BaseEnvelopeItemHeaders = Envelope.BaseEnvelopeItemHeaders
-export type ClientReportEnvelope = Envelope.ClientReportEnvelope
-export type ClientReportItem = Envelope.ClientReportItem
-export type DynamicSamplingContext = Envelope.DynamicSamplingContext
-export type Envelope = Envelope.Envelope
-export type EnvelopeItemType = Envelope.EnvelopeItemType
-export type EnvelopeItem = Envelope.EnvelopeItem
-export type EventEnvelope = Envelope.EventEnvelope
-export type EventEnvelopeHeaders = Envelope.EventEnvelopeHeaders
-export type EventItem = Envelope.EventItem
-export type ReplayEnvelope = Envelope.ReplayEnvelope
-export type SessionEnvelope = Envelope.SessionEnvelope
-export type SessionItem = Envelope.SessionItem
-export type UserFeedbackItem = Envelope.UserFeedbackItem
-export type CheckInItem = Envelope.CheckInItem
-export type CheckInEnvelope = Envelope.CheckInEnvelope
-export type EnvelopeHeaders = Envelope.EnvelopeHeaders
-export type EnvelopeItems = Envelope.EnvelopeItems
+export type AttachmentItem = RecursiveModules.AttachmentItem
+export type BaseEnvelopeHeaders = RecursiveModules.BaseEnvelopeHeaders
+export type BaseEnvelopeItemHeaders = RecursiveModules.BaseEnvelopeItemHeaders
+export type ClientReportEnvelope = RecursiveModules.ClientReportEnvelope
+export type ClientReportItem = RecursiveModules.ClientReportItem
+export type DynamicSamplingContext = RecursiveModules.DynamicSamplingContext
+export type Envelope = RecursiveModules.Envelope
+export type EnvelopeItemType = RecursiveModules.EnvelopeItemType
+export type EnvelopeItem = RecursiveModules.EnvelopeItem
+export type EventEnvelope = RecursiveModules.EventEnvelope
+export type EventEnvelopeHeaders = RecursiveModules.EventEnvelopeHeaders
+export type EventItem = RecursiveModules.EventItem
+export type ReplayEnvelope = RecursiveModules.ReplayEnvelope
+export type SessionEnvelope = RecursiveModules.SessionEnvelope
+export type SessionItem = RecursiveModules.SessionItem
+export type UserFeedbackItem = RecursiveModules.UserFeedbackItem
+export type CheckInItem = RecursiveModules.CheckInItem
+export type CheckInEnvelope = RecursiveModules.CheckInEnvelope
+export type EnvelopeHeaders = RecursiveModules.EnvelopeHeaders
+export type EnvelopeItems = RecursiveModules.EnvelopeItems
 
 local Error = require(PackageRoot.error)
 export type Error = Error.Error
 export type ExtendedError = Error.ExtendedError
 
-local Event = require(PackageRoot.event)
-export type Event = Event.Event
-export type EventHint = Event.EventHint
-export type EventType = Event.EventType
-export type ErrorEvent = Event.ErrorEvent
-export type TransactionEvent = Event.TransactionEvent
+export type Event = RecursiveModules.Event
+export type EventHint = RecursiveModules.EventHint
+export type EventType = RecursiveModules.EventType
+export type ErrorEvent = RecursiveModules.ErrorEvent
+export type TransactionEvent = RecursiveModules.TransactionEvent
 
-local EventProcessor = require(PackageRoot.eventprocessor)
-export type EventProcessor = EventProcessor.EventProcessor
+export type EventProcessor = RecursiveModules.EventProcessor
 
 local Exception = require(PackageRoot.exception)
 export type Exception = Exception.Exception
@@ -83,12 +81,10 @@ local Extra = require(PackageRoot.extra)
 export type Extra = Extra.Extra
 export type Extras = Extra.Extras
 
-local Hub = require(PackageRoot.hub)
-export type Hub = Hub.Hub
+export type Hub = RecursiveModules.Hub
 
-local Integration = require(PackageRoot.integration)
-export type Integration = Integration.Integration
-export type IntegrationClass<T> = Integration.IntegrationClass<T>
+export type Integration = RecursiveModules.Integration
+export type IntegrationClass<T> = RecursiveModules.IntegrationClass<T>
 
 local Mechanism = require(PackageRoot.mechanism)
 export type Mechanism = Mechanism.Mechanism
@@ -98,9 +94,8 @@ local Misc = require(PackageRoot.misc)
 export type HttpHeaderValue = Misc.HttpHeaderValue
 export type Primitive = Misc.Primitive
 
-local Options = require(PackageRoot.options)
-export type ClientOptions<T = BaseTransportOptions> = Options.ClientOptions<T>
-export type Options<T = BaseTransportOptions> = Options.Options<T>
+export type ClientOptions<T = BaseTransportOptions> = RecursiveModules.ClientOptions<T>
+export type Options<T = BaseTransportOptions> = RecursiveModules.Options<T>
 
 local Package = require(PackageRoot.package)
 export type Package = Package.Package
@@ -119,10 +114,9 @@ export type Package = Package.Package
 -- export type ThreadCpuProfile = Profiling.ThreadCpuProfile
 -- export type Profile = Profiling.Profile
 
--- local Replay = require(PackageRoot.replay)
--- export type ReplayEvent = Replay.ReplayEvent
--- export type ReplayRecordingData = Replay.ReplayRecordingData
--- export type ReplayRecordingMode = Replay.ReplayRecordingMode
+export type ReplayEvent = RecursiveModules.ReplayEvent
+export type ReplayRecordingData = RecursiveModules.ReplayRecordingData
+export type ReplayRecordingMode = RecursiveModules.ReplayRecordingMode
 
 -- local Request = require(PackageRoot.request)
 -- export type QueryParams = Request.QueryParams
@@ -132,10 +126,9 @@ export type Package = Package.Package
 -- local Runtime = require("./runtime")
 -- export type Runtime = Runtime.Runtime
 
-local Scope = require(PackageRoot.scope)
-export type CaptureContext = Scope.CaptureContext
-export type Scope = Scope.Scope
-export type ScopeContext = Scope.ScopeContext
+export type CaptureContext = RecursiveModules.CaptureContext
+export type Scope = RecursiveModules.Scope
+export type ScopeContext = RecursiveModules.ScopeContext
 
 local SdkInfo = require(PackageRoot.sdkinfo)
 export type SdkInfo = SdkInfo.SdkInfo
@@ -157,9 +150,8 @@ export type SerializedSession = Session.SerializedSession
 local Severity = require(PackageRoot.severity)
 export type SeverityLevel = Severity.SeverityLevel
 
-local Span = require(PackageRoot.span)
-export type Span = Span.Span
-export type SpanContext = Span.SpanContext
+export type Span = RecursiveModules.Span
+export type SpanContext = RecursiveModules.SpanContext
 
 local StackFrame = require(PackageRoot.stackframe)
 export type StackFrame = StackFrame.StackFrame
@@ -173,18 +165,16 @@ export type StackLineParserFn = Stacktrace.StackLineParserFn
 local TextEncoder = require(PackageRoot.textencoder)
 export type TextEncoderInternal = TextEncoder.TextEncoderInternal
 
-local Tracing = require(PackageRoot.tracing)
-export type PropagationContext = Tracing.PropagationContext
-export type TracePropagationTargets = Tracing.TracePropagationTargets
+export type PropagationContext = RecursiveModules.PropagationContext
+export type TracePropagationTargets = RecursiveModules.TracePropagationTargets
 
-local Transaction = require(PackageRoot.transaction)
-export type CustomSamplingContext = Transaction.CustomSamplingContext
-export type SamplingContext = Transaction.SamplingContext
-export type TraceparentData = Transaction.TraceparentData
-export type Transaction = Transaction.Transaction
-export type TransactionContext = Transaction.TransactionContext
-export type TransactionMetadata = Transaction.TransactionMetadata
-export type TransactionSource = Transaction.TransactionSource
+export type CustomSamplingContext = RecursiveModules.CustomSamplingContext
+export type SamplingContext = RecursiveModules.SamplingContext
+export type TraceparentData = RecursiveModules.TraceparentData
+export type Transaction = RecursiveModules.Transaction
+export type TransactionContext = RecursiveModules.TransactionContext
+export type TransactionMetadata = RecursiveModules.TransactionMetadata
+export type TransactionSource = RecursiveModules.TransactionSource
 
 local Measurement = require(PackageRoot.measurement)
 export type DurationUnit = Measurement.DurationUnit
@@ -194,16 +184,15 @@ export type MeasurementUnit = Measurement.MeasurementUnit
 export type NoneUnit = Measurement.NoneUnit
 export type Measurements = Measurement.Measurements
 
--- local Thread = require(PackageRoot.thread)
--- export type Thread = Thread.Thread
+local Thread = require(PackageRoot.thread)
+export type Thread = Thread.Thread
 
-local Transport = require(PackageRoot.transport)
-export type Transport = Transport.Transport
-export type TransportRequest = Transport.TransportRequest
-export type TransportMakeRequestResponse = Transport.TransportMakeRequestResponse
-export type InternalBaseTransportOptions = Transport.InternalBaseTransportOptions
-export type BaseTransportOptions = Transport.BaseTransportOptions
-export type TransportRequestExecutor = Transport.TransportRequestExecutor
+export type Transport = RecursiveModules.Transport
+export type TransportRequest = RecursiveModules.TransportRequest
+export type TransportMakeRequestResponse = RecursiveModules.TransportMakeRequestResponse
+export type InternalBaseTransportOptions = RecursiveModules.InternalBaseTransportOptions
+export type BaseTransportOptions = RecursiveModules.BaseTransportOptions
+export type TransportRequestExecutor = RecursiveModules.TransportRequestExecutor
 
 local User = require(PackageRoot.user)
 export type User = User.User

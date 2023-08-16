@@ -71,18 +71,20 @@ function wrap<A..., R...>(
             ignoreNextOnError()
 
             withScope(function(scope)
-                scope:addEventProcessor(function(event: SentryEvent)
-                    if options.mechanism then
-                        addExceptionTypeValue(event, nil, nil)
-                        addExceptionMechanism(event, options.mechanism)
-                    end
+                scope:addEventProcessor({
+                    fn = function(event: SentryEvent)
+                        if options.mechanism then
+                            addExceptionTypeValue(event, nil, nil)
+                            addExceptionMechanism(event, options.mechanism)
+                        end
 
-                    event.extra = Object.mergeObjects(event.extra or {}, {
-                        arguments = args,
-                    })
+                        event.extra = Object.mergeObjects(event.extra or {}, {
+                            arguments = args,
+                        })
 
-                    return event
-                end)
+                        return event
+                    end,
+                })
 
                 captureException(result)
             end)

@@ -23,6 +23,8 @@ local getSdkMetadataForEnvelopeHeader = Utils.getSdkMetadataForEnvelopeHeader
 local Object = Utils.Polyfill.Object
 local Array = Utils.Polyfill.Array
 
+type Array<T> = { T }
+
 local Envelope = {}
 
 --- Apply SdkInfo (name, version, packages, integrations) to the corresponding event key.
@@ -44,26 +46,26 @@ end
 function Envelope.createSessionEnvelope(
     session_: Session | SessionAggregates,
     dsn: DsnComponents,
-    metadata: SdkMetadata?,
-    tunnel: string?
+    metadata: SdkMetadata?
+    -- tunnel: string?
 ): SessionEnvelope
     local sdkInfo = getSdkMetadataForEnvelopeHeader(metadata)
     local envelopeHeaders = Object.mergeObjects(
-        { sent_at = DateTime.now():ToIsoDate() },
-        if sdkInfo then { sdk = sdkInfo } else {},
-        if not not tunnel then { dsn = dsnToString(dsn) } else {}
+        { sent_at = DateTime.now():ToIsoDate(), dsn = dsnToString(dsn) },
+        if sdkInfo then { sdk = sdkInfo } else {}
+        -- if not not tunnel then { dsn = dsnToString(dsn) } else {}
     )
 
-    local envelopeItem: SessionItem
+    local envelopeItems: Array<SessionItem>
     if (session_ :: any).aggregates then
         local session = session_ :: SessionAggregates
-        envelopeItem = { headers = { type = "sessions" }, payload = session } :: any
+        envelopeItems = { { headers = { type = "sessions" }, payload = session } :: any }
     else
         local session = session_ :: Session
-        envelopeItem = { headers = { type = "session" }, payload = session.toJSON() } :: any
+        envelopeItems = { { headers = { type = "session" }, payload = session.toJSON() } :: any }
     end
 
-    return createEnvelope(envelopeHeaders, envelopeItem)
+    return createEnvelope(envelopeHeaders, envelopeItems)
 end
 
 --- Create an Envelope from an event.
@@ -93,7 +95,7 @@ function Envelope.createEventEnvelope(
     event.sdkProcessingMetadata = nil
 
     local eventItem: EventItem = { headers = { type = eventType }, payload = event } :: any
-    return createEnvelope(envelopeHeaders, eventItem)
+    return createEnvelope(envelopeHeaders, { eventItem })
 end
 
 return Envelope

@@ -302,7 +302,14 @@ end
 
 function Hub.withScope(self: Hub, callback: (scope: Scope) -> ())
     local scope = self:pushScope()
-    pcall(callback, scope)
+    if _G.__SENTRY_DEV__ then
+        local success, result = (pcall :: any)(callback, scope)
+        if not success then
+            logger.warn(`Failed to execute callback with scope:\n`, result)
+        end
+    else
+        pcall(callback, scope)
+    end
     self:popScope()
 end
 

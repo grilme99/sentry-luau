@@ -22,8 +22,8 @@ local SENTRY_API_VERSION = "7"
 --- Returns the prefix to construct Sentry ingestion API endpoints.
 function getBaseApiEndpoint(dsn: DsnComponents): string
     local protocol = if dsn.protocol then `{dsn.protocol}:` else ""
-    local port = if dsn.port then `:{dsn.port}` else ""
-    return `{protocol}//{dsn.host}{port}{if dsn.path then `/{dsn.path}` else ""}/api/`
+    local port = if dsn.port ~= "" then `:{dsn.port}` else ""
+    return `{protocol}//{dsn.host}{port}{if dsn.path ~= "" then `/{dsn.path}` else ""}/api/`
 end
 
 --- Returns the ingest API endpoint for target.

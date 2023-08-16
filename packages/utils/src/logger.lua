@@ -9,6 +9,8 @@ local GLOBAL_OBJ = Global.GLOBAL_OBJ
 local Console = require(PackageRoot.polyfill.console)
 type Console = Console.Console
 
+local PrettyFormat = require(PackageRoot.vendor.prettyformat)
+
 local Logger = {}
 
 --- Prefix for logging strings
@@ -38,7 +40,7 @@ function Logger.consoleSandbox<T>(callback: () -> T): T
 end
 
 local function makeLogger(): Logger
-    local enabled = false
+    local enabled = true
     local logger = {
         enable = function()
             enabled = true
@@ -59,7 +61,11 @@ local function makeLogger(): Logger
                         end
 
                         local console = GLOBAL_OBJ.console :: Console
-                        console[name](`{PREFIX}[{name}]:`, unpack(args))
+                        local str = `{PREFIX}[{name}]:`
+                        for _, arg in args do
+                            str ..= " " .. if type(arg) == "string" then arg else PrettyFormat.format(arg)
+                        end
+                        console[name](str)
                         return nil
                     end)
                 end

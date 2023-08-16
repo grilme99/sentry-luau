@@ -45,8 +45,12 @@ function HttpServiceTransport.makeHttpServiceTransport(options: RobloxTransportO
         return Promise.new(function(resolve, reject)
             local success, result = pcall(HttpService.RequestAsync, HttpService, requestOptions)
             if success then
+                local encodeSuccess, encodeResult = pcall(HttpService.JSONDecode, HttpService, result.Body or "")
+                local body = if encodeSuccess then encodeResult else result.Body
+
                 local response: TransportMakeRequestResponse = {
                     statusCode = result.StatusCode,
+                    body = body,
                     headers = {
                         ["x-sentry-rate-limits"] = result.Headers["X-Sentry-Rate-Limits"],
                         ["retry-after"] = result.Headers["Retry-After"],

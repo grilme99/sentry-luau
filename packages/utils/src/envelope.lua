@@ -37,7 +37,7 @@ local EnvelopeUtils = {}
 --- Creates an envelope.
 --- Make sure to always explicitly provide the generic to this function
 --- so that the envelope types resolve correctly.
-function EnvelopeUtils.createEnvelope<E>(headers: EnvelopeHeaders, items: EnvelopeItems?): E
+function EnvelopeUtils.createEnvelope<E>(headers: EnvelopeHeaders, items: Array<EnvelopeItems>?): E
     return {
         headers = headers,
         items = items or {},
@@ -69,7 +69,7 @@ function EnvelopeUtils.forEachEnvelopeItem(
     local envelopeItems = envelope.items
 
     for _, envelopeItem in envelopeItems :: any do
-        local envelopeItemType = envelopeItem[0].type
+        local envelopeItemType = envelopeItem.type
         local result = callback(envelopeItem, envelopeItemType)
 
         if result then
@@ -185,7 +185,7 @@ end
 function EnvelopeUtils.createEventEnvelopeHeaders(
     event: Event,
     sdkInfo: SdkInfo | nil,
-    tunnel: string | nil,
+    _tunnel: string | nil,
     dsn: DsnComponents
 ): EventEnvelopeHeaders
     local dynamicSamplingContext = event.sdkProcessingMetadata and event.sdkProcessingMetadata.dynamicSamplingContext
@@ -195,7 +195,8 @@ function EnvelopeUtils.createEventEnvelopeHeaders(
             sent_at = DateTime.now():ToIsoDate(),
             sdk = sdkInfo,
         },
-        if not not tunnel then { dsn = dsnToString(dsn) } else {},
+        -- if not not tunnel then { dsn = dsnToString(dsn) } else {},
+        { dsn = dsnToString(dsn) },
         if dynamicSamplingContext then { trace = dynamicSamplingContext } else {}
     )
 end
