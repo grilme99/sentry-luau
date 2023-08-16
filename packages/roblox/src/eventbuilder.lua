@@ -21,6 +21,7 @@ local addExceptionTypeValue = Utils.addExceptionTypeValue
 local extractExceptionKeysForMessage = Utils.extractExceptionKeysForMessage
 local isError = Utils.isError
 local isPlainObject = Utils.isPlainObject
+local logger = Utils.logger
 local normalizeToSize = Utils.normalizeToSize
 local Promise = Utils.Promise
 type Error = Utils.Error
@@ -54,7 +55,10 @@ end
 --- This function creates an exception from a JavaScript Error
 function EventBuilder.exceptionFromError(stackParser: StackParser, ex: Error): Exception
     -- Get the frames first since Opera can lose the stack if we touch anything else first
-    local frames = EventBuilder.parseStackFrames(stackParser, ex :: any)
+    local parserErr: Error & { framesToPop: number?, stacktrace: string? } = ex :: any
+    parserErr.framesToPop = 2 -- Remove the message from the top
+
+    local frames = EventBuilder.parseStackFrames(stackParser, parserErr)
 
     local exception: Exception = {
         type = ex and ex.name,
@@ -62,7 +66,7 @@ function EventBuilder.exceptionFromError(stackParser: StackParser, ex: Error): E
     }
 
     if #frames > 0 then
-        exception.stacktrace = { frames }
+        exception.stacktrace = { frames = frames }
     end
 
     if exception.type == nil and exception.value == "" then
@@ -124,7 +128,7 @@ local function getPopSize(ex: Error & { framesToPop: number? }): number
         return ex.framesToPop
     end
 
-    return 0
+    return 1
 end
 
 function EventBuilder.parseStackFrames(
@@ -137,6 +141,10 @@ function EventBuilder.parseStackFrames(
     local success, result = pcall(stackParser, stacktrace, popSize)
     if success then
         return result
+    else
+        if _G.__SENTRY_DEV__ then
+            logger.warn(`Failed to parse stack frames:`, result)
+        end
     end
 
     return {}

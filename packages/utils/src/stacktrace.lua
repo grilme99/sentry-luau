@@ -6,6 +6,7 @@ local Packages = PackageRoot.Parent
 local Types = require(Packages.SentryTypes)
 type StackFrame = Types.StackFrame
 type StackLineParser = Types.StackLineParser
+type StackLineParserFn = Types.StackLineParserFn
 type StackParser = Types.StackParser
 
 local Array = require(PackageRoot.polyfill.array)
@@ -26,8 +27,8 @@ function Stacktrace.createStackParser(...: StackLineParser): StackParser
     local sortedParsers_ = Array.sort(parsers, function(a, b)
         return a.priority - b.priority
     end)
-    local sortedParsers: Array<StackLineParser> = Array.map(sortedParsers_, function(p)
-        return p.fn
+    local sortedParsers: Array<StackLineParserFn> = Array.map(sortedParsers_, function(p)
+        return p.parser
     end)
 
     return function(stack: string, skipFirst_: number?): Array<StackFrame>
@@ -47,8 +48,13 @@ function Stacktrace.createStackParser(...: StackLineParser): StackParser
                 continue
             end
 
+            -- deviation: Sometimes stack lines are empty strings and aren't useful to us.
+            if #line == 0 then
+                continue
+            end
+
             for _, parser in sortedParsers do
-                local frame = parser.parser(line)
+                local frame = parser(line)
 
                 if frame then
                     table.insert(frames, frame)

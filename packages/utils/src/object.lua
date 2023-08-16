@@ -8,6 +8,9 @@ local Object = require(PackageRoot.polyfill.object)
 local String = require(PackageRoot.string)
 local truncate = String.truncate
 
+local Is = require(PackageRoot.is)
+local isPlainObject = Is.isPlainObject
+
 type Map<K, V> = { [K]: V }
 
 local ObjectUtils = {}
@@ -67,6 +70,63 @@ function ObjectUtils.extractExceptionKeysForMessage(exception: Map<string, unkno
     end
 
     return ""
+end
+
+local function _dropUndefinedKeys<K, V>(inputValue: Map<K, V>, memoizationMap: Map<unknown, unknown>): Map<K, V>
+    if isPlainObject(inputValue) then
+        -- If this node has already been visited due to a circular reference, return the object it was mapped to in the
+        -- new object
+        local memoVal = memoizationMap[inputValue]
+        if memoVal then
+            return memoVal :: any
+        end
+
+        local returnValue = {}
+        -- Store the mapping of this value in case we visit it again, in case of circular data
+        memoizationMap[inputValue] = returnValue
+
+        for key, value in inputValue do
+            if type(value) ~= "nil" then
+                returnValue[key] = _dropUndefinedKeys(value :: any, memoizationMap)
+            end
+        end
+
+        return returnValue :: any
+    end
+
+    if Array.isArray(inputValue) then
+        -- If this node has already been visited due to a circular reference, return the array it was mapped to in the new object
+        local memoVal = memoizationMap[inputValue]
+        if memoVal then
+            return memoVal :: any
+        end
+
+        local returnValue: { unknown } = {}
+        -- Store the mapping of this value in case we visit it again, in case of circular data
+        memoizationMap[inputValue] = returnValue
+
+        for _, item in inputValue do
+            table.insert(returnValue, _dropUndefinedKeys(item :: any, memoizationMap))
+        end
+
+        return returnValue :: any
+    end
+
+    return inputValue
+end
+
+--- Given any object, return a new object having removed all fields whose value was `undefined`.
+--- Works recursively on objects and arrays.
+---
+--- Attention: This function keeps circular references in the returned object.
+function ObjectUtils.dropUndefinedKeys<K, V>(inputValue: Map<K, V>): Map<K, V>
+    -- This map keeps track of what already visited nodes map to.
+    -- Our Set - based memoBuilder doesn't work here because we want to the output object to have the same circular
+    -- references as the input object.
+    local memoizationMap: Map<unknown, unknown> = {}
+
+    -- This function just proxies `_dropUndefinedKeys` to keep the `memoBuilder` out of this function's API
+    return _dropUndefinedKeys(inputValue, memoizationMap)
 end
 
 return ObjectUtils

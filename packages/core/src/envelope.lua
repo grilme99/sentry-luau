@@ -24,6 +24,7 @@ local Object = Utils.Polyfill.Object
 local Array = Utils.Polyfill.Array
 
 type Array<T> = { T }
+type Map<K, V> = { [K]: V }
 
 local Envelope = {}
 
@@ -68,6 +69,21 @@ function Envelope.createSessionEnvelope(
     return createEnvelope(envelopeHeaders, envelopeItems)
 end
 
+-- deviation: `function` cannot be used as a table key in Luau (with types), so we have been using `function_` up until
+--  now. However, `function_` needs to be renamed before it can be sent to Sentry, so we do that here.
+local function renameKeyRecursive(obj: Map<any, any>, oldKey: string, newKey: string)
+    for k, v in obj do
+        if k == oldKey then
+            obj[k] = nil
+            obj[newKey] = v
+        end
+
+        if type(v) == "table" then
+            renameKeyRecursive(v, oldKey, newKey)
+        end
+    end
+end
+
 --- Create an Envelope from an event.
 function Envelope.createEventEnvelope(
     event: Event,
@@ -76,6 +92,9 @@ function Envelope.createEventEnvelope(
     tunnel: string?
 ): EventEnvelope
     local sdkInfo = getSdkMetadataForEnvelopeHeader(metadata)
+
+    -- Warning: This mutates the original table without copying it
+    renameKeyRecursive(event, "function_", "function")
 
     -- Note: Due to Luau, event.type may be `replay_event`, theoretically.
     -- In practice, we never call `createEventEnvelope` with `replay_event` type,
