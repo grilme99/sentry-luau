@@ -32,8 +32,11 @@ type RobloxTransportOptions = TransportTypes.RobloxTransportOptions
 local UserFeedback = require(PackageRoot.userfeedback)
 local createUserFeedbackEnvelope = UserFeedback.createUserFeedbackEnvelope
 
+local ClientTypes = require(PackageRoot.types)
+type RobloxStackParserOptions = ClientTypes.RobloxStackParserOptions
+
 --- Configuration options for the Sentry Roblox SDK Client class
-export type RobloxClientOptions = ClientOptions<RobloxTransportOptions>
+export type RobloxClientOptions = ClientOptions<RobloxTransportOptions> & RobloxStackParserOptions
 
 --- Configuration options for the Sentry Roblox SDK.
 export type RobloxOptions = Options<RobloxTransportOptions> & RobloxClientOptions

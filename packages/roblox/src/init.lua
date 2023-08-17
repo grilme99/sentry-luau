@@ -29,8 +29,7 @@ type RobloxOptions = RobloxClient.RobloxOptions
 local Helpers = require(PackageRoot.helpers)
 local internalWrap = Helpers.wrap
 
-local StackParsers = require(PackageRoot.stackparser)
-local defaultStackParser = StackParsers.defaultStackParser
+local makeRobloxStackParser = require(PackageRoot.stackparser)
 
 local Transports = require(PackageRoot.transports)
 local makeHttpServiceTransport = Transports.makeHttpServiceTransport
@@ -77,7 +76,9 @@ function RobloxSdk.init(options_: RobloxOptions?)
     end
 
     local clientOptions: RobloxClientOptions = Object.mergeObjects(options, {
-        stackParser = stackParserFromStackParserOptions(options.stackParser or defaultStackParser),
+        stackParser = stackParserFromStackParserOptions(
+            options.stackParser or makeRobloxStackParser(options).defaultStackParser
+        ),
         integrations = getIntegrationsToSetup(options :: any),
         transport = options.transport or makeHttpServiceTransport,
     })

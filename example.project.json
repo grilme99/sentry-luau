@@ -26,6 +26,11 @@
             "SentryExample": {
                 "$path": "example/src/"
             }
+        },
+        "HttpService": {
+            "$properties": {
+                "HttpEnabled": true
+            }
         }
     }
 }
