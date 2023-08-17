@@ -29,7 +29,7 @@ Sentry.addBreadcrumb({
 
 pcall(function()
     local function functionThatErrors(_foo: string, _bar: string)
-        error(Error.new("Something went really quite wrong here!"))
+        error(Error.new("Attempt to index a nil value")) -- Example error
     end
 
     Sentry.wrap(functionThatErrors, "a", "b")
