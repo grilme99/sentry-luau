@@ -18,8 +18,6 @@ Sentry.init({
 } :: any)
 
 Sentry.configureScope(function(scope)
-    scope:setExtra("battery", 0.7)
-    scope:setTag("user_mode", "admin")
     scope:setUser({ id = "75380482", username = "grilme99" })
 end)
 
@@ -28,11 +26,11 @@ Sentry.addBreadcrumb({
 })
 
 pcall(function()
-    local function functionThatErrors(_foo: string, _bar: string)
+    local function erroringFunction(_foo: string, _bar: string)
         error(Error.new("Attempt to index a nil value")) -- Example error
     end
 
-    Sentry.wrap(functionThatErrors, "a", "b")
+    Sentry.wrap(erroringFunction, "a", "b")
 end)
 
 task.wait(2)
