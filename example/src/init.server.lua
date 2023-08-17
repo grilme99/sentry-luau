@@ -21,9 +21,5 @@ pcall(function()
         error("Something went really quite wrong here!")
     end
 
-    print("wrapping")
     local _result = Sentry.wrap(functionThatErrors, "a", "b")
-    print("did error!")
 end)
-
-print("oop")

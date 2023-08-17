@@ -28,6 +28,7 @@ type SourcemapEntry = ClientTypes.SourcemapEntry
 --- @return The corresponding file path of the provided instance, or the original instance path if no file could be found.
 local function resolveSourcemapPath(dmPath: string, sourcemap: SourcemapEntry): string
     local dmSegments = string.split(dmPath, ".")
+    local finalTargetName = dmSegments[#dmSegments]
 
     local serviceName = dmSegments[1]
     local serviceExists = pcall(game.GetService, game, serviceName)
@@ -51,10 +52,9 @@ local function resolveSourcemapPath(dmPath: string, sourcemap: SourcemapEntry): 
 
     -- Recursively search through the sourcemap tree until we find this instance
     local finalSourcemapEntry: SourcemapEntry?
-    local currentDmSegmentIndex = 0
+    local currentDmSegmentIndex = 1
 
     local function searchEntryRecursive(currentEntry: SourcemapEntry)
-        currentDmSegmentIndex += 1
         local targetName = dmSegments[currentDmSegmentIndex]
         if targetName == nil then
             if _G.__SENTRY_DEV__ then
@@ -65,15 +65,16 @@ local function resolveSourcemapPath(dmPath: string, sourcemap: SourcemapEntry): 
             return
         end
 
-        if currentEntry.name == targetName then
+        if currentEntry.name == targetName and currentEntry.name == finalTargetName then
             finalSourcemapEntry = currentEntry
             return
-		else
-			if currentEntry.children then
-	            for _, entry in currentEntry.children do
-	                searchEntryRecursive(entry)
-				end
-			end
+        elseif currentEntry.name == targetName then
+            if currentEntry.children then
+                currentDmSegmentIndex += 1
+                for _, entry in currentEntry.children do
+                    searchEntryRecursive(entry)
+                end
+            end
         end
     end
 
