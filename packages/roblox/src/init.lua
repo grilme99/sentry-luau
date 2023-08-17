@@ -35,10 +35,11 @@ RobloxSdk.setUser = Core.setUser
 RobloxSdk.withScope = Core.withScope
 local getIntegrationsToSetup = Core.getIntegrationsToSetup
 local initAndBind = Core.initAndBind
--- local CoreIntegrations
+local CoreIntegrations = Core.Integrations
 
 local Transports = require(script.transports)
-RobloxSdk.makeHttpServiceTransport = Transports.makeHttpServiceTransport
+local makeHttpServiceTransport = Transports.makeHttpServiceTransport
+RobloxSdk.makeHttpServiceTransport = makeHttpServiceTransport
 
 local EventBuilder = require(script.eventbuilder)
 RobloxSdk.eventFromException = EventBuilder.eventFromException
@@ -61,10 +62,9 @@ local internalWrap = Helpers.wrap
 
 local makeRobloxStackParser = require(PackageRoot.stackparser)
 
-local Transports = require(PackageRoot.transports)
-local makeHttpServiceTransport = Transports.makeHttpServiceTransport
-
-local defaultIntegrations = {}
+local defaultIntegrations = {
+    CoreIntegrations.InboundFilters.new(),
+}
 RobloxSdk.defaultIntegrations = defaultIntegrations
 
 local function startSessionOnHub(hub: Hub)

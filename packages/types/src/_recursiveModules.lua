@@ -925,7 +925,7 @@ export type Hub = {
     run: (self: Hub, callback: (hub: Hub) -> ()) -> (),
 
     --- Returns the integration if installed on the current client.
-    getIntegration: <T>(integration: IntegrationClass<T>) -> T | nil,
+    getIntegration: <T>(self: Hub, integration: IntegrationClass<T>) -> T | nil,
 
     --- Returns all trace headers that are currently on the top scope.
     traceHeaders: (self: Hub) -> Map<string, string>,
@@ -992,7 +992,11 @@ export type Integration = {
 
     --- Sets the integration up only once.
     --- This takes no options on purpose, options should be passed in the constructor
-    setupOnce: (addGlobalEventProcessor: (callback: EventProcessor) -> (), getCurrentHub: () -> Hub) -> (),
+    setupOnce: (
+        self: Integration,
+        addGlobalEventProcessor: (callback: EventProcessor) -> (),
+        getCurrentHub: () -> Hub
+    ) -> (),
 }
 
 -- upstream: https://github.com/getsentry/sentry-javascript/blob/540adac9ec81803f86a3a7f5b34ebbc1ad2a8d23/packages/types/src/replay.ts

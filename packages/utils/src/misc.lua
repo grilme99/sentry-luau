@@ -12,6 +12,9 @@ type StackFrame = Types.StackFrame
 
 local Array = require(PackageRoot.polyfill.array)
 local Object = require(PackageRoot.polyfill.object)
+local RegExp = require(PackageRoot.vendor.regexp)
+local String = require(PackageRoot.polyfill.string)
+type RegExp = RegExp.RegExp
 
 type Array<T> = { T }
 
@@ -143,6 +146,64 @@ function MiscUtils.addExceptionMechanism(event: Event, newMechanism: PartialMech
             Object.mergeObjects(if currentMechanism then currentMechanism.data else {}, newMechanism.data);
         (firstException.mechanism :: Mechanism).data = mergedData
     end
+end
+
+--- Extracts either message or type+value from an event that can be used for user-facing logs
+--- @returns event's description
+function MiscUtils.getEventDescription(event: Event): string
+    local message, eventId = event.message, event.event_id
+    if message then
+        return message
+    end
+
+    local firstException = getFirstException(event)
+    if firstException then
+        if firstException.type and firstException.value then
+            return `{firstException.type}: {firstException.value}`
+        end
+        return firstException.type or firstException.value or eventId or "<unknown>"
+    end
+    return eventId or "<unknown>"
+end
+
+--- Checks if the given value matches a regex or string
+---
+--- @param value The string to test
+--- @param pattern Either a regex or a string against which `value` will be matched
+--- @param requireExactStringMatch If true, `value` must match `pattern` exactly. If false, `value` will match
+---`pattern` if it contains `pattern`. Only applies to string-type patterns.
+function MiscUtils.isMatchingPattern(
+    value: string,
+    pattern: RegExp | string,
+    requireExactStringMatch_: boolean?
+): boolean
+    local requireExactStringMatch = if requireExactStringMatch_ == nil then false else requireExactStringMatch_
+
+    if type(pattern) == "string" then
+        return if requireExactStringMatch then value == pattern else String.includes(value, pattern)
+    else
+        return pattern:test(value)
+    end
+end
+
+--- Test the given string against an array of strings and regexes. By default, string matching is done on a
+--- substring-inclusion basis rather than a strict equality basis
+---
+--- @param testString The string to test
+--- @param patterns The patterns against which to test the string
+--- @param requireExactStringMatch If true, `testString` must match one of the given string patterns exactly in order to
+--- count. If false, `testString` will match a string pattern if it contains that pattern.
+function MiscUtils.stringMatchesSomePattern(
+    testString: string,
+    patterns_: Array<string | RegExp>?,
+    requireExactStringMatch_: boolean?
+): boolean
+    local patterns: Array<string | RegExp> = patterns_ or {}
+    local requireExactStringMatch = if requireExactStringMatch_ == nil then false else requireExactStringMatch_
+
+    return Array.some(patterns, function(pattern)
+        return MiscUtils.isMatchingPattern(testString, pattern, requireExactStringMatch)
+    end)
 end
 
 return MiscUtils

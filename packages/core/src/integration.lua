@@ -120,7 +120,7 @@ function Integration.setupIntegration(integration: Integration, integrationIndex
     integrationIndex[integration.name] = integration
 
     if Array.indexOf(installedIntegrations, integration.name) == -1 then
-        integration.setupOnce(addGlobalEventProcessor, getCurrentHub)
+        integration:setupOnce(addGlobalEventProcessor, getCurrentHub)
         table.insert(installedIntegrations, integration.name)
         if _G.__SENTRY_DEV__ then
             logger.log(`Integration installed: {integration.name}`)

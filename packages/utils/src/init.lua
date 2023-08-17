@@ -50,6 +50,9 @@ Utils.arrayify = MiscUtils.arrayify
 Utils.checkOrSetAlreadyCaught = MiscUtils.checkOrSetAlreadyCaught
 Utils.addExceptionMechanism = MiscUtils.addExceptionMechanism
 Utils.addExceptionTypeValue = MiscUtils.addExceptionTypeValue
+Utils.getEventDescription = MiscUtils.getEventDescription
+Utils.isMatchingPattern = MiscUtils.isMatchingPattern
+Utils.stringMatchesSomePattern = MiscUtils.stringMatchesSomePattern
 
 local Normalize = require(PackageRoot.normalize)
 Utils.normalize = Normalize.normalize
@@ -93,5 +96,8 @@ Utils.Polyfill.Object = require(PackageRoot.polyfill.object)
 Utils.Polyfill.Array = require(PackageRoot.polyfill.array)
 
 Utils.Promise = require(PackageRoot.vendor.promise)
+local RegExp = require(PackageRoot.vendor.regexp)
+Utils.RegExp = RegExp
+export type RegExp = RegExp.RegExp
 
 return Utils

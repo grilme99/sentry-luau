@@ -69,6 +69,9 @@ SentryLua.SDK_VERSION = Version.SDK_VERSION
 local Integration = require(script.integration)
 SentryLua.getIntegrationsToSetup = Integration.getIntegrationsToSetup
 
+local Integrations = require(script.integrations)
+SentryLua.Integrations = Integrations
+
 local PrepareEvent = require(script.utils.prepareEvent)
 SentryLua.prepareEvent = PrepareEvent.prepareEvent
 
