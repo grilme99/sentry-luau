@@ -52,7 +52,7 @@ local DEFAULT_MAX_BREADCRUMBS = 100
 local function generatePropagationContext(): PropagationContext
     return {
         traceId = uuid4(),
-        spanId = string.sub(uuid4(), 16),
+        spanId = string.sub(uuid4(), 1, 16),
         sampled = false,
     }
 end

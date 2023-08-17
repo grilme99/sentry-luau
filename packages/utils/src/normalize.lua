@@ -54,7 +54,7 @@ function stringifyValue(key: unknown, value: any): string
             return "[SyntheticEvent]"
         end
 
-        if type(value == "number" and value ~= value) then
+        if type(value) == "number" and value ~= value then
             return "[NaN]"
         end
 

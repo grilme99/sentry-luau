@@ -415,10 +415,10 @@ function Hub.addBreadcrumb(self: Hub, breadcrumb: Breadcrumb, hint: BreadcrumbHi
 
     local emit = client.emit
     if emit then
-        (emit :: Function)("beforeAddBreadcrumb", finalBreadcrumb, hint)
+        (emit :: Function)(client, "beforeAddBreadcrumb", finalBreadcrumb, hint)
     end
 
-    scope.addBreadcrumb(finalBreadcrumb, maxBreadcrumbs)
+    scope:addBreadcrumb(finalBreadcrumb, maxBreadcrumbs)
 end
 
 function Hub.setUser(self: Hub, user: User | nil)

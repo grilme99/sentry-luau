@@ -29,10 +29,10 @@ local Error = require("@packages/luau-polyfill").Error
 
 -- Set user information, as well as tags and further extras
 Sentry.configureScope(function(scope)
-  scope:setExtra("battery", 0.7),
-  scope:setTag("user_mode", "admin"),
-  scope:setUser({ id = "4711" }),
-  -- scope:clear(),
+  scope:setExtra("battery", 0.7)
+  scope:setTag("user_mode", "admin")
+  scope:setUser({ id = "4711" })
+  -- scope:clear()
 end)
 
 -- Add a breadcrumb for future events

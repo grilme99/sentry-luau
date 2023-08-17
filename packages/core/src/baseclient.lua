@@ -682,7 +682,7 @@ function BaseClient._processEvent(
         end)
         :andThen(function(processedEvent)
             if processedEvent == nil then
-                self:recordDroppedEvent("before_send", dataCategory, event)
+                self:recordDroppedEvent("before_send", dataCategory, processedEvent)
                 error(SentryError.new(`{beforeSendLabel} returned \`nil\`, will not send event.`, "log"))
             end
 
@@ -695,14 +695,14 @@ function BaseClient._processEvent(
             -- so if the transaction name has been changed by an event processor, we know
             -- it has to come from custom event processor added by a user
             local transactionInfo = processedEvent.transaction_info
-            if isTransaction and transactionInfo and processedEvent.transaction ~= event.transaction then
+            if isTransaction and transactionInfo and processedEvent.transaction ~= processedEvent.transaction then
                 local source = "custom"
                 processedEvent.transaction_info = Object.mergeObjects(transactionInfo, {
                     source = source,
                 })
             end
 
-            self:sendEvent(event, hint)
+            self:sendEvent(processedEvent, hint)
             return processedEvent
         end)
         :andThen(nil, function(reason)

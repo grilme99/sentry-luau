@@ -127,6 +127,7 @@ local function createRobloxStackParser(options: RobloxOptions)
             filename = path,
             function_ = functionName,
             lineno = tonumber(lineNumber),
+            in_app = true, -- All Roblox frames are considered in_app by default
         }
     end
 

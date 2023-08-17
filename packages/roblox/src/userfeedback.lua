@@ -32,7 +32,7 @@ function UserFeedback.createUserFeedbackEnvelope(
         dsn: DsnComponents | nil,
     }
 ): EventEnvelope
-    local metadata, tunnel, dsn = data.metadata, data.tunnel, data.dsn
+    local metadata, _tunnel, dsn = data.metadata, data.tunnel, data.dsn
 
     local headers = Object.mergeObjects(
         { event_id = feedback.event_id, sent_at = DateTime.now():ToIsoDate() },
@@ -44,11 +44,12 @@ function UserFeedback.createUserFeedbackEnvelope(
                 },
             }
             else {},
-        if not not tunnel and not not dsn then { dsn = dsnToString(dsn) } else {}
+        -- if not not tunnel and not not dsn then { dsn = dsnToString(dsn) } else {}
+        if dsn then { dsn = dsnToString(dsn) } else {}
     )
     local item = createUserFeedbackEnvelopeItem(feedback)
 
-    return createEnvelope(headers, item)
+    return createEnvelope(headers, { item })
 end
 
 return UserFeedback

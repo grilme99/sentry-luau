@@ -3,16 +3,46 @@
 local PackageRoot = script
 local Packages = PackageRoot.Parent
 
+local RobloxSdk = {}
+
 local Types = require(Packages.SentryTypes)
 type UserFeedback = Types.UserFeedback
 type Hub = Types.Hub
 type PromiseLike<T> = Types.PromiseLike<T>
 
 local Core = require(Packages.SentryCore)
+RobloxSdk.addGlobalEventProcessor = Core.addGlobalEventProcessor
+RobloxSdk.addBreadcrumb = Core.addBreadcrumb
+RobloxSdk.captureException = Core.captureException
+RobloxSdk.captureEvent = Core.captureEvent
+RobloxSdk.captureMessage = Core.captureMessage
+RobloxSdk.configureScope = Core.configureScope
+RobloxSdk.createTransport = Core.createTransport
+RobloxSdk.getHubFromCarrier = Core.getHubFromCarrier
 local getCurrentHub = Core.getCurrentHub
+RobloxSdk.getCurrentHub = getCurrentHub
+RobloxSdk.Hub = Core.Hub
+RobloxSdk.makeMain = Core.makeMain
+RobloxSdk.Scope = Core.Scope
+RobloxSdk.startTransaction = Core.startTransaction
+RobloxSdk.SDK_VERSION = Core.SDK_VERSION
+RobloxSdk.setContext = Core.setContext
+RobloxSdk.setExtra = Core.setExtra
+RobloxSdk.setExtras = Core.setExtras
+RobloxSdk.setTag = Core.setTag
+RobloxSdk.setTags = Core.setTags
+RobloxSdk.setUser = Core.setUser
+RobloxSdk.withScope = Core.withScope
 local getIntegrationsToSetup = Core.getIntegrationsToSetup
 local initAndBind = Core.initAndBind
 -- local CoreIntegrations
+
+local Transports = require(script.transports)
+RobloxSdk.makeHttpServiceTransport = Transports.makeHttpServiceTransport
+
+local EventBuilder = require(script.eventbuilder)
+RobloxSdk.eventFromException = EventBuilder.eventFromException
+RobloxSdk.eventFromMessage = EventBuilder.eventFromMessage
 
 local Utils = require(Packages.SentryUtils)
 -- local addInstrumentationHandler = Utils.addInstrumentationHandler
@@ -33,8 +63,6 @@ local makeRobloxStackParser = require(PackageRoot.stackparser)
 
 local Transports = require(PackageRoot.transports)
 local makeHttpServiceTransport = Transports.makeHttpServiceTransport
-
-local RobloxSdk = {}
 
 local defaultIntegrations = {}
 RobloxSdk.defaultIntegrations = defaultIntegrations

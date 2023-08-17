@@ -191,7 +191,7 @@ function EnvelopeUtils.createEventEnvelopeHeaders(
     local dynamicSamplingContext = event.sdkProcessingMetadata and event.sdkProcessingMetadata.dynamicSamplingContext
     return Object.mergeObjects(
         {
-            event_id = event.environment,
+            event_id = event.event_id,
             sent_at = DateTime.now():ToIsoDate(),
             sdk = sdkInfo,
         },
