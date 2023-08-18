@@ -110,7 +110,7 @@ export type BaseTransportOptions = InternalBaseTransportOptions & {
     --- url to send the event
     --- transport does not care about dsn specific - client should take care of
     --- parsing and figuring that out
-    url: string,
+    url: string?,
 }
 
 export type Transport = {
@@ -156,7 +156,7 @@ export type ClientOptions<TO = BaseTransportOptions> = TO & {
     dist: string?,
 
     --- List of integrations that should be installed after SDK was initialized.
-    integrations: Array<Integration>,
+    integrations: Array<Integration>?,
 
     --- The instrumenter to use. Defaults to `sentry`.
     --- When not set to `sentry`, auto-instrumentation inside of Sentry will be disabled,
@@ -171,7 +171,7 @@ export type ClientOptions<TO = BaseTransportOptions> = TO & {
 
     --- A stack parser implementation
     --- By default, a stack parser is supplied for all supported platforms
-    stackParser: StackParser,
+    stackParser: StackParser?,
 
     --- Options for the default transport that the SDK uses.
     transportOptions: Partial<TO>?,

@@ -10,7 +10,7 @@ type Map<K, V> = { [K]: V }
 
 export type RobloxTransportOptions = BaseTransportOptions & {
     --- Custom headers for the transport. Used by HttpServiceTransport.
-    headers: Map<string, string>,
+    headers: Map<string, string>?,
 }
 
 return {}
