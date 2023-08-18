@@ -601,10 +601,8 @@ function BaseClient._prepareEvent(
                 then dsc
                 else getDynamicSamplingContextFromClient(traceId, self, scope)
 
-            evt.sdkProcessingMetadata = Object.assign(
-                { dynamicSamplingContext = dynamicSamplingContext },
-                evt.sdkProcessingMetadata or {}
-            )
+            evt.sdkProcessingMetadata =
+                Object.assign({ dynamicSamplingContext = dynamicSamplingContext }, evt.sdkProcessingMetadata or {})
         end
 
         return evt

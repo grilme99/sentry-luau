@@ -144,8 +144,7 @@ function MiscUtils.addExceptionMechanism(event: Event, newMechanism: PartialMech
     firstException.mechanism = Object.assign(defaultMechanism, currentMechanism or {}, newMechanism or {})
 
     if newMechanism and newMechanism.data ~= nil then
-        local mergedData =
-            Object.assign(if currentMechanism then currentMechanism.data else {}, newMechanism.data);
+        local mergedData = Object.assign(if currentMechanism then currentMechanism.data else {}, newMechanism.data);
         (firstException.mechanism :: Mechanism).data = mergedData
     end
 end

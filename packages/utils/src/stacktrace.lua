@@ -99,24 +99,6 @@ function Stacktrace.stripSentryFramesAndReverse(stack: Array<StackFrame>): Array
 
     local localStack = Array.slice(stack, 1, STACKTRACE_FRAME_LIMIT)
 
-    -- local lastFrameFunction = localStack[#localStack].function_
-    -- -- If stack starts with one of our API calls, remove it (starts, meaning it's the top of the stack - aka last call)
-    -- if lastFrameFunction and string.find(lastFrameFunction, "sentryWrapped") then
-    --     table.remove(localStack, #localStack)
-    -- end
-
-    -- -- Reversing in the middle of the procedure allows us to just pop the values off the stack
-    -- localStack = Array.reverse(localStack)
-
-    -- local firstFrameFunction = localStack[#localStack].function_
-    -- -- If stack ends with one of our internal API calls, remove it (ends, meaning it's the bottom of the stack - aka top-most call)
-    -- if
-    --     firstFrameFunction
-    --     and (string.find(firstFrameFunction, "captureMessage") or string.find(firstFrameFunction, "captureException"))
-    -- then
-    --     table.remove(localStack, #localStack)
-    -- end
-
     -- deviation: Don't reverse the frames in Lua
     local firstFrameFunction = localStack[1].function_
     -- If stack ends with one of our internal API calls, remove it (ends, meaning it's the bottom of the stack - aka top-most call)
