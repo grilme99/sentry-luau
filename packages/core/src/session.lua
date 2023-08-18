@@ -22,23 +22,23 @@ local Session = {}
 ---
 --- @returns a JSON object of the passed session
 local function sessionToJSON(session: Session): SerializedSession
-	return {
-		sid = `{session.sid}`,
-		init = session.init,
-		-- Make sure that sec is converted to ms for date constructor
-		started = DateTime.fromUnixTimestamp(session.started):ToIsoDate(),
-		timestamp = DateTime.fromUnixTimestamp(session.timestamp):ToIsoDate(),
-		status = session.status,
-		errors = session.errors,
-		did = if type(session.did) == "number" or type(session.did) == "string" then `{session.did}` else nil,
-		duration = session.duration,
-		attrs = {
-			release = session.release,
-			environment = session.environment,
-			ip_address = session.ipAddress,
-			user_agent = session.userAgent,
-		},
-	}
+    return {
+        sid = `{session.sid}`,
+        init = session.init,
+        -- Make sure that sec is converted to ms for date constructor
+        started = DateTime.fromUnixTimestamp(session.started):ToIsoDate(),
+        timestamp = DateTime.fromUnixTimestamp(session.timestamp):ToIsoDate(),
+        status = session.status,
+        errors = session.errors,
+        did = if type(session.did) == "number" or type(session.did) == "string" then `{session.did}` else nil,
+        duration = session.duration,
+        attrs = {
+            release = session.release,
+            environment = session.environment,
+            ip_address = session.ipAddress,
+            user_agent = session.userAgent,
+        },
+    }
 end
 
 --- Creates a new `Session` object by setting certain default parameters. If optional @param context
@@ -48,29 +48,29 @@ end
 ---
 --- @return a new `Session` object
 function Session.makeSession(context: SessionContext): Session
-	-- Both timestamp and started are in seconds since the UNIX epoch.
-	local startingTime = timestampInSeconds()
+    -- Both timestamp and started are in seconds since the UNIX epoch.
+    local startingTime = timestampInSeconds()
 
-	local session: Session
-	session = {
-		sid = uuid4(),
-		init = true,
-		timestamp = startingTime,
-		started = startingTime,
-		duration = 0,
-		status = "ok",
-		errors = 0,
-		ignoreDuration = false,
-		toJSON = function()
-			return sessionToJSON(session)
-		end,
-	}
+    local session: Session
+    session = {
+        sid = uuid4(),
+        init = true,
+        timestamp = startingTime,
+        started = startingTime,
+        duration = 0,
+        status = "ok",
+        errors = 0,
+        ignoreDuration = false,
+        toJSON = function()
+            return sessionToJSON(session)
+        end,
+    }
 
-	if context then
-		Session.updateSession(session, context)
-	end
+    if context then
+        Session.updateSession(session, context)
+    end
 
-	return session
+    return session
 end
 
 --- Updates a session object with the properties passed in the context.
@@ -83,62 +83,62 @@ end
 --- @param session the `Session` to update
 --- @param context the `SessionContext` holding the properties that should be updated in @param session
 function Session.updateSession(session: Session, context_: SessionContext?)
-	local context: SessionContext = context_ or {} :: any
+    local context: SessionContext = context_ or {} :: any
 
-	if context.user then
-		if not session.ipAddress and context.user.ip_address then
-			session.ipAddress = context.user.ip_address
-		end
+    if context.user then
+        if not session.ipAddress and context.user.ip_address then
+            session.ipAddress = context.user.ip_address
+        end
 
-		if not session.did and not context.did then
-			session.did = context.user.id or context.user.email or context.user.username
-		end
-	end
+        if not session.did and not context.did then
+            session.did = context.user.id or context.user.email or context.user.username
+        end
+    end
 
-	session.timestamp = context.timestamp or timestampInSeconds()
+    session.timestamp = context.timestamp or timestampInSeconds()
 
-	if context.ignoreDuration then
-		session.ignoreDuration = context.ignoreDuration
-	end
-	if context.sid then
-		-- Good enough uuid validation. — Kamil
-		session.sid = if #context.sid == 32 then context.sid else uuid4()
-	end
-	if context.init ~= nil then
-		session.init = context.init
-	end
-	if not session.did and context.did then
-		session.did = tostring(context.did)
-	end
-	if type(context.started) == "number" then
-		session.started = context.started
-	end
-	if session.ignoreDuration then
-		session.duration = nil
-	elseif type(context.duration) == "number" then
-		session.duration = context.duration
-	else
-		local duration = session.timestamp - session.started
-		session.duration = if duration >= 0 then duration else 0
-	end
-	if context.release then
-		session.release = context.release
-	end
-	if context.environment then
-		session.environment = context.environment
-	end
-	if not session.ipAddress and context.ipAddress then
-		session.ipAddress = context.ipAddress
-	end
-	if not session.userAgent and context.userAgent then
-		session.userAgent = context.userAgent
-	end
-	if type(context.errors) == "number" then
-		session.errors = context.errors
-	end
-	if context.status then
-		session.status = context.status
-	end
+    if context.ignoreDuration then
+        session.ignoreDuration = context.ignoreDuration
+    end
+    if context.sid then
+        -- Good enough uuid validation. — Kamil
+        session.sid = if #context.sid == 32 then context.sid else uuid4()
+    end
+    if context.init ~= nil then
+        session.init = context.init
+    end
+    if not session.did and context.did then
+        session.did = tostring(context.did)
+    end
+    if type(context.started) == "number" then
+        session.started = context.started
+    end
+    if session.ignoreDuration then
+        session.duration = nil
+    elseif type(context.duration) == "number" then
+        session.duration = context.duration
+    else
+        local duration = session.timestamp - session.started
+        session.duration = if duration >= 0 then duration else 0
+    end
+    if context.release then
+        session.release = context.release
+    end
+    if context.environment then
+        session.environment = context.environment
+    end
+    if not session.ipAddress and context.ipAddress then
+        session.ipAddress = context.ipAddress
+    end
+    if not session.userAgent and context.userAgent then
+        session.userAgent = context.userAgent
+    end
+    if type(context.errors) == "number" then
+        session.errors = context.errors
+    end
+    if context.status then
+        session.status = context.status
+    end
 end
 
 --- Closes a session by setting its status and updating the session object with it.
@@ -151,14 +151,14 @@ end
 ---               this function will keep the previously set status, unless it was `'ok'` in which case
 ---               it is changed to `'exited'`.
 function Session.closeSession(session: Session, status: SessionStatus?)
-	local context = {}
-	if status then
-		context = { status = status }
-	elseif session.status == "ok" then
-		context = { status = "exited" :: SessionStatus }
-	end
+    local context = {}
+    if status then
+        context = { status = status }
+    elseif session.status == "ok" then
+        context = { status = "exited" :: SessionStatus }
+    end
 
-	Session.updateSession(session, context)
+    Session.updateSession(session, context)
 end
 
 return Session
