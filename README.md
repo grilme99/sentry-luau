@@ -8,8 +8,9 @@
 
 # Unofficial Sentry SDKs for Lua
 
-A set of Sentry SDKs for various Lua environments. Primarily built for Roblox, PRs are welcome for other platforms.
-To simplify design and implementation, these SDKs are hand-translated from the [Sentry JavaScript SDK](https://github.com/getsentry/sentry-javascript) (with deviations for Lua and Roblox specific constructs).
+A set of Sentry SDKs for various Lua environments. To simplify design and implementation, these SDKs are hand-translated
+from the [Sentry JavaScript SDK](https://github.com/getsentry/sentry-javascript) (with deviations for Lua specific
+constructs).
 
 ## Links
 

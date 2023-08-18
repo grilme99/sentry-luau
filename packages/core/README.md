@@ -6,9 +6,13 @@
 
 # Sentry Lua SDK Core
 
+## Links
+
+- [SDK Docs](https://Neura-Studios.github.io/sentry-lua)
+
 ## General
 
 This package contains interface definitions, base classes and utilities for building Sentry Lua SDKs, like
-`sentry-luau`.
+`sentry-roblox`.
 
 Please consider all classes and exported functions and interfaces `internal`.

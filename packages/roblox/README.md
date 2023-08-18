@@ -6,6 +6,10 @@
 
 # Unofficial Sentry SDK for Roblox
 
+## Links
+
+- [SDK Docs](https://Neura-Studios.github.io/sentry-lua)
+
 ## Usage
 
 To use this SDK, call `Sentry.init(options)` as early as possible after the game starts (on the client or server).

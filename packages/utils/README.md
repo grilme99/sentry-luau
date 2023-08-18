@@ -6,6 +6,10 @@
 
 # Sentry Lua SDK Utilities
 
+## Links
+
+- [SDK Docs](https://Neura-Studios.github.io/sentry-lua)
+
 ## General
 
 Common utilities used by the Sentry Lua SDKs.
