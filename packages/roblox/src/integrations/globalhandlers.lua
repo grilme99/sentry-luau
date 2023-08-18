@@ -105,7 +105,7 @@ local function discoveryPromiseLibrariesAsync(): Array<MaybePromiseLibrary>
                 local name = string.lower(candidate.Name)
                 if string.match(name, "promise") or hasAncestorThatMatchesName(candidate, "promise") then
                     local success, result = pcall(require, candidate)
-                    if success then
+                    if success and type(result) == "table" then
                         local onUnhandledRejection = result.onUnhandledRejection
                         if type(onUnhandledRejection) == "function" then
                             local argCount = debug.info(onUnhandledRejection, "a")
