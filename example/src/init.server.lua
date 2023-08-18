@@ -5,6 +5,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local Packages = ReplicatedStorage.Packages
 local Error = require(Packages.SentryUtils.polyfill.error)
+local Promise = require(Packages.SentryUtils.vendor.promise)
 local Sentry = require(Packages.Sentry)
 
 local Sourcemap = require(ReplicatedStorage.Sourcemap)
@@ -21,27 +22,34 @@ Sentry.configureScope(function(scope)
     scope:setUser({ id = "75380482", username = "grilme99" })
 end)
 
-Sentry.addBreadcrumb({
-    message = "My Breadcrumb",
-})
+wait(2)
 
-pcall(function()
-    local function erroringFunction(_foo: string, _bar: string)
-        error(Error.new("Attempt to index a nil value")) -- Example error
-    end
-
-    Sentry.wrap(erroringFunction, "a", "b")
+-- error("Some error that caused a crash!")
+Promise.new(function()
+    error("Oops! This promise errored!!!")
 end)
 
-task.wait(2)
+-- Sentry.addBreadcrumb({
+--     message = "My Breadcrumb",
+-- })
 
-local lastEvent = Sentry.lastEventId()
-print("last event:", lastEvent)
-print("sending user feedback")
+-- pcall(function()
+--     local function erroringFunction(_foo: string, _bar: string)
+--         error(Error.new("Attempt to index a nil value")) -- Example error
+--     end
 
-local client = Sentry.getCurrentHub():getClient()
-client:captureUserFeedback({
-    event_id = lastEvent,
-    name = "grilme99",
-    comments = "All of my UI disappeared and I had to rejoin to fix the error",
-})
+--     Sentry.wrap(erroringFunction, "a", "b")
+-- end)
+
+-- task.wait(2)
+
+-- local lastEvent = Sentry.lastEventId()
+-- print("last event:", lastEvent)
+-- print("sending user feedback")
+
+-- local client = Sentry.getCurrentHub():getClient()
+-- client:captureUserFeedback({
+--     event_id = lastEvent,
+--     name = "grilme99",
+--     comments = "All of my UI disappeared and I had to rejoin to fix the error",
+-- })

@@ -222,5 +222,6 @@ export type SerializedCheckIn = CheckIn.SerializedCheckIn
 local Promise = require(PackageRoot.promise)
 export type Promise<T> = Promise.Promise<T>
 export type PromiseLike<T> = Promise.PromiseLike<T>
+export type MaybePromiseLibrary = Promise.MaybePromiseLibrary
 
 return {}

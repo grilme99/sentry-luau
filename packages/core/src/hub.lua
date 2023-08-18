@@ -377,7 +377,7 @@ function Hub.captureEvent(self: Hub, event: Event, hint: EventHint?): string
     end
 
     self:_withClient(function(client, scope)
-        client:captureException(event, mergeObjects(hint or {}, { event_id = eventId }), scope)
+        client:captureEvent(event, mergeObjects(hint or {}, { event_id = eventId }), scope)
     end)
     return eventId
 end

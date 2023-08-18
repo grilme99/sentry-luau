@@ -64,12 +64,14 @@ local internalWrap = Helpers.wrap
 local makeRobloxStackParser = require(PackageRoot.stackparser)
 
 local Integrations = require(PackageRoot.integrations)
+RobloxSdk.GlobalHandlers = Integrations.GlobalHandlers
 RobloxSdk.Dedupe = Integrations.Dedupe
 
 type Array<T> = { T }
 
 local defaultIntegrations: Array<Integration> = {
     CoreIntegrations.InboundFilters.new(),
+    Integrations.GlobalHandlers.new(),
     Integrations.Dedupe.new(),
 }
 RobloxSdk.defaultIntegrations = defaultIntegrations

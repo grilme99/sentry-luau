@@ -2,6 +2,7 @@
 
 local Integrations = {}
 
+Integrations.GlobalHandlers = require(script.globalhandlers)
 Integrations.Dedupe = require(script.dedupe)
 
 return Integrations
