@@ -8,6 +8,7 @@ local RobloxSdk = {}
 local Types = require(Packages.SentryTypes)
 type UserFeedback = Types.UserFeedback
 type Hub = Types.Hub
+type Integration = Types.Integration
 type PromiseLike<T> = Types.PromiseLike<T>
 
 local Core = require(Packages.SentryCore)
@@ -37,11 +38,11 @@ local getIntegrationsToSetup = Core.getIntegrationsToSetup
 local initAndBind = Core.initAndBind
 local CoreIntegrations = Core.Integrations
 
-local Transports = require(script.transports)
+local Transports = require(PackageRoot.transports)
 local makeHttpServiceTransport = Transports.makeHttpServiceTransport
 RobloxSdk.makeHttpServiceTransport = makeHttpServiceTransport
 
-local EventBuilder = require(script.eventbuilder)
+local EventBuilder = require(PackageRoot.eventbuilder)
 RobloxSdk.eventFromException = EventBuilder.eventFromException
 RobloxSdk.eventFromMessage = EventBuilder.eventFromMessage
 
@@ -62,8 +63,14 @@ local internalWrap = Helpers.wrap
 
 local makeRobloxStackParser = require(PackageRoot.stackparser)
 
-local defaultIntegrations = {
+local Integrations = require(PackageRoot.integrations)
+RobloxSdk.Dedupe = Integrations.Dedupe
+
+type Array<T> = { T }
+
+local defaultIntegrations: Array<Integration> = {
     CoreIntegrations.InboundFilters.new(),
+    Integrations.Dedupe.new(),
 }
 RobloxSdk.defaultIntegrations = defaultIntegrations
 
