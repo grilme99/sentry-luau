@@ -12,6 +12,7 @@ type StackParser = Types.StackParser
 local LuauPolyfill = require(Packages.LuauPolyfill)
 local Array = LuauPolyfill.Array
 local Object = LuauPolyfill.Object
+local String = LuauPolyfill.String
 
 local STACKTRACE_FRAME_LIMIT = 50
 
@@ -49,8 +50,8 @@ function Stacktrace.createStackParser(...: StackLineParser): StackParser
                 continue
             end
 
-            -- deviation: Sometimes stack lines are empty strings and aren't useful to us.
-            if #line == 0 then
+            -- deviation: Remove empty stack lines
+            if #String.trim(line) == 0 then
                 continue
             end
 
@@ -58,6 +59,10 @@ function Stacktrace.createStackParser(...: StackLineParser): StackParser
                 local frame = parser(line)
 
                 if frame then
+                    if #Object.keys(frame) == 1 and frame.in_app ~= nil then
+                        continue
+                    end
+
                     table.insert(frames, frame)
                     break
                 end
@@ -94,21 +99,37 @@ function Stacktrace.stripSentryFramesAndReverse(stack: Array<StackFrame>): Array
 
     local localStack = Array.slice(stack, 1, STACKTRACE_FRAME_LIMIT)
 
-    local lastFrameFunction = localStack[#localStack].function_
-    -- If stack starts with one of our API calls, remove it (starts, meaning it's the top of the stack - aka last call)
-    if lastFrameFunction and string.find(lastFrameFunction, "sentryWrapped") then
-        table.remove(localStack, #localStack)
-    end
+    -- local lastFrameFunction = localStack[#localStack].function_
+    -- -- If stack starts with one of our API calls, remove it (starts, meaning it's the top of the stack - aka last call)
+    -- if lastFrameFunction and string.find(lastFrameFunction, "sentryWrapped") then
+    --     table.remove(localStack, #localStack)
+    -- end
 
-    -- Reversing in the middle of the procedure allows us to just pop the values off the stack
-    localStack = Array.reverse(localStack)
+    -- -- Reversing in the middle of the procedure allows us to just pop the values off the stack
+    -- localStack = Array.reverse(localStack)
 
-    local firstFrameFunction = localStack[#localStack].function_
+    -- local firstFrameFunction = localStack[#localStack].function_
+    -- -- If stack ends with one of our internal API calls, remove it (ends, meaning it's the bottom of the stack - aka top-most call)
+    -- if
+    --     firstFrameFunction
+    --     and (string.find(firstFrameFunction, "captureMessage") or string.find(firstFrameFunction, "captureException"))
+    -- then
+    --     table.remove(localStack, #localStack)
+    -- end
+
+    -- deviation: Don't reverse the frames in Lua
+    local firstFrameFunction = localStack[1].function_
     -- If stack ends with one of our internal API calls, remove it (ends, meaning it's the bottom of the stack - aka top-most call)
     if
         firstFrameFunction
         and (string.find(firstFrameFunction, "captureMessage") or string.find(firstFrameFunction, "captureException"))
     then
+        table.remove(localStack, #localStack)
+    end
+
+    local lastFrameFunction = localStack[#localStack].function_
+    -- If stack starts with one of our API calls, remove it (starts, meaning it's the top of the stack - aka last call)
+    if lastFrameFunction and string.find(lastFrameFunction, "sentryWrapped") then
         table.remove(localStack, #localStack)
     end
 

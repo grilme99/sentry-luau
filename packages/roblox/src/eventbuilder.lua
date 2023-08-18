@@ -55,6 +55,11 @@ local function getNonErrorObjectExceptionValue(exception: Map<string, unknown>, 
     return `Object captured as {captureType} with keys: {keys}`
 end
 
+local function removeLocationFromErrorMessage(errorMessage: string)
+    local cleanedMessage = string.match(errorMessage, "^[^:]+:%d+: (.+)$")
+    return cleanedMessage or errorMessage
+end
+
 --- This function creates an exception from a JavaScript Error
 function EventBuilder.exceptionFromError(stackParser: StackParser, ex: Error): Exception
     -- Get the frames first since Opera can lose the stack if we touch anything else first
@@ -244,8 +249,9 @@ function EventBuilder.eventFromString(
     syntheticException: Error?,
     attachStacktrace: boolean?
 ): Event
+    local message = removeLocationFromErrorMessage(input)
     local event: Event = {
-        message = input,
+        message = message,
     }
 
     if attachStacktrace and syntheticException then
@@ -253,7 +259,7 @@ function EventBuilder.eventFromString(
         if #frames > 0 then
             event.exception = {
                 values = {
-                    { value = input, stacktrace = { frames = frames } },
+                    { value = message, stacktrace = { frames = frames } },
                 },
             }
         end

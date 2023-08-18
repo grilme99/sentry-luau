@@ -34,7 +34,8 @@ local function resolveSourcemapPath(dmPath: string, sourcemap: SourcemapEntry): 
     local currentPath = dmPath
 
     local function visitSourcemapNode(node: SourcemapEntry)
-        if String.startsWith(currentPath, node.name) then
+        local nextSegment = string.split(currentPath, ".")[1]
+        if nextSegment and String.startsWith(node.name, nextSegment) then
             previousNode = node
 
             currentPath = String.slice(currentPath, #node.name + 1)
@@ -42,8 +43,15 @@ local function resolveSourcemapPath(dmPath: string, sourcemap: SourcemapEntry): 
                 currentPath = String.slice(currentPath, 2)
             end
 
+            if currentPath == "" then
+                return
+            end
+
             if node.children then
                 for _, child in node.children do
+                    if currentPath == "" then
+                        break
+                    end
                     visitSourcemapNode(child)
                 end
             end
@@ -53,6 +61,9 @@ local function resolveSourcemapPath(dmPath: string, sourcemap: SourcemapEntry): 
     if sourcemap.children then
         for _, child in sourcemap.children do
             visitSourcemapNode(child)
+            if currentPath == "" then
+                break
+            end
         end
     end
 

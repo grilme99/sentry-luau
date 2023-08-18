@@ -82,7 +82,7 @@ end
 
 --- Search through modules in the game for any Promise libraries that expose an onUnhandledRejection hook.
 --- Warning: This could yield if any required modules yield.
-local function discoveryPromiseLibrariesAsync(): Array<MaybePromiseLibrary>
+local function discoverPromiseLibrariesAsync(): Array<MaybePromiseLibrary>
     local promiseLibraries = {}
 
     local promiseLocations: Array<Instance> = {
@@ -152,7 +152,7 @@ local function _installGlobalOnErrorHandler()
 end
 
 local function _installGlobalOnUnhandledRejectionHandler()
-    local promiseLibraries = discoveryPromiseLibrariesAsync()
+    local promiseLibraries = discoverPromiseLibrariesAsync()
     for _, promiseLibrary in promiseLibraries do
         local onUnhandledRejection = promiseLibrary.onUnhandledRejection
         -- Just in case
