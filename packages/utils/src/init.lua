@@ -87,17 +87,4 @@ local TimeUtils = require(PackageRoot.time)
 Utils.dateTimestampInSeconds = TimeUtils.dateTimestampInSeconds
 Utils.timestampInSeconds = TimeUtils.timestampInSeconds
 
-Utils.Polyfill = {}
-Utils.Polyfill.instanceof = require(PackageRoot.polyfill.instanceof)
-local Error = require(PackageRoot.polyfill.error)
-Utils.Polyfill.Error = Error
-export type Error = Error.Error
-Utils.Polyfill.Object = require(PackageRoot.polyfill.object)
-Utils.Polyfill.Array = require(PackageRoot.polyfill.array)
-
-Utils.Promise = require(PackageRoot.vendor.promise)
-local RegExp = require(PackageRoot.vendor.regexp)
-Utils.RegExp = RegExp
-export type RegExp = RegExp.RegExp
-
 return Utils

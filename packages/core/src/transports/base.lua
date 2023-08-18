@@ -3,6 +3,12 @@
 local PackageRoot = script.Parent.Parent
 local Packages = PackageRoot.Parent
 
+local LuauPolyfill = require(Packages.LuauPolyfill)
+local Array = LuauPolyfill.Array
+local instanceof = LuauPolyfill.instanceof
+
+local Promise = require(Packages.Promise)
+
 local Types = require(Packages.SentryTypes)
 type Envelope = Types.Envelope
 type EnvelopeItem = Types.EnvelopeItem
@@ -27,9 +33,6 @@ local makePromiseBuffer = Utils.makePromiseBuffer
 local SentryError = Utils.SentryError
 local serializeEnvelope = Utils.serializeEnvelope
 local updateRateLimits = Utils.updateRateLimits
-local Array = Utils.Polyfill.Array
-local Promise = Utils.Promise
-local instanceof = Utils.Polyfill.instanceof
 type PromiseBuffer<T> = Utils.PromiseBuffer<T>
 type RateLimits = Utils.RateLimits
 

@@ -9,9 +9,11 @@
 -- deviation: ansi-styles not ported
 
 local PackageRoot = script.Parent.Parent
+local Packages = PackageRoot.Parent
 
-local Error = require(PackageRoot.polyfill.error)
-local extends = require(PackageRoot.polyfill.extends)
+local LuauPolyfill = require(Packages.LuauPolyfill)
+local Error = LuauPolyfill.Error
+local extends = LuauPolyfill.extends
 
 local Collections = require(script.collections)
 local printTableEntries = Collections.printTableEntries

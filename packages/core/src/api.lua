@@ -3,6 +3,9 @@
 local PackageRoot = script.Parent
 local Packages = PackageRoot.Parent
 
+local LuauPolyfill = require(Packages.LuauPolyfill)
+local Object = LuauPolyfill.Object
+
 local Types = require(Packages.SentryTypes)
 type ClientOptions = Types.ClientOptions
 type DsnComponents = Types.DsnComponents
@@ -13,7 +16,6 @@ local Utils = require(Packages.SentryUtils)
 local dsnToString = Utils.dsnToString
 local makeDsn = Utils.makeDsn
 local urlEncode = Utils.urlEncode
-local Object = Utils.Polyfill.Object
 
 type Map<K, V> = { [K]: V }
 
@@ -33,7 +35,7 @@ end
 
 --- Returns a URL-encoded string with auth config suitable for a query string.
 function _encodedAuth(dsn: DsnComponents, sdkInfo: SdkInfo | nil): string
-    return urlEncode(Object.mergeObjects({
+    return urlEncode(Object.assign({
         -- We send only the minimum set of required information. See
         -- https://github.com/getsentry/sentry-javascript/issues/2572.
         sentry_key = dsn.publicKey,

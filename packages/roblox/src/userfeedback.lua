@@ -3,6 +3,9 @@
 local PackageRoot = script.Parent
 local Packages = PackageRoot.Parent
 
+local LuauPolyfill = require(Packages.LuauPolyfill)
+local Object = LuauPolyfill.Object
+
 local Types = require(Packages.SentryTypes)
 type DsnComponents = Types.DsnComponents
 type EventEnvelope = Types.EventEnvelope
@@ -13,7 +16,6 @@ type UserFeedbackItem = Types.UserFeedbackItem
 local Utils = require(Packages.SentryUtils)
 local createEnvelope = Utils.createEnvelope
 local dsnToString = Utils.dsnToString
-local Object = Utils.Polyfill.Object
 
 local UserFeedback = {}
 
@@ -34,7 +36,7 @@ function UserFeedback.createUserFeedbackEnvelope(
 ): EventEnvelope
     local metadata, _tunnel, dsn = data.metadata, data.tunnel, data.dsn
 
-    local headers = Object.mergeObjects(
+    local headers = Object.assign(
         { event_id = feedback.event_id, sent_at = DateTime.now():ToIsoDate() },
         if metadata and metadata.sdk
             then {

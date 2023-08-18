@@ -8,8 +8,12 @@
 --  */
 
 local CurrentModule = script.Parent
-local Array = require(CurrentModule.Parent.Parent.polyfill.array)
-local Object = require(CurrentModule.Parent.Parent.polyfill.object)
+local Packages = CurrentModule.Parent.Parent.Parent
+
+local LuauPolyfill = require(Packages.LuauPolyfill)
+local Array = LuauPolyfill.Array
+local Object = LuauPolyfill.Object
+
 local Types = require(CurrentModule.types)
 type CompareKeys = Types.CompareKeys
 type Config = Types.Config

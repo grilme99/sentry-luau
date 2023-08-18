@@ -12,9 +12,6 @@ local Packages = PackageRoot.Parent
 local Types = require(Packages.SentryTypes)
 type Integration = Types.Integration
 
-local Console = require(PackageRoot.polyfill.console)
-type Console = Console.Console
-
 type Array<T> = { T }
 type Record<K, V> = { [K]: V }
 
@@ -25,7 +22,7 @@ local GlobalUtils = {}
 ---Internal global with common properties and Sentry extensions
 export type InternalGlobal = {
     navigator: { userAgent: string? }?,
-    console: Console?,
+    console: any?,
     Sentry: {
         Integrations: Array<Integration>?,
     }?,

@@ -4,7 +4,7 @@
         "$className": "DataModel",
         "ReplicatedStorage": {
             "Packages": {
-                "$className": "Folder",
+                "$path": "deps",
                 "SentryCore": {
                     "$path": "packages/core/default.project.json"
                 },
@@ -19,7 +19,7 @@
                 }
             },
             "Sourcemap": {
-                "$path": "example-sourcemap.json"
+                "$path": "sourcemap.json"
             }
         },
         "ServerScriptService": {

@@ -6,10 +6,11 @@ local Packages = PackageRoot.Parent
 local Types = require(Packages.SentryTypes)
 type PromiseLike<T> = Types.PromiseLike<T>
 
-local Promise = require(PackageRoot.vendor.promise)
+local Promise = require(Packages.Promise)
+local Array = require(Packages.LuauPolyfill).Array
+
 local SentryError = require(PackageRoot.error)
 
-local Array = require(PackageRoot.polyfill.array)
 type Array<T> = { T }
 
 local PromiseBuffer = {}

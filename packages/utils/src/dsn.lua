@@ -8,9 +8,9 @@ type DsnComponents = Types.DsnComponents
 type DsnLike = Types.DsnLike
 type DsnProtocol = Types.DsnProtocol
 
-local RegExp = require(PackageRoot.vendor.regexp)
+local RegExp = require(Packages.RegExp)
 local logger = require(PackageRoot.logger).logger
-local console = require(PackageRoot.polyfill.console)
+local console = require(Packages.LuauPolyfill).console
 
 --- Regular expression used to parse a Dsn.
 local DSN_REGEX = RegExp(

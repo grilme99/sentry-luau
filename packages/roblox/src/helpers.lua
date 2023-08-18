@@ -3,6 +3,10 @@
 local PackageRoot = script.Parent
 local Packages = PackageRoot.Parent
 
+local LuauPolyfill = require(Packages.LuauPolyfill)
+local Array = LuauPolyfill.Array
+local Object = LuauPolyfill.Object
+
 local Types = require(Packages.SentryTypes)
 type DsnLike = Types.DsnLike
 type SentryEvent = Types.Event
@@ -16,8 +20,6 @@ local withScope = Core.withScope
 local Utils = require(Packages.SentryUtils)
 local addExceptionMechanism = Utils.addExceptionMechanism
 local addExceptionTypeValue = Utils.addExceptionTypeValue
-local Array = Utils.Polyfill.Array
-local Object = Utils.Polyfill.Object
 
 type Function = (...any) -> ...any
 
@@ -78,7 +80,7 @@ function wrap<A..., R...>(
                             addExceptionMechanism(event, options.mechanism)
                         end
 
-                        event.extra = Object.mergeObjects(event.extra or {}, {
+                        event.extra = Object.assign({}, event.extra or {}, {
                             arguments = args,
                         })
 

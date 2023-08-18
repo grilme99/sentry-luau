@@ -3,6 +3,11 @@
 local PackageRoot = script.Parent.Parent
 local Packages = PackageRoot.Parent
 
+local LuauPolyfill = require(Packages.LuauPolyfill)
+local Array = LuauPolyfill.Array
+local Object = LuauPolyfill.Object
+local Error = LuauPolyfill.Error
+
 local Core = require(Packages.SentryCore)
 local getCurrentHub = Core.getCurrentHub
 
@@ -18,9 +23,6 @@ type MaybePromiseLibrary = Types.MaybePromiseLibrary
 local Utils = require(Packages.SentryUtils)
 local addExceptionMechanism = Utils.addExceptionMechanism
 local logger = Utils.logger
-local Object = Utils.Polyfill.Object
-local Error = Utils.Polyfill.Error
-local Array = Utils.Polyfill.Array
 
 local Client = require(PackageRoot.client)
 type RobloxClient = Client.RobloxClient
@@ -175,7 +177,7 @@ local function _installGlobalOnUnhandledRejectionHandler()
 
                 local event = eventFromUnknownInput(stackParser, error, syntheticException, attachStacktrace, true)
                 event.level = "error"
-                event.tags = Object.mergeObjects(event.tags or {}, {
+                event.tags = Object.assign({}, event.tags or {}, {
                     promiseKind = kind,
                 })
 
@@ -198,7 +200,7 @@ export type GlobalHandlers = typeof(setmetatable(
 function GlobalHandlers.new(options: GlobalHandlersIntegrations?)
     local self: GlobalHandlers = setmetatable({}, GlobalHandlers) :: any
     self.name = GlobalHandlers.id
-    self._options = Object.mergeObjects({
+    self._options = Object.assign({}, {
         onerror = true,
         onunhandledrejection = true,
     }, options or {})

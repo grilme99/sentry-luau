@@ -1,5 +1,7 @@
 -- upstream: https://github.com/getsentry/sentry-javascript/blob/540adac9ec81803f86a3a7f5b34ebbc1ad2a8d23/packages/utils/src/envelope.ts
 
+local HttpService = game:GetService("HttpService")
+
 local PackageRoot = script.Parent
 local Packages = PackageRoot.Parent
 
@@ -26,8 +28,7 @@ local dsnToString = Dsn.dsnToString
 local Normalize = require(PackageRoot.normalize)
 local normalize = Normalize.normalize
 
-local JSON = require(PackageRoot.polyfill.json)
-local Object = require(PackageRoot.polyfill.object)
+local Object = require(Packages.LuauPolyfill).Object
 
 type Array<T> = { T }
 type Record<K, V> = { [K]: V }
@@ -92,7 +93,7 @@ function EnvelopeUtils.serializeEnvelope(envelope: Envelope): string
     local envHeaders, items = envelope.headers, envelope.items
 
     -- Initially we construct our envelope as a string and only convert to binary chunks if we encounter binary data
-    local parts = JSON.stringify(envHeaders)
+    local parts = HttpService:JSONEncode(envHeaders)
 
     local function append(next: string)
         parts ..= next
@@ -101,21 +102,21 @@ function EnvelopeUtils.serializeEnvelope(envelope: Envelope): string
     for _, item: EnvelopeItems in items :: any do
         local itemHeaders, payload = item.headers, item.payload
 
-        append(`\n{JSON.stringify(itemHeaders)}\n`)
+        append(`\n{HttpService:JSONEncode(itemHeaders)}\n`)
 
         if type(payload) == "string" then
             append(payload)
         else
             local stringifiedPayload: string
             local success, _ = pcall(function()
-                stringifiedPayload = JSON.stringify(payload)
+                stringifiedPayload = HttpService:JSONEncode(payload)
             end)
 
             if not success then
                 -- In case, despite all our efforts to keep `payload` circular-dependency-free, `JSON.strinify()` still
                 -- fails, we try again after normalizing it again with infinite normalization depth. This of course has a
                 -- performance impact but in this case a performance hit is better than throwing.
-                stringifiedPayload = JSON.stringify(normalize(payload))
+                stringifiedPayload = HttpService:JSONEncode(normalize(payload))
             end
 
             append(stringifiedPayload)
@@ -189,7 +190,7 @@ function EnvelopeUtils.createEventEnvelopeHeaders(
     dsn: DsnComponents
 ): EventEnvelopeHeaders
     local dynamicSamplingContext = event.sdkProcessingMetadata and event.sdkProcessingMetadata.dynamicSamplingContext
-    return Object.mergeObjects(
+    return Object.assign(
         {
             event_id = event.event_id,
             sent_at = DateTime.now():ToIsoDate(),

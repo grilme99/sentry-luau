@@ -1,5 +1,7 @@
 -- upstream: https://github.com/getsentry/sentry-javascript/blob/540adac9ec81803f86a3a7f5b34ebbc1ad2a8d23/packages/utils/src/normalize.ts
 
+local HttpService = game:GetService("HttpService")
+
 local PackageRoot = script.Parent
 local Packages = PackageRoot.Parent
 
@@ -17,8 +19,7 @@ local memoBuilder = Memo.memoBuilder
 local Stacktrace = require(PackageRoot.stacktrace)
 local getFunctionName = Stacktrace.getFunctionName
 
-local JSON = require(PackageRoot.polyfill.json)
-local String = require(PackageRoot.polyfill.string)
+local String = require(Packages.LuauPolyfill).String
 
 type ObjOrArray<T> = { [string | number]: T }
 
@@ -205,7 +206,7 @@ end
 
 --- Calculates bytes size of input object
 function jsonSize(value: any): number
-    local size = utf8.len(JSON.stringify(value))
+    local size = utf8.len(HttpService:JSONEncode(value))
     return size :: number
 end
 

@@ -1,0 +1,13 @@
+# This config exists so we can import the dependencies of all packages for analysis.
+# THIS PACKAGE IS NOT DIRECTLY PUBLISHED!
+
+[package]
+name = "neura-studios/sentry-lua"
+version = "0.1.0"
+registry = "https://github.com/UpliftGames/wally-index"
+realm = "shared"
+
+[dependencies]
+LuauPolyfill = "jsdotlua/luau-polyfill@1.2.3"
+RegExp = "jsdotlua/regex@1.0.2"
+Promise = "evaera/promise@4.0.0"

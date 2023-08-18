@@ -79,7 +79,7 @@ function RobloxClient.new(options: RobloxClientOptions)
 end
 
 function RobloxClient.eventFromException(self: RobloxClient, exception: unknown, hint: EventHint?): PromiseLike<Event>
-    return eventFromException(self._options.stackParser, exception, hint, self._options.attachStacktrace)
+    return eventFromException(self._options.stackParser :: any, exception, hint, self._options.attachStacktrace)
 end
 
 function RobloxClient.eventFromMessage(
@@ -89,7 +89,7 @@ function RobloxClient.eventFromMessage(
     hint: EventHint?
 ): PromiseLike<Event>
     local level: SeverityLevel = level_ or "info"
-    return eventFromMessage(self._options.stackParser, message, level, hint, self._options.attachStacktrace)
+    return eventFromMessage(self._options.stackParser :: any, message, level, hint, self._options.attachStacktrace)
 end
 
 function RobloxClient.captureUserFeedback(self: RobloxClient, feedback: UserFeedback)

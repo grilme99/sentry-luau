@@ -1,13 +1,13 @@
 -- upstream: https://github.com/getsentry/sentry-javascript/blob/540adac9ec81803f86a3a7f5b34ebbc1ad2a8d23/packages/utils/src/logger.ts
 
 local PackageRoot = script.Parent
+local Packages = PackageRoot.Parent
 
 local Global = require(PackageRoot.global)
 local getGlobalSingleton = Global.getGlobalSingleton
 local GLOBAL_OBJ = Global.GLOBAL_OBJ
 
-local Console = require(PackageRoot.polyfill.console)
-type Console = Console.Console
+local Console = require(Packages.LuauPolyfill).console
 
 local PrettyFormat = require(PackageRoot.vendor.prettyformat)
 
@@ -60,7 +60,7 @@ local function makeLogger(): Logger
                             GLOBAL_OBJ.console = Console
                         end
 
-                        local console = GLOBAL_OBJ.console :: Console
+                        local console = GLOBAL_OBJ.console :: any
                         local str = `{PREFIX}[{name}]:`
                         for _, arg in args do
                             str ..= " " .. if type(arg) == "string" then arg else PrettyFormat.format(arg)

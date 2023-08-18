@@ -3,12 +3,14 @@
 local PackageRoot = script.Parent
 local Packages = PackageRoot.Parent
 
+local LuauPolyfill = require(Packages.LuauPolyfill)
+local Array = LuauPolyfill.Array
+
 local Types = require(Packages.SentryTypes)
 type Integration_ = Types.Integration
 type Options = Types.Options
 
 local Utils = require(Packages.SentryUtils)
-local Array = Utils.Polyfill.Array
 local arrayify = Utils.arrayify
 local logger = Utils.logger
 

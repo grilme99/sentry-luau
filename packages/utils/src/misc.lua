@@ -10,11 +10,13 @@ type Mechanism = Types.Mechanism
 type PartialMechanism = Types.PartialMechanism
 type StackFrame = Types.StackFrame
 
-local Array = require(PackageRoot.polyfill.array)
-local Object = require(PackageRoot.polyfill.object)
-local RegExp = require(PackageRoot.vendor.regexp)
-local String = require(PackageRoot.polyfill.string)
+local RegExp = require(Packages.RegExp)
 type RegExp = RegExp.RegExp
+
+local LuauPolyfill = require(Packages.LuauPolyfill)
+local Array = LuauPolyfill.Array
+local Object = LuauPolyfill.Object
+local String = LuauPolyfill.String
 
 type Array<T> = { T }
 
@@ -139,11 +141,11 @@ function MiscUtils.addExceptionMechanism(event: Event, newMechanism: PartialMech
 
     local defaultMechanism = { type = "generic", handled = true }
     local currentMechanism = firstException.mechanism
-    firstException.mechanism = Object.mergeObjects(defaultMechanism, currentMechanism or {}, newMechanism or {})
+    firstException.mechanism = Object.assign(defaultMechanism, currentMechanism or {}, newMechanism or {})
 
     if newMechanism and newMechanism.data ~= nil then
         local mergedData =
-            Object.mergeObjects(if currentMechanism then currentMechanism.data else {}, newMechanism.data);
+            Object.assign(if currentMechanism then currentMechanism.data else {}, newMechanism.data);
         (firstException.mechanism :: Mechanism).data = mergedData
     end
 end

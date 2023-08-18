@@ -3,6 +3,8 @@
 local PackageRoot = script.Parent
 local Packages = PackageRoot.Parent.Parent
 
+local Promise = require(Packages.Promise)
+
 local Types = require(Packages.SentryTypes)
 type Transport = Types.Transport
 type TransportMakeRequestResponse = Types.TransportMakeRequestResponse
@@ -11,9 +13,6 @@ type PromiseLike<T> = Types.PromiseLike<T>
 
 local Core = require(Packages.SentryCore)
 local createTransport = Core.createTransport
-
-local Utils = require(Packages.SentryUtils)
-local Promise = Utils.Promise
 
 local TransportTypes = require(script.Parent.types)
 type RobloxTransportOptions = TransportTypes.RobloxTransportOptions
@@ -36,7 +35,7 @@ function HttpServiceTransport.makeHttpServiceTransport(options: RobloxTransportO
 
     local function makeRequest(request: TransportRequest): PromiseLike<TransportMakeRequestResponse>
         local requestOptions: HttpServiceRequest = {
-            Url = options.url,
+            Url = options.url :: any,
             Body = request.body,
             Method = "POST",
             Headers = options.headers,

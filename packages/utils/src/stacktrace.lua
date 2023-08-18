@@ -9,8 +9,9 @@ type StackLineParser = Types.StackLineParser
 type StackLineParserFn = Types.StackLineParserFn
 type StackParser = Types.StackParser
 
-local Array = require(PackageRoot.polyfill.array)
-local Object = require(PackageRoot.polyfill.object)
+local LuauPolyfill = require(Packages.LuauPolyfill)
+local Array = LuauPolyfill.Array
+local Object = LuauPolyfill.Object
 
 local STACKTRACE_FRAME_LIMIT = 50
 
@@ -112,7 +113,7 @@ function Stacktrace.stripSentryFramesAndReverse(stack: Array<StackFrame>): Array
     end
 
     return Array.map(localStack, function(frame: StackFrame)
-        return Object.mergeObjects(frame, {
+        return Object.assign(table.clone(frame), {
             filename = frame.filename or localStack[#localStack].filename,
             function_ = frame.function_ or "?",
         })

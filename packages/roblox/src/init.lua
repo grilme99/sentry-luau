@@ -3,6 +3,11 @@
 local PackageRoot = script
 local Packages = PackageRoot.Parent
 
+local LuauPolyfill = require(Packages.LuauPolyfill)
+local Object = LuauPolyfill.Object
+
+local Promise = require(Packages.Promise)
+
 local RobloxSdk = {}
 
 local Types = require(Packages.SentryTypes)
@@ -49,9 +54,7 @@ RobloxSdk.eventFromMessage = EventBuilder.eventFromMessage
 local Utils = require(Packages.SentryUtils)
 -- local addInstrumentationHandler = Utils.addInstrumentationHandler
 local logger = Utils.logger
-local Promise = Utils.Promise
 local stackParserFromStackParserOptions = Utils.stackParserFromStackParserOptions
-local Object = Utils.Polyfill.Object
 
 local RobloxClient = require(PackageRoot.client)
 type RobloxClient = RobloxClient.RobloxClient
@@ -112,9 +115,9 @@ function RobloxSdk.init(options_: RobloxOptions?)
         options.sendClientReports = true
     end
 
-    local clientOptions: RobloxClientOptions = Object.mergeObjects(options, {
+    local clientOptions: RobloxClientOptions = Object.assign({}, options, {
         stackParser = stackParserFromStackParserOptions(
-            options.stackParser or makeRobloxStackParser(options).defaultStackParser
+            options.stackParser :: any or makeRobloxStackParser(options).defaultStackParser
         ),
         integrations = getIntegrationsToSetup(options :: any),
         transport = options.transport or makeHttpServiceTransport,

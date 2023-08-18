@@ -3,6 +3,11 @@
 local PackageRoot = script.Parent
 local Packages = PackageRoot.Parent
 
+local LuauPolyfill = require(Packages.LuauPolyfill)
+type Error = LuauPolyfill.Error
+
+local Promise = require(Packages.Promise)
+
 local Types = require(Packages.SentryTypes)
 type Event = Types.Event
 type EventHint = Types.EventHint
@@ -23,8 +28,6 @@ local isError = Utils.isError
 local isPlainObject = Utils.isPlainObject
 local logger = Utils.logger
 local normalizeToSize = Utils.normalizeToSize
-local Promise = Utils.Promise
-type Error = Utils.Error
 
 type Array<T> = { T }
 type Map<K, V> = { [K]: V }

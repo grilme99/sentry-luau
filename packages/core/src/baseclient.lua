@@ -3,6 +3,13 @@
 local PackageRoot = script.Parent
 local Packages = PackageRoot.Parent
 
+local LuauPolyfill = require(Packages.LuauPolyfill)
+local Array = LuauPolyfill.Array
+local Object = LuauPolyfill.Object
+local instanceof = LuauPolyfill.instanceof
+
+local Promise = require(Packages.Promise)
+
 local Types = require(Packages.SentryTypes)
 type Breadcrumb = Types.Breadcrumb
 type BreadcrumbHint = Types.BreadcrumbHint
@@ -41,10 +48,6 @@ local logger = Utils.logger
 local makeDsn = Utils.makeDsn
 local SentryError = Utils.SentryError
 type SentryError = Utils.SentryError
-local Promise = Utils.Promise
-local Array = Utils.Polyfill.Array
-local Object = Utils.Polyfill.Object
-local instanceof = Utils.Polyfill.instanceof
 
 local Api = require(PackageRoot.api)
 local getEnvelopeEndpointWithUrlEncodedAuth = Api.getEnvelopeEndpointWithUrlEncodedAuth
@@ -252,7 +255,7 @@ function BaseClient.new<O>(options: ClientOptions & O)
 
     if self._dsn then
         local url = getEnvelopeEndpointWithUrlEncodedAuth(self._dsn, options)
-        self._transport = options.transport(Object.mergeObjects({
+        self._transport = (options :: any).transport(Object.assign({
             url = url,
             recordDroppedEvent = function(...)
                 self:recordDroppedEvent(...)
@@ -515,7 +518,7 @@ function BaseClient._updateSessionFromEvent(self: BaseClient<any>, session: Sess
     if shouldUpdateAndSend then
         updateSession(
             session,
-            Object.mergeObjects(
+            Object.assign(
                 if crashed then { status = "crashed" } else {},
                 { errors = session.errors or if errored or crashed then 1 else 0 }
             )
@@ -586,7 +589,7 @@ function BaseClient._prepareEvent(
                 propagationContext.parentSpanId,
                 propagationContext.dsc
 
-            evt.contexts = Object.mergeObjects({
+            evt.contexts = Object.assign({
                 trace = {
                     trace_id = traceId,
                     span_id = spanId,
@@ -598,7 +601,7 @@ function BaseClient._prepareEvent(
                 then dsc
                 else getDynamicSamplingContextFromClient(traceId, self, scope)
 
-            evt.sdkProcessingMetadata = Object.mergeObjects(
+            evt.sdkProcessingMetadata = Object.assign(
                 { dynamicSamplingContext = dynamicSamplingContext },
                 evt.sdkProcessingMetadata or {}
             )
@@ -697,7 +700,7 @@ function BaseClient._processEvent(
             local transactionInfo = processedEvent.transaction_info
             if isTransaction and transactionInfo and processedEvent.transaction ~= processedEvent.transaction then
                 local source = "custom"
-                processedEvent.transaction_info = Object.mergeObjects(transactionInfo, {
+                processedEvent.transaction_info = Object.assign({}, transactionInfo, {
                     source = source,
                 })
             end

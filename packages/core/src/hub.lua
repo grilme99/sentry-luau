@@ -3,6 +3,10 @@
 local PackageRoot = script.Parent
 local Packages = PackageRoot.Parent
 
+local LuauPolyfill = require(Packages.LuauPolyfill)
+local Object = LuauPolyfill.Object
+local Error = LuauPolyfill.Error
+
 local Types = require(Packages.SentryTypes)
 type Breadcrumb = Types.Breadcrumb
 type BreadcrumbHint = Types.BreadcrumbHint
@@ -32,8 +36,6 @@ local getGlobalSingleton = Utils.getGlobalSingleton
 local GLOBAL_OBJ = Utils.GLOBAL_OBJ
 local logger = Utils.logger
 local uuid4 = Utils.uuid4
-local Error = Utils.Polyfill.Error
-local mergeObjects = Utils.Polyfill.Object.mergeObjects
 
 local Constants = require(PackageRoot.constants)
 local DEFAULT_ENVIRONMENT = Constants.DEFAULT_ENVIRONMENT
@@ -340,7 +342,7 @@ function Hub.captureException(self: Hub, exception: unknown, hint: EventHint?): 
     self:_withClient(function(client, scope)
         client:captureException(
             exception,
-            mergeObjects(
+            Object.assign(
                 { originalException = exception, syntheticException = syntheticException },
                 hint or {},
                 { event_id = eventId }
@@ -359,7 +361,7 @@ function Hub.captureMessage(self: Hub, message: string, level: SeverityLevel?, h
         client:captureMessage(
             message,
             level,
-            mergeObjects(
+            Object.assign(
                 { originalException = message, syntheticException = syntheticException },
                 hint or {},
                 { event_id = eventId }
@@ -378,7 +380,7 @@ function Hub.captureEvent(self: Hub, event: Event, hint: EventHint?): string
     end
 
     self:_withClient(function(client, scope)
-        client:captureEvent(event, mergeObjects(hint or {}, { event_id = eventId }), scope)
+        client:captureEvent(event, Object.assign({}, hint or {}, { event_id = eventId }), scope)
     end)
     return eventId
 end
@@ -403,7 +405,7 @@ function Hub.addBreadcrumb(self: Hub, breadcrumb: Breadcrumb, hint: BreadcrumbHi
     end
 
     local timestamp = dateTimestampInSeconds()
-    local mergedBreadcrumb = mergeObjects({ timestamp = timestamp }, breadcrumb)
+    local mergedBreadcrumb = Object.assign({ timestamp = timestamp }, breadcrumb)
     local finalBreadcrumb = if beforeBreadcrumb
         then (consoleSandbox(function()
             return beforeBreadcrumb(mergedBreadcrumb, hint)
@@ -531,7 +533,7 @@ function Hub.startSession(self: Hub, context: SessionContext?): Session
     -- Will fetch userAgent if called from browser sdk
     local userAgent = if GLOBAL_OBJ.navigator then GLOBAL_OBJ.navigator.userAgent else nil
 
-    local session = makeSession(mergeObjects({
+    local session = makeSession(Object.assign({}, {
         release = release,
         environment = environment,
         user = scope:getUser(),

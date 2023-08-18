@@ -3,6 +3,12 @@
 local PackageRoot = script.Parent.Parent
 local Packages = PackageRoot.Parent
 
+local LuauPolyfill = require(Packages.LuauPolyfill)
+local Array = LuauPolyfill.Array
+local Object = LuauPolyfill.Object
+
+local Promise = require(Packages.Promise)
+
 local Types = require(Packages.SentryTypes)
 type ClientOptions = Types.ClientOptions
 type Event = Types.Event
@@ -22,9 +28,6 @@ local GLOBAL_OBJ = Utils.GLOBAL_OBJ
 local normalize = Utils.normalize
 local truncate = Utils.truncate
 local uuid4 = Utils.uuid4
-local Promise = Utils.Promise
-local Object = Utils.Polyfill.Object
-local Array = Utils.Polyfill.Array
 
 local Constants = require(PackageRoot.constants)
 local DEFAULT_ENVIRONMENT = Constants.DEFAULT_ENVIRONMENT
@@ -96,13 +99,13 @@ local function normalizeEvent(event: Event | nil, depth: number, maxBreadth: num
         return nil
     end
 
-    local normalized: Event = Object.mergeObjects(
-        event,
+    local normalized: Event = Object.assign(
+        table.clone(event),
         if event.breadcrumbs
             then {
                 breadcrumbs = Array.map(event.breadcrumbs, function(b)
-                    return Object.mergeObjects(
-                        b,
+                    return Object.assign(
+                        table.clone(b),
                         if b.data then { data = normalize(b.data, depth, maxBreadth) } else {}
                     )
                 end),
@@ -170,12 +173,12 @@ function PrepareEvent.prepareEvent(
     local normalizeDepth = normalizeDepth_ or 3
     local normalizeMaxBreadth = normalizeMaxBreadth_ or 1000
 
-    local prepared: Event = Object.mergeObjects(event, {
+    local prepared: Event = Object.assign(table.clone(event), {
         event_id = event.event_id or hint.event_id or uuid4(),
         timestamp = event.timestamp or dateTimestampInSeconds(),
     })
     local integrations = hint.integrations
-        or Array.map(options.integrations, function(i: Integration)
+        or Array.map(options.integrations or {}, function(i: Integration)
             return i.name
         end)
 
@@ -184,7 +187,7 @@ function PrepareEvent.prepareEvent(
 
     -- Only put debug IDs onto frames for error events.
     if event.type == nil then
-        PrepareEvent.applyDebugIds(prepared, options.stackParser)
+        PrepareEvent.applyDebugIds(prepared, options.stackParser :: any)
     end
 
     -- If we have scope given to us, use it as the base for further modifications.
@@ -208,7 +211,7 @@ function PrepareEvent.prepareEvent(
         -- Collect attachments from the hint and scope
         if finalScope.getAttachments then
             --   const attachments = [...(hint.attachments || []), ...finalScope.getAttachments()];
-            local attachments = Array.concat(hint.attachments or {}, finalScope:getAttachments())
+            local attachments = Array.concat(hint.attachments :: any, finalScope:getAttachments())
 
             if #attachments > 0 then
                 hint.attachments = attachments

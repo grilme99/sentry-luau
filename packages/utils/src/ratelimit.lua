@@ -9,7 +9,7 @@ type TransportMakeRequestResponse = Types.TransportMakeRequestResponse
 local Is = require(PackageRoot.is)
 local isNaN = Is.isNaN
 
-local String = require(PackageRoot.polyfill.string)
+local String = require(Packages.LuauPolyfill).String
 
 type Record<K, V> = { [K]: V }
 

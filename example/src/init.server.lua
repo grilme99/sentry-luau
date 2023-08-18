@@ -4,8 +4,8 @@ _G.__SENTRY_DEV__ = true
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local Packages = ReplicatedStorage.Packages
-local Error = require(Packages.SentryUtils.polyfill.error)
-local Promise = require(Packages.SentryUtils.vendor.promise)
+local Error = require(Packages.LuauPolyfill).Error
+local Promise = require(Packages.Promise)
 local Sentry = require(Packages.Sentry)
 
 local Sourcemap = require(ReplicatedStorage.Sourcemap)

@@ -3,6 +3,10 @@
 local PackageRoot = script.Parent
 local Packages = PackageRoot.Parent
 
+local LuauPolyfill = require(Packages.LuauPolyfill)
+local Array = LuauPolyfill.Array
+local Object = LuauPolyfill.Object
+
 local Types = require(Packages.SentryTypes)
 type DsnComponents = Types.DsnComponents
 type Event = Types.Event
@@ -20,8 +24,6 @@ local createEnvelope = Utils.createEnvelope
 local createEventEnvelopeHeaders = Utils.createEventEnvelopeHeaders
 local dsnToString = Utils.dsnToString
 local getSdkMetadataForEnvelopeHeader = Utils.getSdkMetadataForEnvelopeHeader
-local Object = Utils.Polyfill.Object
-local Array = Utils.Polyfill.Array
 
 type Array<T> = { T }
 type Map<K, V> = { [K]: V }
@@ -51,7 +53,7 @@ function Envelope.createSessionEnvelope(
     -- tunnel: string?
 ): SessionEnvelope
     local sdkInfo = getSdkMetadataForEnvelopeHeader(metadata)
-    local envelopeHeaders = Object.mergeObjects(
+    local envelopeHeaders = Object.assign(
         { sent_at = DateTime.now():ToIsoDate(), dsn = dsnToString(dsn) },
         if sdkInfo then { sdk = sdkInfo } else {}
         -- if not not tunnel then { dsn = dsnToString(dsn) } else {}

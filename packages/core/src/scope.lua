@@ -3,8 +3,14 @@
 local PackageRoot = script.Parent
 local Packages = PackageRoot.Parent
 
-local Types = require(Packages.SentryTypes)
+local LuauPolyfill = require(Packages.LuauPolyfill)
+local Array = LuauPolyfill.Array
+local Object = LuauPolyfill.Object
+local instanceof = LuauPolyfill.instanceof
 
+local Promise = require(Packages.Promise)
+
+local Types = require(Packages.SentryTypes)
 type Attachment = Types.Attachment
 type Breadcrumb = Types.Breadcrumb
 type CaptureContext = Types.CaptureContext
@@ -35,10 +41,6 @@ local isPlainObject = Utils.isPlainObject
 local isThenable = Utils.isThenable
 local logger = Utils.logger
 local uuid4 = Utils.uuid4
-local instanceof = Utils.Polyfill.instanceof
-local Promise = Utils.Promise
-local mergeObjects = Utils.Polyfill.Object.mergeObjects
-local Array = Utils.Polyfill.Array
 
 local Session = require(PackageRoot.session)
 local updateSession = Session.updateSession
@@ -201,25 +203,25 @@ function Scope.setRequestSession(self: Scope, requestSession: RequestSession?): 
 end
 
 function Scope.setTags(self: Scope, tags: Map<string, Primitive>): Scope
-    self._tags = mergeObjects(self._tags, tags)
+    self._tags = Object.assign({}, self._tags, tags)
     self:_notifyScopeListeners()
     return self
 end
 
 function Scope.setTag(self: Scope, key: string, value: Primitive): Scope
-    self._tags = mergeObjects(self._tags, { [key] = value })
+    self._tags = Object.assign({}, self._tags, { [key] = value })
     self:_notifyScopeListeners()
     return self
 end
 
 function Scope.setExtras(self: Scope, extras: Extras): Scope
-    self._extra = mergeObjects(self._extra, extras)
+    self._extra = Object.assign({}, self._extra, extras)
     self:_notifyScopeListeners()
     return self
 end
 
 function Scope.setExtra(self: Scope, key: string, extra: Extra): Scope
-    self._extra = mergeObjects(self._extra, { [key] = extra })
+    self._extra = Object.assign({}, self._extra, { [key] = extra })
     self:_notifyScopeListeners()
     return self
 end
@@ -294,9 +296,9 @@ function Scope.update(self: Scope, captureContext_: CaptureContext?): Scope
     if instanceof(captureContext_, Scope) then
         local captureContext = captureContext_ :: Scope
 
-        self._tags = mergeObjects(self._tags, captureContext._tags)
-        self._extra = mergeObjects(self._extra, captureContext._extra)
-        self._contexts = mergeObjects(self._contexts, captureContext._contexts)
+        self._tags = Object.assign({}, self._tags, captureContext._tags)
+        self._extra = Object.assign({}, self._extra, captureContext._extra)
+        self._contexts = Object.assign({}, self._contexts, captureContext._contexts)
         if captureContext._user and #ObjectKeys(captureContext._user) > 0 then
             self._user = captureContext._user
         end
@@ -315,9 +317,9 @@ function Scope.update(self: Scope, captureContext_: CaptureContext?): Scope
     elseif isPlainObject(captureContext_) then
         -- eslint-disable-next-line no-param-reassign
         local captureContext = captureContext_ :: ScopeContext
-        self._tags = mergeObjects(self._tags, captureContext.tags)
-        self._extra = mergeObjects(self._extra, captureContext.extra)
-        self._contexts = mergeObjects(self._contexts, captureContext.contexts)
+        self._tags = Object.assign({}, self._tags, captureContext.tags)
+        self._extra = Object.assign({}, self._extra, captureContext.extra)
+        self._contexts = Object.assign({}, self._contexts, captureContext.contexts)
         if captureContext.user then
             self._user = captureContext.user
         end
@@ -415,16 +417,16 @@ function Scope.applyToEvent(self: Scope, event: Event, hint_: EventHint?): Promi
     local hint = hint_ or {}
 
     if self._extra and #ObjectKeys(self._extra) > 0 then
-        event.extra = mergeObjects(self._extra, event.extra or {})
+        event.extra = Object.assign({}, self._extra, event.extra or {})
     end
     if self._tags and #ObjectKeys(self._tags) > 0 then
-        event.tags = mergeObjects(self._tags, event.tags or {})
+        event.tags = Object.assign({}, self._tags, event.tags or {})
     end
     if self._user and #ObjectKeys(self._user) > 0 then
-        event.user = mergeObjects(self._user, event.user or {})
+        event.user = Object.assign({}, self._user, event.user or {})
     end
     if self._contexts and #ObjectKeys(self._contexts) > 0 then
-        event.contexts = mergeObjects(self._contexts, event.contexts or {})
+        event.contexts = Object.assign({}, self._contexts, event.contexts or {})
     end
     if self._level then
         event.level = self._level
@@ -437,15 +439,15 @@ function Scope.applyToEvent(self: Scope, event: Event, hint_: EventHint?): Promi
     -- a trace context on the event. There is a product feature in place where we link
     -- errors with transaction and it relies on that.
     if self._span then
-        event.contexts = mergeObjects(event.contexts or {}, { trace = self._span:getTraceContext() })
+        event.contexts = Object.assign({}, event.contexts or {}, { trace = self._span:getTraceContext() })
         local transaction = self._span.transaction
         if transaction then
-            event.sdkProcessingMetadata = mergeObjects(event.sdkProcessingMetadata or {}, {
+            event.sdkProcessingMetadata = Object.assign({}, event.sdkProcessingMetadata or {}, {
                 dynamicSamplingContext = transaction:getDynamicSamplingContext(),
             })
             local transactionName = transaction.name
             if transactionName then
-                event.tags = mergeObjects(event.tags or {}, { transaction = transactionName })
+                event.tags = Object.assign({}, event.tags or {}, { transaction = transactionName })
             end
         end
     end
@@ -455,7 +457,8 @@ function Scope.applyToEvent(self: Scope, event: Event, hint_: EventHint?): Promi
     event.breadcrumbs = Array.concat(event.breadcrumbs or {}, self._breadcrumbs)
     event.breadcrumbs = if #(event.breadcrumbs :: any) > 0 then event.breadcrumbs else nil
 
-    event.sdkProcessingMetadata = mergeObjects(
+    event.sdkProcessingMetadata = Object.assign(
+        {},
         event.sdkProcessingMetadata or {},
         self._sdkProcessingMetadata,
         { propagationContext = self._propagationContext }
@@ -467,7 +470,7 @@ end
 
 --- Add data which will be accessible during event processing but won't get sent to Sentry
 function Scope.setSDKProcessingMetadata(self: Scope, newData: Map<string, unknown>): Scope
-    self._sdkProcessingMetadata = mergeObjects(self._sdkProcessingMetadata, newData)
+    self._sdkProcessingMetadata = Object.assign({}, self._sdkProcessingMetadata, newData)
     return self
 end
 

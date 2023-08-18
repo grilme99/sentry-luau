@@ -3,6 +3,12 @@
 local PackageRoot = script.Parent.Parent
 local Packages = PackageRoot.Parent
 
+local LuauPolyfill = require(Packages.LuauPolyfill)
+local Array = LuauPolyfill.Array
+
+local RegExp = require(Packages.RegExp)
+type RegExp = RegExp.RegExp
+
 local Types = require(Packages.SentryTypes)
 type Event = Types.Event
 type EventProcessor = Types.EventProcessor
@@ -15,8 +21,6 @@ local Utils = require(Packages.SentryUtils)
 local getEventDescription = Utils.getEventDescription
 local logger = Utils.logger
 local stringMatchesSomePattern = Utils.stringMatchesSomePattern
-local Array = Utils.Polyfill.Array
-type RegExp = Utils.RegExp
 
 type Array<T> = { T }
 
