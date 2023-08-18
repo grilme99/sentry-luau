@@ -175,6 +175,9 @@ local function _installGlobalOnUnhandledRejectionHandler()
 
                 local event = eventFromUnknownInput(stackParser, error, syntheticException, attachStacktrace, true)
                 event.level = "error"
+                event.tags = Object.mergeObjects(event.tags or {}, {
+                    promiseKind = kind,
+                })
 
                 addMechanismAndCapture(hub, trace or "", event, "onunhandledrejection")
             end)
