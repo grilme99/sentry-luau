@@ -68,6 +68,7 @@ local makeRobloxStackParser = require(PackageRoot.stackparser)
 
 local Integrations = require(PackageRoot.integrations)
 RobloxSdk.GlobalHandlers = Integrations.GlobalHandlers
+RobloxSdk.InApp = Integrations.InApp
 RobloxSdk.Dedupe = Integrations.Dedupe
 
 type Array<T> = { T }
@@ -75,6 +76,7 @@ type Array<T> = { T }
 local defaultIntegrations: Array<Integration> = {
     CoreIntegrations.InboundFilters.new(),
     Integrations.GlobalHandlers.new(),
+    Integrations.InApp.new(),
     Integrations.Dedupe.new(),
 }
 RobloxSdk.defaultIntegrations = defaultIntegrations
