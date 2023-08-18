@@ -167,7 +167,7 @@ export type ClientOptions<TO = BaseTransportOptions> = TO & {
 
     --- A function that takes transport options and returns the Transport object which is used to send events to Sentry.
     --- The function is invoked internally when the client is initialized.
-    transport: (transportOptions: TO) -> Transport,
+    transport: ((transportOptions: TO) -> Transport)?,
 
     --- A stack parser implementation
     --- By default, a stack parser is supplied for all supported platforms

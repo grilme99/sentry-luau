@@ -6,7 +6,7 @@ export type SourcemapEntry = {
     name: string,
     className: string,
     filePaths: Array<string>,
-    children: Array<SourcemapEntry>,
+    children: Array<SourcemapEntry>?,
 }
 
 -- note: Moved here to avoid cyclic dependency between client.lua and stackparser.lua

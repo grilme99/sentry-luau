@@ -78,8 +78,10 @@ local function resolveSourcemapPath(dmPath: string, sourcemap: SourcemapEntry): 
         end
     end
 
-    for _, entry in sourcemap.children do
-        searchEntryRecursive(entry)
+    if sourcemap.children then
+        for _, entry in sourcemap.children do
+            searchEntryRecursive(entry)
+        end
     end
 
     if finalSourcemapEntry == nil then

@@ -15,8 +15,8 @@ Sentry.init({
     dsn = require(script.dsn) :: any,
     tracesSampleRate = 1.0,
     attachStacktrace = true,
-    projectSourcemap = Sourcemap,
-} :: any)
+    projectSourcemap = Sourcemap :: any,
+})
 
 Sentry.configureScope(function(scope)
     scope:setUser({ id = "75380482", username = "grilme99" })
