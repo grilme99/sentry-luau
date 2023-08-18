@@ -23,6 +23,7 @@ type Transaction = Types.Transaction
 type TransactionContext = Types.TransactionContext
 type User = Types.User
 type Scope = Types.Scope
+type Options = Types.Options
 
 local Utils = require(Packages.SentryUtils)
 local consoleSandbox = Utils.consoleSandbox
@@ -394,7 +395,7 @@ function Hub.addBreadcrumb(self: Hub, breadcrumb: Breadcrumb, hint: BreadcrumbHi
         return
     end
 
-    local options = (client.getOptions and client:getOptions()) or {}
+    local options = (client.getOptions and client:getOptions()) or {} :: Options
     local beforeBreadcrumb, maxBreadcrumbs = options.beforeBreadcrumb, options.maxBreadcrumbs or DEFAULT_BREADCRUMBS
 
     if maxBreadcrumbs <= 0 then
@@ -524,7 +525,7 @@ function Hub.startSession(self: Hub, context: SessionContext?): Session
     local stackTop = self:getStackTop()
     local scope, client = stackTop.scope, stackTop.client
 
-    local options = (client and client:getOptions()) or {}
+    local options = (client and client:getOptions()) or {} :: Options
     local release, environment = options.release, options.environment or DEFAULT_ENVIRONMENT
 
     -- Will fetch userAgent if called from browser sdk
@@ -553,8 +554,8 @@ end
 --- when Tracing is used.
 function Hub.shouldSendDefaultPii(self: Hub): boolean
     local client = self:getClient()
-    local options = client and client:getOptions()
-    return options and options.sendDefaultPii
+    local options: Options? = client and client:getOptions()
+    return (options and options.sendDefaultPii) or false
 end
 
 --- Sends the current Session on the scope

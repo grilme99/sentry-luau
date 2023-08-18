@@ -85,6 +85,41 @@ type Partial<T> = T
 -- TODO: Import RegExp into project
 type RegExp = nil
 
+-- upstream: https://github.com/getsentry/sentry-javascript/blob/540adac9ec81803f86a3a7f5b34ebbc1ad2a8d23/packages/types/src/transport.ts
+
+export type TransportRequest = {
+    body: string,
+}
+
+export type TransportMakeRequestResponse = {
+    statusCode: number?,
+    headers: (Map<string, string> & {
+        --   "x-sentry-rate-limits": string | nil;
+        --   "retry-after": string | nil;
+    })?,
+    body: any,
+}
+
+export type InternalBaseTransportOptions = {
+    bufferSize: number?,
+    recordDroppedEvent: RecordDroppedEvent?,
+    textEncoder: TextEncoderInternal?,
+}
+
+export type BaseTransportOptions = InternalBaseTransportOptions & {
+    --- url to send the event
+    --- transport does not care about dsn specific - client should take care of
+    --- parsing and figuring that out
+    url: string,
+}
+
+export type Transport = {
+    send: (request: Envelope) -> PromiseLike<TransportMakeRequestResponse>,
+    flush: (timeout: number?) -> PromiseLike<boolean>,
+}
+
+export type TransportRequestExecutor = (request: TransportRequest) -> PromiseLike<TransportMakeRequestResponse>
+
 export type ClientOptions<TO = BaseTransportOptions> = TO & {
     --- Enable debug functionality in the SDK itself
     debug: boolean?,
@@ -314,7 +349,7 @@ export type ClientOptions<TO = BaseTransportOptions> = TO & {
 export type Options<TO = BaseTransportOptions> = ClientOptions<TO> & {
     --- If this is set to false, default integrations will not be added, otherwise this will internally be set to the
     --- recommended default integrations.
-    defaultIntegrations: (false | Array<Integration>)?,
+    defaultIntegrations: Array<Integration>?,
 
     --- List of integrations that should be installed after SDK was initialized.
     --- Accepts either a list of integrations or a function that receives
@@ -331,85 +366,80 @@ export type Options<TO = BaseTransportOptions> = ClientOptions<TO> & {
     stackParser: (StackParser | Array<StackLineParser>)?,
 }
 
-export type RecordDroppedEvent<O> = (
-    self: Client<O>,
-    reason: EventDropReason,
-    dataCategory: DataCategory,
-    event: Event?
-) -> ()
+export type RecordDroppedEvent = (reason: EventDropReason, dataCategory: DataCategory, event: Event?) -> ()
 
 --- Register a callback for transaction start and finish.
-type HookOnFinallyTransaction<O> = (
-    self: Client<O>,
+type HookOnFinallyTransaction = (
+    self: Client,
     hook: "startTransaction" | "finishTransaction",
     callback: (transaction: Transaction) -> ()
 ) -> ()
 
 --- Register a callback for transaction start and finish.
-type HookOnBeforeEnvelope<O> = (self: Client<O>, hook: "beforeEnvelope", callback: (envelope: Envelope) -> ()) -> ()
+type HookOnBeforeEnvelope = (self: Client, hook: "beforeEnvelope", callback: (envelope: Envelope) -> ()) -> ()
 
 --- Register a callback for when an event has been sent.
-type HookOnAfterSendEvent<O> = (
-    self: Client<O>,
+type HookOnAfterSendEvent = (
+    self: Client,
     hook: "afterSendEvent",
     callback: (event: Event, sendResponse: TransportMakeRequestResponse | nil) -> ()
 ) -> ()
 
 --- Register a callback before a breadcrumb is added.
-type HookOnBeforeAddBreadcrumb<O> = (
-    self: Client<O>,
+type HookOnBeforeAddBreadcrumb = (
+    self: Client,
     hook: "beforeAddBreadcrumb",
     callback: (breadcrumb: Breadcrumb, hint: BreadcrumbHint?) -> ()
 ) -> ()
 
 --- Register a callback when a DSC (Dynamic Sampling Context) is created.
-type HookOnCreateDsc<O> = (self: Client<O>, hook: "createDsc", callback: (dsc: DynamicSamplingContext) -> ()) -> ()
+type HookOnCreateDsc = (self: Client, hook: "createDsc", callback: (dsc: DynamicSamplingContext) -> ()) -> ()
 
-type OnHook<O> =
-    HookOnFinallyTransaction<O>
-    | HookOnBeforeEnvelope<O>
-    | HookOnAfterSendEvent<O>
-    | HookOnBeforeAddBreadcrumb<O>
-    | HookOnCreateDsc<O>
+type OnHook =
+    HookOnFinallyTransaction
+    | HookOnBeforeEnvelope
+    | HookOnAfterSendEvent
+    | HookOnBeforeAddBreadcrumb
+    | HookOnCreateDsc
 
 --- Fire a hook event for transaction start and finish. Expects to be given a transaction as the
 --- second argument.
-type HookEmitFinallyTransaction<O> = (
-    self: Client<O>,
+type HookEmitFinallyTransaction = (
+    self: Client,
     hook: "startTransaction" | "finishTransaction",
     transaction: Transaction
 ) -> ()
 
 --- Fire a hook event for envelope creation and sending. Expects to be given an envelope as the
 --- second argument.
-type HookEmitBeforeEnvelope<O> = (self: Client<O>, hook: "beforeEnvelope", envelope: Envelope) -> ()
+type HookEmitBeforeEnvelope = (self: Client, hook: "beforeEnvelope", envelope: Envelope) -> ()
 
 --- Fire a hook event after sending an event. Expects to be given an Event as the
 --- second argument.
-type HookEmitAfterSendEvent<O> = (
-    self: Client<O>,
+type HookEmitAfterSendEvent = (
+    self: Client,
     hook: "afterSendEvent",
     event: Event,
     sendResponse: TransportMakeRequestResponse | nil
 ) -> ()
 
 --- Fire a hook for when a breadcrumb is added. Expects the breadcrumb as second argument.
-type HookEmitBeforeAddBreadcrumb<O> = (
-    self: Client<O>,
+type HookEmitBeforeAddBreadcrumb = (
+    self: Client,
     hook: "beforeAddBreadcrumb",
     breadcrumb: Breadcrumb,
     hint: BreadcrumbHint?
 ) -> ()
 
 --- Fire a hook for when a DSC (Dynamic Sampling Context) is created. Expects the DSC as second argument.
-type HookEmitCreateDsc<O> = (self: Client<O>, hook: "createDsc", dsc: DynamicSamplingContext) -> ()
+type HookEmitCreateDsc = (self: Client, hook: "createDsc", dsc: DynamicSamplingContext) -> ()
 
-type EmitHook<O> =
-    HookEmitFinallyTransaction<O>
-    | HookEmitBeforeEnvelope<O>
-    | HookEmitAfterSendEvent<O>
-    | HookEmitBeforeAddBreadcrumb<O>
-    | HookEmitCreateDsc<O>
+type EmitHook =
+    HookEmitFinallyTransaction
+    | HookEmitBeforeEnvelope
+    | HookEmitAfterSendEvent
+    | HookEmitBeforeAddBreadcrumb
+    | HookEmitCreateDsc
 
 --- User-Facing Sentry SDK Client.
 ---
@@ -417,14 +447,14 @@ type EmitHook<O> =
 --- been installed. It allows to send events to Sentry, record breadcrumbs and
 --- set a context included in every event. Since the SDK mutates its environment,
 --- there will only be one instance during runtime.
-export type Client<O = ClientOptions> = {
+export type Client = {
     --- Captures an exception event and sends it to Sentry.
     ---
     --- @param exception -- An exception-like object.
     --- @param hint -- May contain additional information about the original exception.
     --- @param scope -- An optional scope containing event metadata.
     --- @return The event id
-    captureException: (self: Client<O>, exception: any, hint: EventHint?, scope: Scope?) -> string | nil,
+    captureException: (self: Client, exception: any, hint: EventHint?, scope: Scope?) -> string | nil,
     --- Captures a message event and sends it to Sentry.
     ---
     --- @param message -- The message to send to Sentry.
@@ -433,7 +463,7 @@ export type Client<O = ClientOptions> = {
     --- @param scope -- An optional scope containing event metadata.
     --- @return The event id
     captureMessage: (
-        self: Client<O>,
+        self: Client,
         message: string,
         level: SeverityLevel?,
         hint: EventHint?,
@@ -446,12 +476,12 @@ export type Client<O = ClientOptions> = {
     --- @param hint -- May contain additional information about the original exception.
     --- @param scope -- An optional scope containing event metadata.
     --- @return The event id
-    captureEvent: (self: Client<O>, event: Event, hint: EventHint?, scope: Scope?) -> string | nil,
+    captureEvent: (self: Client, event: Event, hint: EventHint?, scope: Scope?) -> string | nil,
 
     --- Captures a session
     ---
     --- @param session -- Session to be delivered
-    captureSession: ((self: Client<O>, session: Session) -> ()) | nil,
+    captureSession: ((self: Client, session: Session) -> ()) | nil,
 
     --- Create a cron monitor check in and send it to Sentry. This method is not available on all clients.
     ---
@@ -461,25 +491,25 @@ export type Client<O = ClientOptions> = {
     --- @param scope -- An optional scope containing event metadata.
     --- @return A string representing the id of the check in.
     captureCheckIn: ((
-        self: Client<O>,
+        self: Client,
         checkIn: CheckIn,
         monitorConfig: MonitorConfig?,
         scope: Scope?
     ) -> string) | nil,
 
     --- Returns the current Dsn.
-    getDsn: (self: Client<O>) -> DsnComponents | nil,
+    getDsn: (self: Client) -> DsnComponents | nil,
 
     --- Returns the current options.
-    getOptions: (self: Client<O>) -> O,
+    getOptions: <T>(self: Client) -> T,
 
-    getSdkMetadata: (self: Client<O>) -> SdkMetadata | nil,
+    getSdkMetadata: (self: Client) -> SdkMetadata | nil,
 
     --- Returns the transport that is used by the client.
     --- Please note that the transport gets lazy initialized so it will only be there once the first event has been sent.
     ---
     --- @return The transport.
-    getTransport: (self: Client<O>) -> Transport | nil,
+    getTransport: (self: Client) -> Transport | nil,
 
     --- Flush the event queue and set the client to `enabled = false`. See {@link Client.flush}.
     ---
@@ -487,7 +517,7 @@ export type Client<O = ClientOptions> = {
     ---   the client to wait until all events are sent before disabling itself.
     --- @return A promise which resolves to `true` if the flush completes successfully before the timeout, or `false` if
     --- it doesn't.
-    close: (self: Client<O>, timeout: number?) -> PromiseLike<boolean>,
+    close: (self: Client, timeout: number?) -> PromiseLike<boolean>,
 
     --- Wait for all events to be sent or the timeout to expire, whichever comes first.
     ---
@@ -495,46 +525,51 @@ export type Client<O = ClientOptions> = {
     ---   cause the client to wait until all events are sent before resolving the promise.
     --- @return A promise that will resolve with `true` if all events are sent before the timeout, or `false` if there are
     --- still events in the queue when the timeout is reached.
-    flush: (self: Client<O>, timeout: number?) -> PromiseLike<boolean>,
+    flush: (self: Client, timeout: number?) -> PromiseLike<boolean>,
 
-    getIntegration: <T>(self: Client<O>, integration: IntegrationClass<T>) -> T | nil,
+    getIntegration: <T>(self: Client, integration: IntegrationClass<T>) -> T | nil,
 
     --- Add an integration to the client.
     --- This can be used to e.g. lazy load integrations.
     --- In most cases, this should not be necessary, and you're better off just passing the integrations via `integrations: []` at initialization time.
     --- However, if you find the need to conditionally load & add an integration, you can use `addIntegration` to do so.
-    addIntegration: (self: Client<O>, integration: Integration) -> (),
+    addIntegration: (self: Client, integration: Integration) -> (),
 
     --- This is an internal function to setup all integrations that should run on the client.
-    setupIntegrations: (self: Client<O>) -> (),
+    setupIntegrations: (self: Client) -> (),
 
     --- Creates an {@link Event} from all inputs to `captureException` and non-primitive inputs to `captureMessage`.
-    eventFromException: (self: Client<O>, exception: any, hint: EventHint?) -> PromiseLike<Event>,
+    eventFromException: (self: Client, exception: any, hint: EventHint?) -> PromiseLike<Event>,
 
     --- Creates an {@link Event} from primitive inputs to `captureMessage`.
     eventFromMessage: (
-        self: Client<O>,
+        self: Client,
         message: string,
         level: SeverityLevel?,
         hint: EventHint?
     ) -> PromiseLike<Event>,
 
     --- Submits the event to Sentry.
-    sendEvent: (self: Client<O>, event: Event, hint: EventHint?) -> (),
+    sendEvent: (self: Client, event: Event, hint: EventHint?) -> (),
 
     --- Submits the session to Sentry.
-    sendSession: (self: Client<O>, session: Session | SessionAggregates) -> (),
+    sendSession: (self: Client, session: Session | SessionAggregates) -> (),
 
     --- Record on the client that an event got dropped (ie, an event that will not be sent to sentry).
     ---
     --- @param reason -- The reason why the event got dropped.
     --- @param category -- The data category of the dropped event.
     --- @param event -- The dropped event.
-    recordDroppedEvent: RecordDroppedEvent<O>,
+    recordDroppedEvent: (
+        self: Client,
+        reason: EventDropReason,
+        dataCategory: DataCategory,
+        event: Event?
+    ) -> (),
 
     -- HOOKS
-    on: OnHook<O>,
-    emit: EmitHook<O>,
+    on: OnHook,
+    emit: EmitHook,
 }
 
 -- upstream: https://github.com/getsentry/sentry-javascript/blob/540adac9ec81803f86a3a7f5b34ebbc1ad2a8d23/packages/types/src/envelope.ts
@@ -676,41 +711,6 @@ export type EnvelopeItems =
     | ReplayEventItem
     | ReplayRecordingItem
     | CheckInItem
-
--- upstream: https://github.com/getsentry/sentry-javascript/blob/540adac9ec81803f86a3a7f5b34ebbc1ad2a8d23/packages/types/src/transport.ts
-
-export type TransportRequest = {
-    body: string,
-}
-
-export type TransportMakeRequestResponse = {
-    statusCode: number?,
-    headers: (Map<string, string> & {
-        --   "x-sentry-rate-limits": string | nil;
-        --   "retry-after": string | nil;
-    })?,
-    body: any,
-}
-
-export type InternalBaseTransportOptions = {
-    bufferSize: number?,
-    recordDroppedEvent: RecordDroppedEvent<BaseTransportOptions>?,
-    textEncoder: TextEncoderInternal?,
-}
-
-export type BaseTransportOptions = InternalBaseTransportOptions & {
-    --- url to send the event
-    --- transport does not care about dsn specific - client should take care of
-    --- parsing and figuring that out
-    url: string,
-}
-
-export type Transport = {
-    send: (request: Envelope) -> PromiseLike<TransportMakeRequestResponse>,
-    flush: (timeout: number?) -> PromiseLike<boolean>,
-}
-
-export type TransportRequestExecutor = (request: TransportRequest) -> PromiseLike<TransportMakeRequestResponse>
 
 -- upstream: https://github.com/getsentry/sentry-javascript/blob/540adac9ec81803f86a3a7f5b34ebbc1ad2a8d23/packages/types/src/event.ts
 

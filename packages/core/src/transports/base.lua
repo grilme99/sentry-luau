@@ -73,7 +73,10 @@ function BaseTransport.createTransport(
             local envelopeItemDataCategory = envelopeItemTypeToDataCategory(type :: any)
             if isRateLimited(rateLimits, envelopeItemDataCategory) then
                 local event = getEventForEnvelopeItem(item, type :: any)
-                options.recordDroppedEvent("ratelimit_backoff", envelopeItemDataCategory, event)
+                local recordDroppedEvent = options.recordDroppedEvent
+                if recordDroppedEvent then
+                    recordDroppedEvent("ratelimit_backoff", envelopeItemDataCategory :: any, event)
+                end
             else
                 table.insert(filteredEnvelopeItems, item)
             end
@@ -91,7 +94,10 @@ function BaseTransport.createTransport(
         local function recordEnvelopeLoss(reason: EventDropReason)
             forEachEnvelopeItem(filteredEnvelope, function(item, type)
                 local event = getEventForEnvelopeItem(item, type :: any)
-                options.recordDroppedEvent(reason, envelopeItemTypeToDataCategory(type :: any), event)
+                local recordDroppedEvent = options.recordDroppedEvent
+                if recordDroppedEvent then
+                    recordDroppedEvent(reason, envelopeItemTypeToDataCategory(type :: any), event)
+                end
                 return nil
             end)
         end

@@ -1,5 +1,5 @@
 {
   "luau-lsp.types.roblox": true,
   "luau-lsp.sourcemap.enabled": true,
-  "luau-lsp.sourcemap.rojoProjectFile": "example.project.json",
+  "luau-lsp.sourcemap.rojoProjectFile": "example.project.json"
 }

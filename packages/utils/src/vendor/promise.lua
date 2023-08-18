@@ -957,7 +957,7 @@ function Promise.each(list, predicate)
             results[index] = result
         end
 
-        resolve(results)
+        return resolve(results)
     end)
 end
 
@@ -1743,7 +1743,7 @@ function Promise.prototype:_reject(...)
                 task.spawn(callback, self, unpack(self._values, 1, self._valuesLength))
             end
 
-            if Promise.TEST then
+            if (Promise :: any).TEST then
                 -- Don't spam output when we're running tests.
                 return
             end
@@ -1773,7 +1773,7 @@ function Promise.prototype:_finalize()
     self._queuedResolve = nil
 
     -- Clear references to other Promises to allow gc
-    if not Promise.TEST then
+    if not (Promise :: any).TEST then
         self._parent = nil
         self._consumers = nil
     end
@@ -1950,7 +1950,7 @@ function Promise.fromEvent(event, predicate)
             return disconnect()
         end
 
-        onCancel(disconnect)
+        return onCancel(disconnect)
     end)
 end
 

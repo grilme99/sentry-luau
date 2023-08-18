@@ -140,7 +140,7 @@ end
 --- @return A promise which resolves to `true` if the queue successfully drains before the timeout, or `false` if it
 --- doesn't (or if there's no client defined).
 function RobloxSdk.flush(timeout: number?): PromiseLike<boolean>
-    local client: RobloxClient? = getCurrentHub():getClient()
+    local client = getCurrentHub():getClient()
     if client then
         return client:flush(timeout)
     end
@@ -157,7 +157,7 @@ end
 --- @return A promise which resolves to `true` if the queue successfully drains before the timeout, or `false` if it
 --- doesn't (or if there's no client defined).
 function RobloxSdk.close(timeout: number?): PromiseLike<boolean>
-    local client: RobloxClient? = getCurrentHub():getClient()
+    local client = getCurrentHub():getClient()
     if client then
         return client:close(timeout)
     end

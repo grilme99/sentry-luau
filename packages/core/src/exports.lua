@@ -159,7 +159,7 @@ function Exports.startTransaction(
     context: TransactionContext,
     customSamplingContext: CustomSamplingContext?
 ): Transaction
-    return getCurrentHub():startTransaction(table.clone(context), customSamplingContext)
+    return getCurrentHub():startTransaction(table.clone(context) :: any, customSamplingContext)
 end
 
 --- Create a cron monitor check in and send it to Sentry.
@@ -171,16 +171,17 @@ function Exports.captureCheckIn(checkIn: CheckIn, upsertMonitorConfig: MonitorCo
     local hub = getCurrentHub()
     local scope = hub:getScope()
     local client = hub:getClient()
+    local captureCheckIn = client and client.captureCheckIn
     if not client then
         if _G.__SENTRY_DEV__ then
             logger.warn("Cannot capture check-in. No client defined.")
         end
-    elseif not client.captureCheckIn then
+    elseif not captureCheckIn then
         if _G.__SENTRY_DEV__ then
             logger.warn("Cannot capture check-in. Client does not support sending check-ins.")
         end
     else
-        return client:captureCheckIn(checkIn, upsertMonitorConfig, scope)
+        return captureCheckIn(client, checkIn, upsertMonitorConfig, scope)
     end
 
     return uuid4()

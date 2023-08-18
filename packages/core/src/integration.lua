@@ -62,8 +62,8 @@ end
 
 --- Gets integrations to install
 function Integration.getIntegrationsToSetup(options: Options): Array<Integration>
-    local defaultIntegrations: Array<Integration> = options.defaultIntegrations or {}
-    local userIntegrations: Array<Integration> = options.integrations
+    local defaultIntegrations: Array<Integration> = options.defaultIntegrations :: any or {}
+    local userIntegrations: Array<Integration> = options.integrations :: any
 
     -- We flag default instances, so that later we can tell them apart from any user-created instances of the same class
     for _, integration in defaultIntegrations do

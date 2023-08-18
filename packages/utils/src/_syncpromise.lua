@@ -29,7 +29,7 @@ type States = number
 ---
 --- @param value the value to resolve the promise with
 --- @return the resolved sync promise
-local function resolvedSyncPromise<T>(value: (T | PromiseLike<T>)?): PromiseLike<T>
+local function _resolvedSyncPromise<T>(value: (T | PromiseLike<T>)?): PromiseLike<T>
     return SyncPromise.new(function(resolve, _)
         resolve(value)
     end) :: any
@@ -39,7 +39,7 @@ end
 ---
 --- @param value the value to reject the promise with
 --- @returns the rejected sync promise
-local function rejectedSyncPromise<T>(reason: any?): PromiseLike<T>
+local function _rejectedSyncPromise<T>(reason: any?): PromiseLike<T>
     return SyncPromise.new(function(_, reject)
         reject(reason)
     end) :: any

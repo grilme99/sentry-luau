@@ -6,7 +6,7 @@ local Packages = PackageRoot.Parent
 local Types = require(Packages.SentryTypes)
 type Breadcrumb = Types.Breadcrumb
 type BreadcrumbHint = Types.BreadcrumbHint
-type Client<T> = Types.Client<T>
+type Client = Types.Client
 type ClientOptions = Types.ClientOptions
 type DataCategory = Types.DataCategory
 type DsnComponents = Types.DsnComponents
@@ -77,7 +77,7 @@ type Map<K, V> = { [K]: V }
 type Function = (...any) -> ...any
 
 export type BaseClient<O> = typeof(setmetatable(
-    {} :: Client<ClientOptions & O> & {
+    {} :: Client & {
         --- Options passed to the SDK.
         _options: ClientOptions & O,
         --- The client Dsn, if specified in options. Without this Dsn, the SDK will be disabled.
@@ -677,7 +677,7 @@ function BaseClient._processEvent(
                 return prepared
             end
 
-            local result = processBeforeSend(options, prepared, hint)
+            local result = processBeforeSend(options :: any, prepared, hint)
             return _validateBeforeSendResult(result, beforeSendLabel)
         end)
         :andThen(function(processedEvent)

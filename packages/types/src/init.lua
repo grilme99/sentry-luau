@@ -13,7 +13,7 @@ export type BreadcrumbHint = Breadcrumb.BreadcrumbHint
 export type RequestBreadcrumbData = Breadcrumb.RequestBreadcrumbData
 export type RequestBreadcrumbHint = Breadcrumb.RequestBreadcrumbHint
 
-export type Client<T = BaseTransportOptions> = RecursiveModules.Client<T>
+export type Client = RecursiveModules.Client
 
 local ClientReport = require(PackageRoot.clientreport)
 export type ClientReport = ClientReport.ClientReport

@@ -67,10 +67,10 @@ local function applyClientOptions(event: Event, options: ClientOptions)
         exception.value = truncate(exception.value, maxValueLength)
     end
 
-    local request = event.request
-    if request and request.url then
-        request.url = truncate(request.url, maxValueLength)
-    end
+    -- local request = event.request
+    -- if request and request.url then
+    --     request.url = truncate(request.url, maxValueLength)
+    -- end
 end
 
 ---  This function adds all used integrations to the SDK info in the event.
