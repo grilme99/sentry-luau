@@ -212,11 +212,15 @@ function GlobalHandlers.setupOnce(self: GlobalHandlers)
     for key: GlobalHandlersIntegrationsOptionKeys, enabled: boolean in options :: any do
         local installFunc = self._installFunc[key]
         if installFunc and enabled then
-            if _G.__SENTRY_DEV__ then
-                logger.log(`Global Handler attached: {key}`)
-            end
-            installFunc()
-            self._installFunc[key] = nil
+            -- note: Installing hooks could yield, but that shouldn't block the rest of the SDK from starting
+            task.spawn(function()
+                installFunc()
+                self._installFunc[key] = nil
+
+                if _G.__SENTRY_DEV__ then
+                    logger.log(`Global Handler attached: {key}`)
+                end
+            end)
         end
     end
 end
