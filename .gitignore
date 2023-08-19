@@ -1,5 +1,6 @@
 deps/
 temp/
+build/
 
 dsn.lua
 globalTypes.d.lua

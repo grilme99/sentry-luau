@@ -8,6 +8,8 @@ local Object = LuauPolyfill.Object
 
 local Promise = require(Packages.Promise)
 
+local SentryCore = require(Packages.SentryCore)
+
 local RobloxSdk = {}
 
 local Types = require(Packages.SentryTypes)
@@ -67,9 +69,12 @@ local internalWrap = Helpers.wrap
 local makeRobloxStackParser = require(PackageRoot.stackparser)
 
 local Integrations = require(PackageRoot.integrations)
-RobloxSdk.GlobalHandlers = Integrations.GlobalHandlers
-RobloxSdk.InApp = Integrations.InApp
-RobloxSdk.Dedupe = Integrations.Dedupe
+RobloxSdk.Integrations = {}
+RobloxSdk.Integrations.Dedupe = Integrations.Dedupe
+RobloxSdk.Integrations.GlobalHandlers = Integrations.GlobalHandlers
+RobloxSdk.Integrations.InApp = Integrations.InApp
+
+RobloxSdk.Integrations.InboundFilters = CoreIntegrations.InboundFilters
 
 type Array<T> = { T }
 

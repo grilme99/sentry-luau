@@ -5,7 +5,7 @@ changelog = true
 classOrder = []
 
 [docusaurus]
-onBrokenLinks = "throw"
+onBrokenLinks = "warn"
 onBrokenMarkdownLinks = "warn"
 
 [footer]

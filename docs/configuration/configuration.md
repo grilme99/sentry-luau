@@ -4,7 +4,7 @@ sidebar_position: 3
 
 # Configuration
 
-- [Basic Options](/docs/configuration/basic-options)
+- [Basic Options](/docs/configuration/options)
   Learn more about how to configure the SDK. These options are set when the SDK is first initialized, passed to the init
   function as an object.
 - [Environments](/docs/configuration/environments)
@@ -20,5 +20,5 @@ sidebar_position: 3
   Learn how to configure the volume of error and transaction events sent to Sentry.
 - [Filtering](/docs/configuration/filtering)
   Learn more about how to configure your SDK to filter events reported to Sentry.
-- [Shutdown and Draining](/docs/configuration/shutdown)
+- [Shutdown and Draining](/docs/configuration/draining)
   Learn more about the default behavior of our SDK if the game shuts down unexpectedly.

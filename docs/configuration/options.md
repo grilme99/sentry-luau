@@ -109,7 +109,7 @@ Sentry.init({
     tags = {
         myTag = "my value",
     },
-    user = { id = 42, username = "johndoe" },
+    user = { id = "42", username = "johndoe" },
   },
 })
 ```
