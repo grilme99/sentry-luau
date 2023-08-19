@@ -16,7 +16,7 @@ To use this SDK, call `Sentry.init(options)` as early as possible after the game
 This will initialize the SDK and hook into the environment. Note that you can turn off almost all side effects using the respective options.
 
 ```lua
-local Sentry = require("@packages/sentry-roblox")
+local Sentry = require(Path.To.Sentry)
 
 Sentry.init({
   dsn = "__DSN__",
@@ -28,7 +28,7 @@ To set context information or send manual events, use the exported functions of 
 functions will not perform any action before you have called `Sentry.init()`:
 
 ```lua
-local Sentry = require("@packages/sentry-roblox")
+local Sentry = require(Path.To.Sentry)
 local Error = require("@packages/luau-polyfill").Error
 
 -- Set user information, as well as tags and further extras

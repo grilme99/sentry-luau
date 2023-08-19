@@ -40,7 +40,7 @@ function Logger.consoleSandbox<T>(callback: () -> T): T
 end
 
 local function makeLogger(): Logger
-    local enabled = true
+    local enabled = false
     local logger = {
         enable = function()
             enabled = true
