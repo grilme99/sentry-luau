@@ -18,7 +18,7 @@ Include a release ID (often called a "version") when you initialize the SDK.
 
 The release name cannot:
 
-- contain newlines, tabulator characters, forward slashes(/) or back slashes(\)
+- contain newlines, tabulator characters, forward slashes(/) or back slashes(\\)
 - be (in their entirety) period (.), double period (..), or space ( )
 - exceed 200 characters
 
