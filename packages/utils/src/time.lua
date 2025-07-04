@@ -9,7 +9,7 @@ function TimeUtils.timestampInSeconds()
     return os.time()
 end
 
---- deviation: We don't need a distinction between the time APIs in Lua
+--- deviation: We don't need a distinction between the time APIs in Luau
 TimeUtils.dateTimestampInSeconds = TimeUtils.timestampInSeconds
 
 return TimeUtils

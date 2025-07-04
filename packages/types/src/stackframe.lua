@@ -5,7 +5,7 @@ type Map<K, V> = { [K]: V }
 
 export type StackFrame = {
     filename: string?,
-    -- deviation: `function` is a keyword in Lua and cannot be a table or type key. This will have to be changed before
+    -- deviation: `function` is a keyword in Luau and cannot be a table or type key. This will have to be changed before
     --  getting sent to Sentry.
     function_: string?,
     module: string?,

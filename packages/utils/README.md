@@ -4,7 +4,7 @@
   </a>
 </p>
 
-# Sentry Lua SDK Utilities
+# Sentry Luau SDK Utilities
 
 ## Links
 
@@ -12,6 +12,6 @@
 
 ## General
 
-Common utilities used by the Sentry Lua SDKs.
+Common utilities used by the Sentry Luau SDKs.
 
 Note: This package is only meant to be used internally, and as such is not part of our public API contract and does not follow semver.

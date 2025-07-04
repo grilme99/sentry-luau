@@ -238,7 +238,7 @@ function PrepareEvent.prepareEvent(
     end)
 end
 
--- deviation: No WeakMap in Lua. Could this cause problems?
+-- deviation: No WeakMap in Luau. Could this cause problems?
 local debugIdStackParserCache: Map<StackParser, Map<string, Array<StackFrame>>> = {}
 
 --- Puts debug IDs into the stack frames of an error event.

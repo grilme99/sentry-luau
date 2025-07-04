@@ -3,7 +3,7 @@
 -- note: In order to avoid circular dependencies, if you add a function to this module and it needs to print something,
 -- you must either a) use `console.log` rather than the logger, or b) put your function elsewhere.
 
--- note: This module is called `worldwide` in upstream to avoid bundler issues. That isn't a concern with Lua, so we've
+-- note: This module is called `worldwide` in upstream to avoid bundler issues. That isn't a concern with Luau, so we've
 -- gone back to the original name (`global`) for explicitness.
 
 local PackageRoot = script.Parent
@@ -43,7 +43,7 @@ export type InternalGlobal = {
     SENTRY_RELEASE: {
         id: string?,
     }?,
-    -- deviation: Lua doesn't need to know about the SDK source, this value is for JS bundling purposes
+    -- deviation: Luau doesn't need to know about the SDK source, this value is for JS bundling purposes
     -- SENTRY_SDK_SOURCE: SdkSource?,
     --- Debug IDs are indirectly injected by Sentry CLI or bundler plugins to directly reference a particular source map
     --- for resolving of a source file. The injected code will place an entry into the record for each loaded bundle/JS
@@ -65,7 +65,7 @@ export type InternalGlobal = {
 -- deviation: Luau has no `keyof` operator for types, so we'll manually type the keys of __SENTRY__ global
 type keyof__SENTRY__ = "globalEventProcessors" | "hub" | "logger" | "extensions"
 
--- deviation: Lua only has one global object we care about, so we don't need to check different sources like with
+-- deviation: Luau only has one global object we care about, so we don't need to check different sources like with
 -- upstream.
 
 local GLOBAL_OBJ: InternalGlobal = _G

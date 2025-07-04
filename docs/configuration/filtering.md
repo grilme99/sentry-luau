@@ -26,7 +26,7 @@ the server, so it’s the final place where you can edit its data. It receives t
 use that to modify the event’s data or drop it completely (by returning `nil`) based on custom logic and the data
 available on the event.
 
-In Lua, you can use a function to modify the event or return a completely new one. You can either return `nil` or an
+In Luau, you can use a function to modify the event or return a completely new one. You can either return `nil` or an
 event payload. If you return `nil`, the event will be discarded.
 
 ```lua
@@ -69,7 +69,7 @@ Sentry.init({
 })
 ```
 
-For information about which hints are available see [hints in Lua](/docs/configuration/filtering#using-hints).
+For information about which hints are available see [hints in Luau](/docs/configuration/filtering#using-hints).
 
 When the SDK creates an event or breadcrumb for transmission, that transmission is typically created from some sort of
 source object. For instance, an error event is typically created from a log record or exception instance. For better
