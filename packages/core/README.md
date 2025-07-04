@@ -4,7 +4,7 @@
   </a>
 </p>
 
-# Sentry Lua SDK Core
+# Sentry Luau SDK Core
 
 ## Links
 
@@ -12,7 +12,7 @@
 
 ## General
 
-This package contains interface definitions, base classes and utilities for building Sentry Lua SDKs, like
+This package contains interface definitions, base classes and utilities for building Sentry Luau SDKs, like
 `sentry-roblox`.
 
 Please consider all classes and exported functions and interfaces `internal`.

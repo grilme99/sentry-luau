@@ -4,7 +4,7 @@
   </a>
 </p>
 
-# Sentry Lua SDK Types
+# Sentry Luau SDK Types
 
 ## Links
 

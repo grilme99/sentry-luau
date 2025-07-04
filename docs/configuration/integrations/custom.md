@@ -4,7 +4,7 @@ sidebar_position: 2
 
 # Custom Integrations
 
-Add a custom integration to your Lua using the following format:
+Add a custom integration to your Luau using the following format:
 
 ```lua
 -- All integrations that come with an SDK can be found on Sentry.Integrations object

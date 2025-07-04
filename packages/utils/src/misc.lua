@@ -27,7 +27,7 @@ local MiscUtils = {}
 
 --- UUID4 generator
 function MiscUtils.uuid4(): string
-    -- -- deviation: Lua has no crypto library out of the box, so the simplest option right now is to just use math.random.
+    -- -- deviation: Luau has no crypto library out of the box, so the simplest option right now is to just use math.random.
     -- -- TODO: Should this be revisited to use a better rng implementation? Math.random shares a global seed and this may
     -- --  cause issues with other scripts.
     -- local function getRandomByte()

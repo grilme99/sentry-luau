@@ -99,7 +99,7 @@ function Stacktrace.stripSentryFramesAndReverse(stack: Array<StackFrame>): Array
 
     local localStack = Array.slice(stack, 1, STACKTRACE_FRAME_LIMIT)
 
-    -- deviation: Don't reverse the frames in Lua
+    -- deviation: Don't reverse the frames in Luau
     local firstFrameFunction = localStack[1].function_
     -- If stack ends with one of our internal API calls, remove it (ends, meaning it's the bottom of the stack - aka top-most call)
     if

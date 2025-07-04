@@ -213,7 +213,7 @@ local function processBeforeSend(
     return event
 end
 
---- Base implementation for all Lua SDK clients.
+--- Base implementation for all Luau SDK clients.
 ---
 --- Call the constructor with the corresponding options
 --- specific to the client subclass. To access these options later, use

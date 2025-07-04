@@ -20,7 +20,7 @@ type Config = Types.Config
 type Refs = Types.Refs
 type Printer = Types.Printer
 
--- deviation: deviates from upstream substantially since Lua only has tables
+-- deviation: deviates from upstream substantially since Luau only has tables
 -- we only have two functions
 -- `printTableEntries` for formatting key, value pairs and
 -- `printListItems` for formatting arrays

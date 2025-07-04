@@ -16,7 +16,7 @@ local Session = {}
 
 --- Serializes a passed session object to a JSON object with a slightly different structure.
 --- This is necessary because the Sentry backend requires a slightly different schema of a session
---- than the one the Lua SDKs use internally.
+--- than the one the Luau SDKs use internally.
 ---
 --- @param session the session to be converted
 ---

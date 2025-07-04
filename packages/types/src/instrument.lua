@@ -2,7 +2,7 @@
 
 type Array<T> = { T }
 
--- deviation: Lua has no notion of Xhr or Fetch, so we replace those interfaces with a standard Request type
+-- deviation: Luau has no notion of Xhr or Fetch, so we replace those interfaces with a standard Request type
 
 type SentryRequestData = {
     method: string,

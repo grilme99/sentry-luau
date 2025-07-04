@@ -36,9 +36,9 @@ applications:
 - `sentry-trace`
 - `baggage`
 
-If you run any Lua applications (like your Roblox game!) in your distributed system, make sure that those two headers
+If you run any Luau applications (like your Roblox game!) in your distributed system, make sure that those two headers
 won't be blocked or stripped by your proxy servers, gateways, or firewalls.
 
 ## How to Use Distributed Tracing?
 
-TODO: Distributed tracing is not currently implemented in the Lua SDK.
+TODO: Distributed tracing is not currently implemented in the Luau SDK.

@@ -20,7 +20,7 @@ export type Breadcrumb = {
 
 export type BreadcrumbHint = Map<string, any>
 
--- deviation: Lua has no concept of Fetch or Xhr, expose a single Request type
+-- deviation: Luau has no concept of Fetch or Xhr, expose a single Request type
 export type RequestBreadcrumbData = {
     method: string,
     url: string,
@@ -29,7 +29,7 @@ export type RequestBreadcrumbData = {
     response_body_size: number?,
 }
 
--- deviation: Lua has no concept of Fetch or Xhr, expose a single Request type
+-- deviation: Luau has no concept of Fetch or Xhr, expose a single Request type
 export type RequestBreadcrumbHint = {
     input: Array<any>,
     data: unknown?,

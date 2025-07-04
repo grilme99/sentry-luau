@@ -4,7 +4,7 @@ sidebar_position: 4
 
 # Transports
 
-The Lua SDKs use a `transport` to send events to Sentry. On Roblox, the `HttpService` API is used to send events.
+The Luau SDKs use a `transport` to send events to Sentry. On Roblox, the `HttpService` API is used to send events.
 Transports will drop an event if it fails to send due to a lack of connection.
 
 ## `HttpServiceTransport`

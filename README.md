@@ -6,11 +6,14 @@
 
 [![CI](https://github.com/Neura-Studios/sentry-lua/actions/workflows/ci.yml/badge.svg)](https://github.com/Neura-Studios/sentry-lua/actions/workflows/ci.yml)
 
-# Unofficial Sentry SDKs for Lua
+# Unofficial Sentry SDKs for Luau
 
-A set of Sentry SDKs for various Lua environments. To simplify design and implementation, these SDKs are hand-translated
-from the [Sentry JavaScript SDK](https://github.com/getsentry/sentry-javascript) (with deviations for Lua specific
+A set of Sentry SDKs for various Luau environments. To simplify design and implementation, these SDKs are hand-translated
+from the [Sentry JavaScript SDK](https://github.com/getsentry/sentry-javascript) (with deviations for Luau specific
 constructs).
+
+The Luau SDK is currently following vesion [`9.35`](https://github.com/getsentry/sentry-javascript/tree/9.35.0) of the
+JavaScript SDK.
 
 ## Links
 
@@ -26,9 +29,9 @@ constructs).
 
 ## Supported Platforms
 
-We want to support all major Lua platforms with a high-level SDK, but only have the bandwidth to support the platforms
-we use ourselves. If you'd like to add support for a Lua-based platform that isn't already supported, please refer to
-our [contribution guide](https://github.com/Neura-Studios/sentry-lua/blob/main/CONTRIBUTING.md)!
+I'd like to support all major Luau runtimes with a high-level SDK, but only have the bandwidth to support the platforms
+I use myself. If you'd like to add support for a Luau-based runtime that isn't already supported, please refer to
+the [contribution guide](https://github.com/Neura-Studios/sentry-lua/blob/main/CONTRIBUTING.md)!
 
 Please refer to the README and instructions of each SDK for more detailed information:
 
@@ -64,11 +67,11 @@ Sentry.captureMessage("Hello, world!")
 ## Other Packages
 
 Besides the high-level SDKs, this repository contains shared packages, helpers and configuration used for SDK
-development. If you're thinking about contributing to or creating a Lua-based SDK, have a look at the resources
+development. If you're thinking about contributing to or creating a Luau-based SDK, have a look at the resources
 below:
 
 - [`sentry-core`](https://github.com/Neura-Studios/sentry-lua/blob/main/packages/core): The base for all
-  Lua SDKs with type definitions and base classes.
+  Luau SDKs with type definitions and base classes.
 - [`sentry-utils`](https://github.com/Neura-Studios/sentry-lua/blob/main/packages/utils): A set of helpers and
   utility functions useful for various SDKs.
 - [`sentry-types`](https://github.com/Neura-Studios/sentry-lua/blob/main/packages/types): Types used in all
