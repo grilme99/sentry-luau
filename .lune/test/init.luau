@@ -68,11 +68,13 @@ local function main()
         })
 
         if not passed then
+            print("AASFDJNSJKFSDJFKSJKFJKL")
             process.exit(1)
             return
         end
     end
 
+    print("WOAH!!!!")
     -- Explicitly exit because Lune sucks at async tasks
     process.exit(0)
 end
