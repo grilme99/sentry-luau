@@ -8,8 +8,6 @@ local Object = LuauPolyfill.Object
 
 local Promise = require(Packages.Promise)
 
-local SentryCore = require(Packages.SentryCore)
-
 local RobloxSdk = {}
 
 local Types = require(Packages.SentryTypes)

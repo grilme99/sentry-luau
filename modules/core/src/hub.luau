@@ -147,7 +147,7 @@ local function setHubOnCarrier(carrier: Carrier, hub: Hub): boolean
     if not carrier then
         return false
     end
-    carrier.__SENTRY__ = carrier.__SENTRY__ or {};
+    carrier.__SENTRY__ = carrier.__SENTRY__ or {}
     (carrier.__SENTRY__ :: any).hub = hub
     return true
 end
@@ -235,7 +235,7 @@ HubExports.ensureHubOnCarrier = ensureHubOnCarrier
 local function setAsyncContextStrategy(strategy: AsyncContextStrategy | nil)
     -- Get main carrier (global for every environment)
     local registry = getMainCarrier()
-    registry.__SENTRY__ = registry.__SENTRY__ or {};
+    registry.__SENTRY__ = registry.__SENTRY__ or {}
     (registry.__SENTRY__ :: any).acs = strategy
 end
 HubExports.setAsyncContextStrategy = setAsyncContextStrategy

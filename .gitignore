@@ -5,6 +5,7 @@ dsn.lua
 globalTypes.d.lua
 .env.luau
 sourcemap.json
+.secrets
 
 *.rbxm
 *.rbxl
