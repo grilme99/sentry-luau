@@ -92,9 +92,9 @@ local function executeLuauTaskAsync(options: ExecuteTaskOptions)
             end
 
             executionTask = decodedBody
-            if executionTask.state ~= "PROCESSING" then
+            if executionTask.state ~= "PROCESSING" and executionTask.state ~= "QUEUED" then
                 spinner.stop()
-                return true
+                return executionTask.state == "COMPLETE"
             end
 
             task.wait(1)
@@ -146,16 +146,13 @@ local function executeLuauTaskAsync(options: ExecuteTaskOptions)
     end
 
     local pollTaskSuccess = pollForTaskCompletionAsync()
-    if not pollTaskSuccess then
-        return false
-    end
 
     local logs = getTaskLogsAsync()
     for _, message in logs do
         stdio.write(message .. `\n`)
     end
 
-    return true
+    return pollTaskSuccess
 end
 
 return executeLuauTaskAsync

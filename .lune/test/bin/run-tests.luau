@@ -17,7 +17,7 @@ local status, result = Jest.runCLI(ReplicatedStorage, {
     passWithNoTests = true,
 }, PACKAGE_ROOTS):awaitStatus()
 
-if status == "Rejected" then
+if status == "Rejected" or result.results.numFailedTests > 0 then
     error(result)
 end
 
