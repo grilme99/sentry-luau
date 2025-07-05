@@ -79,3 +79,5 @@ jobs:
       - name: Run tests
         shell: bash
         run: lune run test --ci
+        env:
+          ROBLOX_OC_API_KEY: ${{ secrets.ROBLOX_OC_API_KEY }}
