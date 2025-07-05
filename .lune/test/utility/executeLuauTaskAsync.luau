@@ -1,5 +1,4 @@
 local net = require("@lune/net")
-local process = require("@lune/process")
 local serde = require("@lune/serde")
 local stdio = require("@lune/stdio")
 local task = require("@lune/task")
@@ -143,19 +142,20 @@ local function executeLuauTaskAsync(options: ExecuteTaskOptions)
 
     local createTaskSuccess = createTaskAsync()
     if not createTaskSuccess then
-        return process.exit(0) :: any
+        return false
     end
 
     local pollTaskSuccess = pollForTaskCompletionAsync()
     if not pollTaskSuccess then
-        return process.exit(0)
+        return false
     end
 
     local logs = getTaskLogsAsync()
     for _, message in logs do
         stdio.write(message .. `\n`)
     end
-    return nil
+
+    return true
 end
 
 return executeLuauTaskAsync

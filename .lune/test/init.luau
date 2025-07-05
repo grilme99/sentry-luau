@@ -59,13 +59,18 @@ local function main()
     })
 
     if uploadResult then
-        executeLuauTaskAsync({
+        local passed = executeLuauTaskAsync({
             universeId = testConfig.universeId,
             placeId = testConfig.placeId,
             placeVersion = uploadResult.versionNumber,
             apiKey = apiKey,
             script = jestScript,
         })
+
+        if not passed then
+            process.exit(1)
+            return
+        end
     end
 
     -- Explicitly exit because Lune sucks at async tasks
