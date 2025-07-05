@@ -1,18 +1,26 @@
 {
   "name": "sentry-lua",
   "tree": {
-    "$path": "Packages",
-    "SentryCore": {
-      "$path": "modules/core/default.project.json"
-    },
-    "SentryRoblox": {
-      "$path": "modules/roblox/default.project.json"
-    },
-    "SentryTypes": {
-      "$path": "modules/types/default.project.json"
-    },
-    "SentryUtils": {
-      "$path": "modules/utils/default.project.json"
+    "$className": "DataModel",
+    "ReplicatedStorage": {
+      "DevPackages": {
+        "$path": "DevPackages"
+      },
+      "Packages": {
+        "$path": "Packages",
+        "SentryCore": {
+          "$path": "modules/core/default.project.json"
+        },
+        "SentryRoblox": {
+          "$path": "modules/roblox/default.project.json"
+        },
+        "SentryTypes": {
+          "$path": "modules/types/default.project.json"
+        },
+        "SentryUtils": {
+          "$path": "modules/utils/default.project.json"
+        }
+      }
     }
   }
 }

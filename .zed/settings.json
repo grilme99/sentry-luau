@@ -23,6 +23,9 @@
     "luau-lsp": {
       "settings": {
         "luau-lsp": {
+          "sourcemap": {
+            "rojoProjectFile": "test.project.json"
+          },
           "completion": {
             "imports": {
               "enabled": true,
