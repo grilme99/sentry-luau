@@ -9,6 +9,6 @@ local expect = JestGlobals.expect
 
 describe("math", function()
     it("should add two numbers", function()
-        expect(1 + 2).toBe(3)
+        expect(1 + 2).toBe(4)
     end)
 end)
