@@ -4,6 +4,7 @@ build/
 
 dsn.lua
 globalTypes.d.lua
+.env.luau
 
 *.rbxm
 *.rbxl
