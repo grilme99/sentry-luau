@@ -21,6 +21,11 @@
           "$path": "modules/utils/default.project.json"
         }
       }
+    },
+    "ServerScriptService": {
+      "$properties": {
+        "LoadStringEnabled": true
+      }
     }
   }
 }
