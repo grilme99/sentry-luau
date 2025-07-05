@@ -85,3 +85,4 @@ jobs:
         run: lune run test --ci
         env:
           ROBLOX_OC_API_KEY: ${{ secrets.ROBLOX_OC_API_KEY }}
+          CI: true
