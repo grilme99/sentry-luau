@@ -1,0 +1,31 @@
+{
+  "name": "sentry-lua",
+  "tree": {
+    "$className": "DataModel",
+    "ReplicatedStorage": {
+      "DevPackages": {
+        "$path": "DevPackages"
+      },
+      "Packages": {
+        "$path": "Packages",
+        "SentryCore": {
+          "$path": "modules/core/default.project.json"
+        },
+        "SentryRoblox": {
+          "$path": "modules/roblox/default.project.json"
+        },
+        "SentryTypes": {
+          "$path": "modules/types/default.project.json"
+        },
+        "SentryUtils": {
+          "$path": "modules/utils/default.project.json"
+        }
+      }
+    },
+    "ServerScriptService": {
+      "$properties": {
+        "LoadStringEnabled": true
+      }
+    }
+  }
+}

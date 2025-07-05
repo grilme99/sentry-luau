@@ -17,19 +17,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Install Aftman
-        uses: ok-nick/setup-aftman@v0
-
-      - name: Install Just
-        uses: extractions/setup-just@v1
+      - name: Setup Rokit
+        uses: CompeyDev/setup-rokit@v0.1.2
+        with:
+          cache: true
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install dependencies
         shell: bash
-        run: just install-packages
+        run: sh bin/install-packages.sh
 
       - name: Analyze
         shell: bash
-        run: just analyze
+        run: sh bin/analyze.sh
 
   lint:
     name: Lint
@@ -38,12 +38,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Install Aftman
-        uses: ok-nick/setup-aftman@v0
+      - name: Setup Rokit
+        uses: CompeyDev/setup-rokit@v0.1.2
+        with:
+          cache: true
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Lint
-        run: |
-          selene ./packages
+        run: selene modules/
 
   style:
     name: Styling
@@ -52,9 +54,34 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Check code style
-        uses: JohnnyMorganz/stylua-action@v2
+      - name: Setup Rokit
+        uses: CompeyDev/setup-rokit@v0.1.2
         with:
+          cache: true
           token: ${{ secrets.GITHUB_TOKEN }}
-          version: v0.17.1
-          args: --check ./packages
+
+      - name: Check style
+        run: stylua --check modules/
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Rokit
+        uses: CompeyDev/setup-rokit@v0.1.2
+        with:
+          cache: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install dependencies
+        shell: bash
+        run: sh bin/install-packages.sh
+
+      - name: Run tests
+        shell: bash
+        run: lune run test --ci
+        env:
+          ROBLOX_OC_API_KEY: ${{ secrets.ROBLOX_OC_API_KEY }}

@@ -1,0 +1,41 @@
+// Folder-specific settings
+//
+// For a full list of overridable settings, and general information on folder-specific settings,
+// see the documentation: https://zed.dev/docs/configuring-zed#settings-files
+{
+  "languages": {
+    "Luau": {
+      "hard_tabs": true,
+      "tab_size": 4
+    }
+  },
+  "file_types": {
+    "Luau": ["*.lua"],
+    "JSONC": [".luaurc"],
+    "TOML": ["rotriever.lock"]
+  },
+  "diagnostics": {
+    "lsp_pull_diagnostics": {
+      "enabled": false
+    }
+  },
+  "lsp": {
+    "luau-lsp": {
+      "settings": {
+        "luau-lsp": {
+          "sourcemap": {
+            "rojoProjectFile": "test.project.json"
+          },
+          "completion": {
+            "imports": {
+              "enabled": true,
+              "separateGroupsWithLine": true,
+              "suggestRequires": false,
+              "suggestServices": true
+            }
+          }
+        }
+      }
+    }
+  }
+}

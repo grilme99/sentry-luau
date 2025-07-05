@@ -1,5 +1,7 @@
 {
-  "luau-lsp.types.roblox": true,
-  "luau-lsp.sourcemap.enabled": true,
-  "luau-lsp.sourcemap.rojoProjectFile": "example.project.json"
+  "luau-lsp.sourcemap.rojoProjectFile": "test.project.json",
+  "luau-lsp.completion.imports.enabled": true,
+  "luau-lsp.completion.imports.suggestServices": true,
+  "luau-lsp.completion.imports.suggestRequires": false,
+  "luau-lsp.completion.imports.separateGroupsWithLine": true
 }
